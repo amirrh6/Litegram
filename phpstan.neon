@@ -1,4 +1,4 @@
 parameters:
     level: 3
     paths:
-        - litegram.php
+        - ./src
