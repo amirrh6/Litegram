@@ -4,7 +4,7 @@
 // TODO: Replace ?array type declaration with ...
 
 define('LITEGRAM_BOT_API_VERSION', '7.10');
-define('LITEGRAM_VERSION', '0.2.0');
+define('LITEGRAM_VERSION', '0.2.1');
 
 require_once 'litegram.php';
 
@@ -1074,6 +1074,7 @@ class ChatShared
 
 // -------------------------------------------------------------------
 
+#[\AllowDynamicProperties]
 class UsersShared
 {
     public function __construct($init_data)
@@ -1088,6 +1089,7 @@ class UsersShared
     }
 }
 
+#[\AllowDynamicProperties]
 class PaidMediaInfo
 {
     public function __construct($init_data)
@@ -1102,6 +1104,7 @@ class PaidMediaInfo
     }
 }
 
+#[\AllowDynamicProperties]
 class RefundedPayment
 {
     public function __construct($init_data)
@@ -1116,6 +1119,7 @@ class RefundedPayment
     }
 }
 
+#[\AllowDynamicProperties]
 class ChatBoostAdded
 {
     public function __construct($init_data)
@@ -1130,6 +1134,7 @@ class ChatBoostAdded
     }
 }
 
+#[\AllowDynamicProperties]
 class ChatBackground
 {
     public function __construct($init_data)
@@ -1144,6 +1149,7 @@ class ChatBackground
     }
 }
 
+#[\AllowDynamicProperties]
 class Giveaway
 {
     public function __construct($init_data)
@@ -1158,6 +1164,7 @@ class Giveaway
     }
 }
 
+#[\AllowDynamicProperties]
 class GiveawayCreated
 {
     public function __construct($init_data)
@@ -1172,6 +1179,7 @@ class GiveawayCreated
     }
 }
 
+#[\AllowDynamicProperties]
 class GiveawayCompleted
 {
     public function __construct($init_data)
@@ -1186,6 +1194,7 @@ class GiveawayCompleted
     }
 }
 
+#[\AllowDynamicProperties]
 class GiveawayWinners
 {
     public function __construct($init_data)
@@ -1200,6 +1209,7 @@ class GiveawayWinners
     }
 }
 
+#[\AllowDynamicProperties]
 class Story
 {
     public function __construct($init_data)
@@ -1214,6 +1224,7 @@ class Story
     }
 }
 
+#[\AllowDynamicProperties]
 class ExternalReplyInfo
 {
     public function __construct($init_data)
@@ -1228,6 +1239,7 @@ class ExternalReplyInfo
     }
 }
 
+#[\AllowDynamicProperties]
 class TextQuote
 {
     public function __construct($init_data)
@@ -1242,6 +1254,7 @@ class TextQuote
     }
 }
 
+#[\AllowDynamicProperties]
 class LinkPreviewOptions
 {
     public function __construct($init_data)
@@ -1256,6 +1269,7 @@ class LinkPreviewOptions
     }
 }
 
+#[\AllowDynamicProperties]
 class MessageOrigin
 {
     public function __construct($init_data)
@@ -1270,6 +1284,7 @@ class MessageOrigin
     }
 }
 
+#[\AllowDynamicProperties]
 class InaccessibleMessage
 {
     public function __construct($init_data)
@@ -1284,6 +1299,7 @@ class InaccessibleMessage
     }
 }
 
+#[\AllowDynamicProperties]
 class BusinessConnection
 {
     public function __construct($init_data)
@@ -1298,6 +1314,7 @@ class BusinessConnection
     }
 }
 
+#[\AllowDynamicProperties]
 class BusinessMessageDeleted
 {
     public function __construct($init_data)
@@ -1312,6 +1329,7 @@ class BusinessMessageDeleted
     }
 }
 
+#[\AllowDynamicProperties]
 class MessageReactionUpdated
 {
     public function __construct($init_data)
@@ -1326,6 +1344,7 @@ class MessageReactionUpdated
     }
 }
 
+#[\AllowDynamicProperties]
 class MessageReactionCountUpdated
 {
     public function __construct($init_data)
@@ -1340,6 +1359,7 @@ class MessageReactionCountUpdated
     }
 }
 
+#[\AllowDynamicProperties]
 class PaidMediaPurchased
 {
     public function __construct($init_data)
@@ -1354,6 +1374,7 @@ class PaidMediaPurchased
     }
 }
 
+#[\AllowDynamicProperties]
 class ChatBoostUpdated
 {
     public function __construct($init_data)
@@ -1368,6 +1389,7 @@ class ChatBoostUpdated
     }
 }
 
+#[\AllowDynamicProperties]
 class ChatBoostRemoved
 {
     public function __construct($init_data)

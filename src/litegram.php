@@ -266,6 +266,7 @@ class Chat
 
 /**
  */
+#[\AllowDynamicProperties]
 class MessageId
 {
     // ...
@@ -284,6 +285,7 @@ class MessageId
 
 /**
  */
+#[\AllowDynamicProperties]
 class MessageEntity
 {
     // ...
@@ -302,6 +304,7 @@ class MessageEntity
 
 /**
  */
+#[\AllowDynamicProperties]
 class PhotoSize
 {
     // ...
@@ -320,6 +323,7 @@ class PhotoSize
 
 /**
  */
+#[\AllowDynamicProperties]
 class Animation
 {
     // ...
@@ -338,6 +342,7 @@ class Animation
 
 /**
  */
+#[\AllowDynamicProperties]
 class Audio
 {
     // ...
@@ -356,6 +361,7 @@ class Audio
 
 /**
  */
+#[\AllowDynamicProperties]
 class Document
 {
     // ...
@@ -374,6 +380,7 @@ class Document
 
 /**
  */
+#[\AllowDynamicProperties]
 class Video
 {
     // ...
@@ -392,6 +399,7 @@ class Video
 
 /**
  */
+#[\AllowDynamicProperties]
 class VideoNote
 {
     // ...
@@ -410,6 +418,7 @@ class VideoNote
 
 /**
  */
+#[\AllowDynamicProperties]
 class Voice
 {
     // ...
@@ -428,6 +437,7 @@ class Voice
 
 /**
  */
+#[\AllowDynamicProperties]
 class Contact
 {
     // ...
@@ -446,6 +456,7 @@ class Contact
 
 /**
  */
+#[\AllowDynamicProperties]
 class Dice
 {
     // ...
@@ -464,6 +475,7 @@ class Dice
 
 /**
  */
+#[\AllowDynamicProperties]
 class PollOption
 {
     // ...
@@ -589,6 +601,7 @@ class Poll
 
 /**
  */
+#[\AllowDynamicProperties]
 class Location
 {
     // ...
@@ -607,6 +620,7 @@ class Location
 
 /**
  */
+#[\AllowDynamicProperties]
 class Venue
 {
     // ...
@@ -625,6 +639,7 @@ class Venue
 
 /**
  */
+#[\AllowDynamicProperties]
 class WebAppData
 {
     // ...
@@ -643,6 +658,7 @@ class WebAppData
 
 /**
  */
+#[\AllowDynamicProperties]
 class ProximityAlertTriggered
 {
     // ...
@@ -661,6 +677,7 @@ class ProximityAlertTriggered
 
 /**
  */
+#[\AllowDynamicProperties]
 class MessageAutoDeleteTimerChanged
 {
     // ...
@@ -679,6 +696,7 @@ class MessageAutoDeleteTimerChanged
 
 /**
  */
+#[\AllowDynamicProperties]
 class ForumTopicCreated
 {
     // ...
@@ -697,6 +715,7 @@ class ForumTopicCreated
 
 /**
  */
+#[\AllowDynamicProperties]
 class ForumTopicClosed
 {
     // ...
@@ -715,6 +734,7 @@ class ForumTopicClosed
 
 /**
  */
+#[\AllowDynamicProperties]
 class ForumTopicEdited
 {
     // ...
@@ -733,6 +753,7 @@ class ForumTopicEdited
 
 /**
  */
+#[\AllowDynamicProperties]
 class ForumTopicReopened
 {
     // ...
@@ -751,6 +772,7 @@ class ForumTopicReopened
 
 /**
  */
+#[\AllowDynamicProperties]
 class GeneralForumTopicHidden
 {
     // ...
@@ -769,6 +791,7 @@ class GeneralForumTopicHidden
 
 /**
  */
+#[\AllowDynamicProperties]
 class GeneralForumTopicUnhidden
 {
     // ...
@@ -787,6 +810,7 @@ class GeneralForumTopicUnhidden
 
 /**
  */
+#[\AllowDynamicProperties]
 class UserShared
 {
     // ...
@@ -805,6 +829,7 @@ class UserShared
 
 /**
  */
+#[\AllowDynamicProperties]
 class WriteAccessAllowed
 {
     // ...
@@ -823,6 +848,7 @@ class WriteAccessAllowed
 
 /**
  */
+#[\AllowDynamicProperties]
 class VideoChatScheduled
 {
     // ...
@@ -841,6 +867,7 @@ class VideoChatScheduled
 
 /**
  */
+#[\AllowDynamicProperties]
 class VideoChatStarted
 {
     // ...
@@ -859,6 +886,7 @@ class VideoChatStarted
 
 /**
  */
+#[\AllowDynamicProperties]
 class VideoChatEnded
 {
     // ...
@@ -877,6 +905,7 @@ class VideoChatEnded
 
 /**
  */
+#[\AllowDynamicProperties]
 class VideoChatParticipantsInvited
 {
     // ...
@@ -895,6 +924,7 @@ class VideoChatParticipantsInvited
 
 /**
  */
+#[\AllowDynamicProperties]
 class UserProfilePhotos
 {
     // ...
@@ -913,6 +943,7 @@ class UserProfilePhotos
 
 /**
  */
+#[\AllowDynamicProperties]
 class File
 {
     // ...
@@ -953,6 +984,7 @@ class WebAppInfo
 
 /**
  */
+#[\AllowDynamicProperties]
 class ReplyKeyboardMarkup
 {
     // ...
@@ -971,6 +1003,7 @@ class ReplyKeyboardMarkup
 
 /**
  */
+#[\AllowDynamicProperties]
 class KeyboardButton
 {
     // ...
@@ -989,6 +1022,7 @@ class KeyboardButton
 
 /**
  */
+#[\AllowDynamicProperties]
 class KeyboardButtonRequestUser
 {
     // ...
@@ -1007,6 +1041,7 @@ class KeyboardButtonRequestUser
 
 /**
  */
+#[\AllowDynamicProperties]
 class KeyboardButtonRequestChat
 {
     // ...
@@ -1025,6 +1060,7 @@ class KeyboardButtonRequestChat
 
 /**
  */
+#[\AllowDynamicProperties]
 class KeyboardButtonPollType
 {
     // ...
@@ -1092,6 +1128,7 @@ class InlineKeyboardMarkup
 
 /**
  */
+#[\AllowDynamicProperties]
 class InlineKeyboardButton
 {
     // ...
@@ -1110,6 +1147,7 @@ class InlineKeyboardButton
 
 /**
  */
+#[\AllowDynamicProperties]
 class LoginUrl
 {
     // ...
@@ -1128,6 +1166,7 @@ class LoginUrl
 
 /**
  */
+#[\AllowDynamicProperties]
 class SwitchInlineQueryChosenChat
 {
     // ...
@@ -1177,6 +1216,7 @@ class ForceReply
 
 /**
  */
+#[\AllowDynamicProperties]
 class ChatPhoto
 {
     // ...
@@ -1195,6 +1235,7 @@ class ChatPhoto
 
 /**
  */
+#[\AllowDynamicProperties]
 class ChatInviteLink
 {
     // ...
@@ -1213,6 +1254,7 @@ class ChatInviteLink
 
 /**
  */
+#[\AllowDynamicProperties]
 class ChatAdministratorRights
 {
     // ...
@@ -1231,6 +1273,7 @@ class ChatAdministratorRights
 
 /**
  */
+#[\AllowDynamicProperties]
 class ChatMember
 {
     public string $status;
@@ -1250,6 +1293,7 @@ class ChatMember
 
 /**
  */
+#[\AllowDynamicProperties]
 class ChatMemberOwner
 {
     // ...
@@ -1268,6 +1312,7 @@ class ChatMemberOwner
 
 /**
  */
+#[\AllowDynamicProperties]
 class ChatMemberAdministrator
 {
     // ...
@@ -1286,6 +1331,7 @@ class ChatMemberAdministrator
 
 /**
  */
+#[\AllowDynamicProperties]
 class ChatMemberMember
 {
     // ...
@@ -1304,6 +1350,7 @@ class ChatMemberMember
 
 /**
  */
+#[\AllowDynamicProperties]
 class ChatMemberRestricted
 {
     // ...
@@ -1322,6 +1369,7 @@ class ChatMemberRestricted
 
 /**
  */
+#[\AllowDynamicProperties]
 class ChatMemberLeft
 {
     // ...
@@ -1340,6 +1388,7 @@ class ChatMemberLeft
 
 /**
  */
+#[\AllowDynamicProperties]
 class ChatMemberBanned
 {
     // ...
@@ -1482,6 +1531,7 @@ class ChatJoinRequest
 
 /**
  */
+#[\AllowDynamicProperties]
 class ChatPermissions
 {
     // ...
@@ -1500,6 +1550,7 @@ class ChatPermissions
 
 /**
  */
+#[\AllowDynamicProperties]
 class ChatLocation
 {
     // ...
@@ -1518,6 +1569,7 @@ class ChatLocation
 
 /**
  */
+#[\AllowDynamicProperties]
 class ForumTopic
 {
     // ...
@@ -1562,6 +1614,7 @@ class BotCommand
 
 /**
  */
+#[\AllowDynamicProperties]
 class BotCommandScope
 {
     // ...
@@ -1717,6 +1770,7 @@ class BotDescription
 
 /**
  */
+#[\AllowDynamicProperties]
 class BotShortDescription
 {
     // ...
@@ -1735,6 +1789,7 @@ class BotShortDescription
 
 /**
  */
+#[\AllowDynamicProperties]
 class MenuButton
 {
     // ...
@@ -1753,6 +1808,7 @@ class MenuButton
 
 /**
  */
+#[\AllowDynamicProperties]
 class MenuButtonCommands
 {
     // ...
@@ -1771,6 +1827,7 @@ class MenuButtonCommands
 
 /**
  */
+#[\AllowDynamicProperties]
 class MenuButtonWebApp
 {
     // ...
@@ -1789,6 +1846,7 @@ class MenuButtonWebApp
 
 /**
  */
+#[\AllowDynamicProperties]
 class MenuButtonDefault
 {
     // ...
@@ -1807,6 +1865,7 @@ class MenuButtonDefault
 
 /**
  */
+#[\AllowDynamicProperties]
 class ResponseParameters
 {
     // ...
@@ -1825,6 +1884,7 @@ class ResponseParameters
 
 /**
  */
+#[\AllowDynamicProperties]
 class InputMedia
 {
     // ...
@@ -1843,6 +1903,7 @@ class InputMedia
 
 /**
  */
+#[\AllowDynamicProperties]
 class InputMediaPhoto
 {
     // ...
@@ -1861,6 +1922,7 @@ class InputMediaPhoto
 
 /**
  */
+#[\AllowDynamicProperties]
 class InputMediaVideo
 {
     // ...
@@ -1879,6 +1941,7 @@ class InputMediaVideo
 
 /**
  */
+#[\AllowDynamicProperties]
 class InputMediaAnimation
 {
     // ...
@@ -1897,6 +1960,7 @@ class InputMediaAnimation
 
 /**
  */
+#[\AllowDynamicProperties]
 class InputMediaAudio
 {
     // ...
@@ -1915,6 +1979,7 @@ class InputMediaAudio
 
 /**
  */
+#[\AllowDynamicProperties]
 class InputMediaDocument
 {
     // ...
@@ -1943,6 +2008,7 @@ class InputFile
 
 /**
  */
+#[\AllowDynamicProperties]
 class Sticker
 {
     // ...
@@ -1961,6 +2027,7 @@ class Sticker
 
 /**
  */
+#[\AllowDynamicProperties]
 class StickerSet
 {
     // ...
@@ -1979,6 +2046,7 @@ class StickerSet
 
 /**
  */
+#[\AllowDynamicProperties]
 class MaskPosition
 {
     // ...
@@ -1997,6 +2065,7 @@ class MaskPosition
 
 /**
  */
+#[\AllowDynamicProperties]
 class InputSticker
 {
     // ...
@@ -2096,6 +2165,7 @@ class InlineQueryResultsButton
 
 /**
  */
+#[\AllowDynamicProperties]
 class InlineQueryResult
 {
     // ...
@@ -2116,6 +2186,7 @@ class InlineQueryResult
 
 /**
  */
+#[\AllowDynamicProperties]
 class InputMessageContent
 {
     // ...
@@ -2182,6 +2253,7 @@ class ChosenInlineResult
 
 /**
  */
+#[\AllowDynamicProperties]
 class SentWebAppMessage
 {
     // ...
@@ -2200,6 +2272,7 @@ class SentWebAppMessage
 
 /**
  */
+#[\AllowDynamicProperties]
 class LabeledPrice
 {
     // ...
@@ -2218,6 +2291,7 @@ class LabeledPrice
 
 /**
  */
+#[\AllowDynamicProperties]
 class Invoice
 {
     // ...
@@ -2236,6 +2310,7 @@ class Invoice
 
 /**
  */
+#[\AllowDynamicProperties]
 class ShippingAddress
 {
     // ...
@@ -2254,6 +2329,7 @@ class ShippingAddress
 
 /**
  */
+#[\AllowDynamicProperties]
 class OrderInfo
 {
     // ...
@@ -2272,6 +2348,7 @@ class OrderInfo
 
 /**
  */
+#[\AllowDynamicProperties]
 class ShippingOption
 {
     // ...
@@ -2290,6 +2367,7 @@ class ShippingOption
 
 /**
  */
+#[\AllowDynamicProperties]
 class SuccessfulPayment
 {
     // ...
@@ -2406,6 +2484,7 @@ class PreCheckoutQuery
 
 /**
  */
+#[\AllowDynamicProperties]
 class PassportData
 {
     // ...
@@ -2424,6 +2503,7 @@ class PassportData
 
 /**
  */
+#[\AllowDynamicProperties]
 class PassportFile
 {
     // ...
@@ -2442,6 +2522,7 @@ class PassportFile
 
 /**
  */
+#[\AllowDynamicProperties]
 class EncryptedPassportElement
 {
     // ...
@@ -2460,6 +2541,7 @@ class EncryptedPassportElement
 
 /**
  */
+#[\AllowDynamicProperties]
 class EncryptedCredentials
 {
     // ...
@@ -2478,6 +2560,7 @@ class EncryptedCredentials
 
 /**
  */
+#[\AllowDynamicProperties]
 class PassportElementError
 {
     // ...
@@ -2498,6 +2581,7 @@ class PassportElementError
 
 /**
  */
+#[\AllowDynamicProperties]
 class PassportElementErrorUnspecified
 {
     // ...
@@ -2516,6 +2600,7 @@ class PassportElementErrorUnspecified
 
 /**
  */
+#[\AllowDynamicProperties]
 class Game
 {
     // ...
@@ -2534,6 +2619,7 @@ class Game
 
 /**
  */
+#[\AllowDynamicProperties]
 class CallbackGame
 {
     // ...
@@ -2552,6 +2638,7 @@ class CallbackGame
 
 /**
  */
+#[\AllowDynamicProperties]
 class GameHighScore
 {
     // ...
