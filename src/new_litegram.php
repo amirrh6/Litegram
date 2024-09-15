@@ -273,6 +273,7 @@ class Update
 /**
  * This object represents a message.
  */
+#[\AllowDynamicProperties]
 class Message
 {
     /**
