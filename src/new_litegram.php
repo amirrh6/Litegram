@@ -4,7 +4,7 @@
 // TODO: Replace ?array type declaration with ...
 
 define('LITEGRAM_BOT_API_VERSION', '7.10');
-define('LITEGRAM_VERSION', '0.2.1');
+define('LITEGRAM_VERSION', '0.2.2');
 
 require_once 'litegram.php';
 
@@ -1051,15 +1051,15 @@ class ChatShared
 
     public int $chat_id;
 
-    public ?string $title;
+    public ?string $title = null;
 
-    public ?string $username;
+    public ?string $username = null;
 
     /**
      * Optional. Available sizes of the chat photo, if the photo was requested by the bot
      * @var array<PhotoSize>
      */
-    public ?array $photo;
+    public ?array $photo = null;
 
     public function __construct($init_data)
     {
