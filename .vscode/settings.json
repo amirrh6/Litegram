@@ -1,9 +1,17 @@
 {
     "cSpell.words": [
+        "channelusername",
+        "CURLOPT",
+        "HTTPHEADER",
         "LITEGRAM",
         "phpstan",
+        "POSTFIELDS",
+        "RETURNTRANSFER",
         "supergroup",
-        "supergroups"
+        "supergroups",
+        "supergroupusername",
+        "unban",
+        "unpriviledged"
     ],
     "[php]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"

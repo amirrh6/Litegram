@@ -1,10 +1,7 @@
 <?php
 
-// TODO: Replace bool type declaration with true if needed
-// TODO: Replace ?array type declaration with ...
-
 define('LITEGRAM_BOT_API_VERSION', '7.10');
-define('LITEGRAM_VERSION', '0.2.2');
+define('LITEGRAM_VERSION', '0.3.0');
 
 require_once 'litegram.php';
 
@@ -329,12 +326,12 @@ class Message
     /**
      * Optional. True, if the message is sent to a forum topic
      */
-    public ?bool $is_topic_message = null;
+    public ?true $is_topic_message = null;
 
     /**
      * Optional. True, if the message is a channel post that was automatically forwarded to the connected discussion group
      */
-    public ?bool $is_automatic_forward = null;
+    public ?true $is_automatic_forward = null;
 
     /**
      * Optional. For replies, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
@@ -369,12 +366,12 @@ class Message
     /**
      * Optional. True, if the message can't be forwarded
      */
-    public ?bool $has_protected_content = null;
+    public ?true $has_protected_content = null;
 
     /**
      * Optional. True, if the message was sent by an implicit action, for example, as an away or a greeting business message, or as a scheduled message
      */
-    public ?bool $is_from_offline = null;
+    public ?true $is_from_offline = null;
 
     /**
      * Optional. The unique identifier of a media message group this message belongs to
@@ -472,12 +469,12 @@ class Message
     /**
      * Optional. True, if the caption must be shown above the message media
      */
-    public ?bool $show_caption_above_media = null;
+    public ?true $show_caption_above_media = null;
 
     /**
      * Optional. True, if the message media is covered by a spoiler animation
      */
-    public ?bool $has_media_spoiler = null;
+    public ?true $has_media_spoiler = null;
 
     /**
      * Optional. Message is a shared contact, information about the contact
@@ -534,22 +531,22 @@ class Message
     /**
      * Optional. Service message: the chat photo was deleted
      */
-    public ?bool $delete_chat_photo = null;
+    public ?true $delete_chat_photo = null;
 
     /**
      * Optional. Service message: the group has been created
      */
-    public ?bool $group_chat_created = null;
+    public ?true $group_chat_created = null;
 
     /**
      * Optional. Service message: the supergroup has been created. This field can't be received in a message coming through updates, because bot can't be a member of a supergroup when it is created. It can only be found in reply_to_message if someone replies to a very first message in a directly created supergroup.
      */
-    public ?bool $supergroup_chat_created = null;
+    public ?true $supergroup_chat_created = null;
 
     /**
      * Optional. Service message: the channel has been created. This field can't be received in a message coming through updates, because bot can't be a member of a channel when it is created. It can only be found in reply_to_message if someone replies to a very first message in a channel.
      */
-    public ?bool $channel_chat_created = null;
+    public ?true $channel_chat_created = null;
 
     /**
      * Optional. Service message: auto-delete timer settings changed in the chat
@@ -1047,12 +1044,24 @@ class CallbackQuery
  */
 class ChatShared
 {
+    /**
+     * Identifier of the request
+     */
     public int $request_id;
 
+    /**
+     * Identifier of the shared chat. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier. The bot may not have access to the chat and could be unable to use this identifier, unless the chat is already known to the bot by some other means.
+     */
     public int $chat_id;
 
+    /**
+     * Optional. Title of the chat, if the title was requested by the bot.
+     */
     public ?string $title = null;
 
+    /**
+     * Optional. Username of the chat, if the username was requested by the bot and available.
+     */
     public ?string $username = null;
 
     /**
@@ -1073,8 +1082,380 @@ class ChatShared
     }
 }
 
+/**
+ * Describes a Web App.
+ */
+class WebAppInfo
+{
+    /**
+     * An HTTPS URL of a Web App to be opened with additional data as specified in Initializing Web Apps
+     */
+    public string $url;
+
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * This object represents a bot command.
+ */
+class BotCommand
+{
+    /**
+     * Text of the command; 1-32 characters. Can contain only lowercase English letters, digits and underscores.
+     */
+    public string $command;
+
+    /**
+     * Description of the command; 1-256 characters.
+     */
+    public string $description;
+
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * Represents the default scope of bot commands. Default commands are used if no commands with a narrower scope are specified for the user.
+ */
+class BotCommandScopeDefault
+{
+    /**
+     * Scope type, must be default
+     */
+    public string $type = 'default';
+}
+
+/**
+ * Represents the scope of bot commands, covering all private chats.
+ */
+class BotCommandScopeAllPrivateChats
+{
+    /**
+     * Scope type, must be all_private_chats
+     */
+    public string $type = 'all_private_chats';
+}
+
+/**
+ * Represents the scope of bot commands, covering all group and supergroup chats.
+ */
+class BotCommandScopeAllGroupChats
+{
+    /**
+     * Scope type, must be all_group_chats
+     */
+    public string $type = 'all_group_chats';
+}
+
+/**
+ * Represents the scope of bot commands, covering all group and supergroup chat administrators.
+ */
+class BotCommandScopeAllChatAdministrators
+{
+    /**
+     * Scope type, must be all_chat_administrators
+     */
+    public string $type = 'all_chat_administrators';
+}
+
+/**
+ * Represents the scope of bot commands, covering a specific chat.
+ */
+class BotCommandScopeChat
+{
+    /**
+     * Scope type, must be chat
+     */
+    public string $type = 'chat';
+
+    /**
+     * Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+     */
+    public string|int $chat_id;
+}
+
+/**
+ * Represents the scope of bot commands, covering all administrators of a specific group or supergroup chat.
+ */
+class BotCommandScopeChatAdministrators
+{
+    /**
+     * Scope type, must be chat_administrators
+     */
+    public string $type = 'chat_administrators';
+
+    /**
+     * Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+     */
+    public string|int $chat_id;
+}
+
+/**
+ * Represents the scope of bot commands, covering a specific member of a group or supergroup chat.
+ */
+class BotCommandScopeChatMember
+{
+    /**
+     * Scope type, must be chat_member
+     */
+    public string $type = 'chat_member';
+
+    /**
+     * Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+     */
+    public string|int $chat_id;
+
+    /**
+     * Unique identifier of the target user
+     */
+    public int $user_id;
+}
+
+/**
+ * This object represents the bot's name.
+ */
+class BotName
+{
+    /**
+     * The bot's name
+     */
+    public string $name;
+
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * This object represents the bot's description.
+ */
+class BotDescription
+{
+    /**
+     * The bot's description
+     */
+    public string $description;
+
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
 // -------------------------------------------------------------------
 
+/**
+ * Describes the current status of a webhook
+ */
+#[\AllowDynamicProperties]
+class WebhookInfo
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * This object represents a unique message identifier.
+ */
+#[\AllowDynamicProperties]
+class MessageId
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * This object represents one special entity in a text message. For example, hashtags, usernames, URLs, etc.
+ */
+#[\AllowDynamicProperties]
+class MessageEntity
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * This object represents one size of a photo or a file / sticker thumbnail.
+ */
+#[\AllowDynamicProperties]
+class PhotoSize
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * This object represents an animation file (GIF or H.264/MPEG-4 AVC video without sound).
+ */
+#[\AllowDynamicProperties]
+class Animation
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * This object represents an audio file to be treated as music by the Telegram clients.
+ */
+#[\AllowDynamicProperties]
+class Audio
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * This object represents a general file (as opposed to photos, voice messages and audio files).
+ */
+#[\AllowDynamicProperties]
+class Document
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * This object represents a video file.
+ */
+#[\AllowDynamicProperties]
+class Video
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * This object represents a video message (available in Telegram apps as of v.4.0).
+ */
+#[\AllowDynamicProperties]
+class VideoNote
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * This object represents a voice note.
+ */
+#[\AllowDynamicProperties]
+class Voice
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
 #[\AllowDynamicProperties]
 class UsersShared
 {
@@ -1090,6 +1471,8 @@ class UsersShared
     }
 }
 
+/**
+ */
 #[\AllowDynamicProperties]
 class PaidMediaInfo
 {
@@ -1105,6 +1488,8 @@ class PaidMediaInfo
     }
 }
 
+/**
+ */
 #[\AllowDynamicProperties]
 class RefundedPayment
 {
@@ -1120,6 +1505,8 @@ class RefundedPayment
     }
 }
 
+/**
+ */
 #[\AllowDynamicProperties]
 class ChatBoostAdded
 {
@@ -1135,6 +1522,8 @@ class ChatBoostAdded
     }
 }
 
+/**
+ */
 #[\AllowDynamicProperties]
 class ChatBackground
 {
@@ -1150,6 +1539,8 @@ class ChatBackground
     }
 }
 
+/**
+ */
 #[\AllowDynamicProperties]
 class Giveaway
 {
@@ -1165,6 +1556,8 @@ class Giveaway
     }
 }
 
+/**
+ */
 #[\AllowDynamicProperties]
 class GiveawayCreated
 {
@@ -1180,6 +1573,8 @@ class GiveawayCreated
     }
 }
 
+/**
+ */
 #[\AllowDynamicProperties]
 class GiveawayCompleted
 {
@@ -1195,6 +1590,8 @@ class GiveawayCompleted
     }
 }
 
+/**
+ */
 #[\AllowDynamicProperties]
 class GiveawayWinners
 {
@@ -1210,6 +1607,8 @@ class GiveawayWinners
     }
 }
 
+/**
+ */
 #[\AllowDynamicProperties]
 class Story
 {
@@ -1225,6 +1624,8 @@ class Story
     }
 }
 
+/**
+ */
 #[\AllowDynamicProperties]
 class ExternalReplyInfo
 {
@@ -1240,6 +1641,8 @@ class ExternalReplyInfo
     }
 }
 
+/**
+ */
 #[\AllowDynamicProperties]
 class TextQuote
 {
@@ -1255,6 +1658,8 @@ class TextQuote
     }
 }
 
+/**
+ */
 #[\AllowDynamicProperties]
 class LinkPreviewOptions
 {
@@ -1270,6 +1675,8 @@ class LinkPreviewOptions
     }
 }
 
+/**
+ */
 #[\AllowDynamicProperties]
 class MessageOrigin
 {
@@ -1285,6 +1692,8 @@ class MessageOrigin
     }
 }
 
+/**
+ */
 #[\AllowDynamicProperties]
 class InaccessibleMessage
 {
@@ -1300,6 +1709,8 @@ class InaccessibleMessage
     }
 }
 
+/**
+ */
 #[\AllowDynamicProperties]
 class BusinessConnection
 {
@@ -1315,6 +1726,8 @@ class BusinessConnection
     }
 }
 
+/**
+ */
 #[\AllowDynamicProperties]
 class BusinessMessageDeleted
 {
@@ -1330,6 +1743,8 @@ class BusinessMessageDeleted
     }
 }
 
+/**
+ */
 #[\AllowDynamicProperties]
 class MessageReactionUpdated
 {
@@ -1345,6 +1760,8 @@ class MessageReactionUpdated
     }
 }
 
+/**
+ */
 #[\AllowDynamicProperties]
 class MessageReactionCountUpdated
 {
@@ -1360,6 +1777,8 @@ class MessageReactionCountUpdated
     }
 }
 
+/**
+ */
 #[\AllowDynamicProperties]
 class PaidMediaPurchased
 {
@@ -1375,6 +1794,8 @@ class PaidMediaPurchased
     }
 }
 
+/**
+ */
 #[\AllowDynamicProperties]
 class ChatBoostUpdated
 {
@@ -1390,8 +1811,1270 @@ class ChatBoostUpdated
     }
 }
 
+/**
+ */
 #[\AllowDynamicProperties]
 class ChatBoostRemoved
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class Contact
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class Dice
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class PollOption
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class Location
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class Venue
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class WebAppData
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class ProximityAlertTriggered
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class MessageAutoDeleteTimerChanged
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class ForumTopicCreated
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class ForumTopicClosed
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class ForumTopicEdited
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class ForumTopicReopened
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class GeneralForumTopicHidden
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class GeneralForumTopicUnhidden
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class WriteAccessAllowed
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class VideoChatScheduled
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class VideoChatStarted
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class VideoChatEnded
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class VideoChatParticipantsInvited
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class UserProfilePhotos
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class File
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class ReplyKeyboardMarkup
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class KeyboardButton
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class KeyboardButtonRequestUsers
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class KeyboardButtonRequestChat
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class KeyboardButtonPollType
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class InlineKeyboardButton
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class LoginUrl
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class SwitchInlineQueryChosenChat
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class ChatPhoto
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class ChatInviteLink
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class ChatAdministratorRights
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class ChatMember
+{
+    public string $status;
+
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class ChatMemberOwner
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class ChatMemberAdministrator
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class ChatMemberMember
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class ChatMemberRestricted
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class ChatMemberLeft
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class ChatMemberBanned
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class ForumTopic
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class BotShortDescription
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class PassportData
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class PassportFile
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class EncryptedPassportElement
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class EncryptedCredentials
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class PassportElementError
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class PassportElementErrorUnspecified
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class Game
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class CallbackGame
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class GameHighScore
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class SentWebAppMessage
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class LabeledPrice
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class Invoice
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class ShippingAddress
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class OrderInfo
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class ShippingOption
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class SuccessfulPayment
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class InlineQueryResult
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class InputMessageContent
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class Sticker
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class StickerSet
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class InputMediaPhoto
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class InputMediaVideo
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class InputMediaAnimation
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class InputMediaAudio
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class InputMediaDocument
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class MenuButtonCommands
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class MenuButtonWebApp
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class MenuButtonDefault
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class ResponseParameters
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class MaskPosition
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class InputSticker
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class ChatPermissions
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if ($value instanceof stdClass) {
+            } else {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ */
+#[\AllowDynamicProperties]
+class ChatLocation
 {
     public function __construct($init_data)
     {
