@@ -21,6 +21,16 @@ function remove_invalid_tags(string $txt)
     ]);
 }
 
+class InputFile
+{
+    public string $_path;
+
+    public function __construct($path)
+    {
+        $this->_path = $path;
+    }
+}
+
 class Telegram
 {
     private string $bot_token;

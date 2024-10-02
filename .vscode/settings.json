@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
+        "Birthdate",
         "channelusername",
         "CURLOPT",
         "HTTPHEADER",
@@ -11,7 +12,8 @@
         "supergroups",
         "supergroupusername",
         "unban",
-        "unpriviledged"
+        "unpriviledged",
+        "unrestrict"
     ],
     "[php]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
