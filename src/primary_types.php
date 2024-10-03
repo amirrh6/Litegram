@@ -1,10 +1,7 @@
 <?php
 
 // TODO: Use a namespace
-
-define('LITEGRAM_BOT_API_VERSION', '7.10');
-define('LITEGRAM_VERSION', '0.5.0');
-
+// TODO: Use constructor property promotion (https://www.php.net/manual/en/language.oop5.decon.php#language.oop5.decon.constructor.promotion)
 // TODO: Consider the need for setting up arrays in the constructors
 
 // -------------------------------------------------------------------
@@ -973,8 +970,8 @@ class Message
         }
 
         if (property_exists($init_data, 'reply_markup')) {
-            $this->reply_markup = new InlineKeyboardMarkup(
-                $init_data->reply_markup,
+            $this->reply_markup = InlineKeyboardMarkup::__fromDecodedJson(
+                $init_data,
             );
         }
     }
@@ -2045,89 +2042,6 @@ class ChatFullInfo
 
         if (property_exists($init_data, 'location')) {
             $this->location = new ChatLocation($init_data->location);
-        }
-    }
-}
-
-/**
- * This object represents an inline keyboard that appears right next to the message it belongs to.
- */
-class InlineKeyboardMarkup
-{
-    /**
-     * Array of button rows, each represented by an Array of InlineKeyboardButton objects
-     * * @var array<array<InlineKeyboardButton>>
-     */
-    public ?array $inline_keyboard;
-
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * Upon receiving a message with this object, Telegram clients will display a reply interface to the user (act as if the user has selected the bot's message and tapped 'Reply'). This can be extremely useful if you want to create user-friendly step-by-step interfaces without having to sacrifice privacy mode. Not supported in channels and for messages sent on behalf of a Telegram Business account.
- */
-class ForceReply
-{
-    /**
-     * Shows reply interface to the user, as if they manually selected the bot's message and tapped 'Reply'
-     */
-    public true $force_reply;
-
-    /**
-     * Optional. The placeholder to be shown in the input field when the reply is active; 1-64 characters
-     */
-    public string $input_field_placeholder;
-
-    /**
-     * Optional. Use this parameter if you want to force reply from specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has reply_to_message_id), sender of the original message.
-     */
-    public bool $selective;
-
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * Upon receiving a message with this object, Telegram clients will remove the current custom keyboard and display the default letter-keyboard. By default, custom keyboards are displayed until a new keyboard is sent by a bot. An exception is made for one-time keyboards that are hidden immediately after the user presses a button (see ReplyKeyboardMarkup). Not supported in channels and for messages sent on behalf of a Telegram Business account.
- */
-class ReplyKeyboardRemove
-{
-    /**
-     * Requests clients to remove the custom keyboard (user will not be able to summon this keyboard; if you want to hide the keyboard from sight but keep it accessible, use one_time_keyboard in ReplyKeyboardMarkup)
-     */
-    public true $remove_keyboard;
-
-    /**
-     * Optional. Use this parameter if you want to remove the keyboard for specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has reply_to_message_id), sender of the original message.
-     * Example: A user votes in a poll, bot returns confirmation message in reply to the vote and removes the keyboard for that user, while still showing the keyboard with poll options to users who haven't voted yet.
-     */
-    public bool $selective;
-
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
         }
     }
 }
@@ -3349,42 +3263,6 @@ class File
  * TODO:
  */
 #[\AllowDynamicProperties]
-class ReplyKeyboardMarkup
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class KeyboardButton
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
 class KeyboardButtonRequestUsers
 {
     public function __construct($init_data)
@@ -3403,43 +3281,7 @@ class KeyboardButtonRequestUsers
  * TODO:
  */
 #[\AllowDynamicProperties]
-class KeyboardButtonRequestChat
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
 class KeyboardButtonPollType
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class InlineKeyboardButton
 {
     public function __construct($init_data)
     {
