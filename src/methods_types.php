@@ -482,7 +482,7 @@ class InlineKeyboardMarkup implements JsonSerializable
     public static function __fromDecodedJson($init_data)
     {
         // @phpstan-ignore new.static
-        return new static($init_data->inline_keyboard);
+        return new static((array) $init_data->reply_markup);
     }
 
     public function jsonSerialize(): mixed
