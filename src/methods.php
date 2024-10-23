@@ -4,7 +4,7 @@ use GuzzleHttp\Client;
 
 class TelegramMethods
 {
-    static function copyMessage(SendMessageParams $params): object
+    static function copyMessage(CopyMessageParams $params): object
     {
         global $telegramApiUrl;
 
