@@ -1,5 +1,7 @@
 <?php
 
+namespace Litegram;
+
 use GuzzleHttp\Client;
 
 class TelegramMethods

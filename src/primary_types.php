@@ -1,6 +1,10 @@
 <?php
 
-// TODO: Use a namespace
+namespace Litegram;
+
+define('LITEGRAM_BOT_API_VERSION', '7.10');
+define('LITEGRAM_VERSION', '0.7.0');
+
 // TODO: Use constructor property promotion (https://www.php.net/manual/en/language.oop5.decon.php#language.oop5.decon.constructor.promotion)
 // TODO: Consider the need for setting up arrays in the constructors
 
@@ -55,7 +59,7 @@ class Update
     /**
      * Optional. Messages were deleted from a connected business account
      */
-    public ?BusinessMessageDeleted $deleted_business_message = null;
+    public ?BusinessMessagesDeleted $deleted_business_message = null;
 
     /**
      * Optional. A reaction to a message was changed by a user. The bot must be an administrator in the chat and must explicitly specify "message_reaction" in the list of allowed_updates to receive these updates. The update isn't received for reactions set by bots.
@@ -176,7 +180,7 @@ class Update
             }
 
             if (property_exists($init_data, 'deleted_business_message')) {
-                $this->deleted_business_message = new BusinessMessageDeleted(
+                $this->deleted_business_message = new BusinessMessagesDeleted(
                     $init_data->deleted_business_message,
                 );
             }
@@ -269,6 +273,427 @@ class Update
 }
 
 // -------------------------------------------------------------------
+
+/**
+ * This object represents a Telegram user or bot.
+ */
+class User
+{
+    /**
+     * Unique identifier for this user or bot. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier.
+     */
+    public int $id;
+
+    /**
+     * True, if this user is a bot
+     */
+    public bool $is_bot;
+
+    /**
+     * User's or bot's first name
+     */
+    public string $first_name;
+
+    /**
+     * Optional. User's or bot's last name
+     */
+    public ?string $last_name = null;
+
+    /**
+     * Optional. User's or bot's username
+     */
+    public ?string $username = null;
+
+    /**
+     * Optional. IETF language tag of the user's language
+     */
+    public ?string $language_code = null;
+
+    /**
+     * Optional. True, if this user is a Telegram Premium user
+     */
+    public ?true $is_premium = null;
+
+    /**
+     * Optional. True, if this user added the bot to the attachment menu
+     */
+    public ?true $added_to_attachment_menu = null;
+
+    /**
+     * Optional. True, if the bot can be invited to groups. Returned only in getMe.
+     */
+    public ?bool $can_join_groups = null;
+
+    /**
+     * Optional. True, if privacy mode is disabled for the bot. Returned only in getMe.
+     */
+    public ?bool $can_read_all_group_messages = null;
+
+    /**
+     * Optional. True, if the bot supports inline queries. Returned only in getMe.
+     */
+    public ?bool $supports_inline_queries = null;
+
+    /**
+     * Optional. True, if the bot can be connected to a Telegram Business account to receive its messages. Returned only in getMe.
+     */
+    public ?bool $can_connect_to_business = null;
+
+    /**
+     * Optional. True, if the bot has a main Web App. Returned only in getMe.
+     */
+    public ?bool $has_main_web_app = null;
+
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+
+    public function get_full_name(): string
+    {
+        $full_name = $this->first_name;
+        if ($this->last_name != null) {
+            $full_name .= ' ' . $this->last_name;
+        }
+        return $full_name;
+    }
+}
+
+class Chat
+{
+    /**
+     * Unique identifier for this chat. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier.
+     */
+    public int $id;
+
+    /**
+     * Type of chat, can be either “private”, “group”, “supergroup” or “channel”
+     */
+    public string $type;
+
+    /**
+     * Optional. Title, for supergroups, channels and group chats
+     */
+    public ?string $title = null;
+
+    /**
+     * Optional. Username, for private chats, supergroups and channels if available
+     */
+    public ?string $username = null;
+
+    /**
+     * Optional. First name of the other party in a private chat
+     */
+    public ?string $first_name = null;
+
+    /**
+     * Optional. Last name of the other party in a private chat
+     */
+    public ?string $last_name = null;
+
+    /**
+     * Optional. True, if the supergroup chat is a forum (has topics enabled)
+     */
+    public ?true $is_forum = null;
+
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * This object contains full information about a chat.
+ */
+class ChatFullInfo
+{
+    /**
+     * Unique identifier for this chat. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier.
+     */
+    public int $id;
+
+    /**
+     * Type of chat, can be either “private”, “group”, “supergroup” or “channel”
+     */
+    public string $type;
+
+    /**
+     * Optional. Title, for supergroups, channels and group chats
+     */
+    public ?string $title = null;
+
+    /**
+     * Optional. Username, for private chats, supergroups and channels if available
+     */
+    public ?string $username = null;
+
+    /**
+     * Optional. First name of the other party in a private chat
+     */
+    public ?string $first_name = null;
+
+    /**
+     * Optional. Last name of the other party in a private chat
+     */
+    public ?string $last_name = null;
+
+    /**
+     * Optional. True, if the supergroup chat is a forum (has topics enabled)
+     */
+    public ?true $is_forum = null;
+
+    /**
+     * Identifier of the accent color for the chat name and backgrounds of the chat photo, reply header, and link preview. See accent colors for more details.
+     */
+    public int $accent_color_id;
+
+    /**
+     * The maximum number of reactions that can be set on a message in the chat
+     */
+    public int $max_reaction_count;
+
+    /**
+     * Optional. Chat photo
+     */
+    public ?ChatPhoto $photo = null;
+
+    /**
+     * Optional. If non-empty, the list of all active chat usernames; for private chats, supergroups and channels
+     * @var array<string>
+     */
+    public ?array $active_usernames = null;
+
+    /**
+     * Optional. For private chats, the date of birth of the user
+     */
+    public ?Birthdate $birthdate = null;
+
+    /**
+     * Optional. For private chats with business accounts, the intro of the business
+     */
+    public ?BusinessIntro $business_intro = null;
+
+    /**
+     * Optional. For private chats with business accounts, the location of the business
+     */
+    public ?BusinessLocation $business_location = null;
+
+    /**
+     * Optional. For private chats with business accounts, the opening hours of the business
+     */
+    public ?BusinessOpeningHours $business_opening_hours = null;
+
+    /**
+     * Optional. For private chats, the personal channel of the user
+     */
+    public ?Chat $personal_chat = null;
+
+    /**
+     * Optional. List of available reactions allowed in the chat. If omitted, then all emoji reactions are allowed.
+     * @var array<ReactionType>
+     */
+    public ?array $available_reactions = null;
+
+    /**
+     * Optional. Custom emoji identifier of the emoji chosen by the chat for the reply header and link preview background
+     */
+    public ?string $background_custom_emoji_id = null;
+
+    /**
+     * Optional. Identifier of the accent color for the chat's profile background. See profile accent colors for more details.
+     */
+    public ?int $profile_accent_color_id = null;
+
+    /**
+     * Optional. Custom emoji identifier of the emoji chosen by the chat for its profile background
+     */
+    public ?string $profile_background_custom_emoji_id = null;
+
+    /**
+     * Optional. Custom emoji identifier of emoji status of the other party in a private chat.
+     */
+    public ?string $emoji_status_custom_emoji_id = null;
+
+    /**
+     * Optional. Expiration date of the emoji status of the chat or the other party in a private chat, in Unix time, if any
+     */
+    public ?int $emoji_status_expiration_date = null;
+
+    /**
+     * Optional. Bio of the other party in a private chat.
+     */
+    public ?string $bio = null;
+
+    /**
+     * Optional. True, if privacy settings of the other party in the private chat allows to use tg://user?id=<user_id> links only in chats with the user.
+     */
+    public ?true $has_private_forwards = null;
+
+    /**
+     * Optional. True, if the privacy settings of the other party restrict sending voice and video note messages in the private chat.
+     */
+    public ?true $has_restricted_voice_and_video_messages = null;
+
+    /**
+     * Optional. True, if users need to join the supergroup before they can send messages.
+     */
+    public ?true $join_to_send_messages = null;
+
+    /**
+     * Optional. True, if all users directly joining the supergroup need to be approved by supergroup administrators.
+     */
+    public ?true $join_by_request = null;
+
+    /**
+     * Optional. Description, for groups, supergroups and channel chats.
+     */
+    public ?string $description = null;
+
+    /**
+     * Optional. Primary invite link, for groups, supergroups and channel chats.
+     */
+    public ?string $invite_link = null;
+
+    /**
+     * Optional. The most recent pinned message (by sending date).
+     */
+    public ?Message $pinned_message = null;
+
+    /**
+     * Optional. Default chat member permissions, for groups and supergroups.
+     */
+    public ?ChatPermissions $permissions = null;
+
+    /**
+     * Optional. True, if paid media messages can be sent or forwarded to the channel chat. The field is available only for channel chats.
+     */
+    public ?true $can_send_paid_media = null;
+
+    /**
+     * Optional. For supergroups, the minimum allowed delay between consecutive messages sent by each unpriviledged user;
+     *  in seconds.
+     */
+    public ?int $slow_mode_delay = null;
+
+    /**
+     * Optional. For supergroups, the minimum number of boosts that a non-administrator user needs to add in order to ignore slow mode and chat permissions
+     */
+    public ?int $unrestrict_boost_count = null;
+
+    /**
+     * Optional. The time after which all messages sent to the chat will be automatically deleted;
+     *  in seconds.
+     */
+    public ?int $message_auto_delete_time = null;
+
+    /**
+     * Optional. True, if aggressive anti-spam checks are enabled in the supergroup. The field is only available to chat administrators.
+     */
+    public ?true $has_aggressive_anti_spam_enabled = null;
+
+    /**
+     * Optional. True, if non-administrators can only get the list of bots and administrators in the chat.
+     */
+    public ?true $has_hidden_members = null;
+
+    /**
+     * Optional. True, if messages from the chat can't be forwarded to other chats.
+     */
+    public ?true $has_protected_content = null;
+
+    /**
+     * Optional. True, if new chat members will have access to old messages; available only to chat administrators
+     */
+    public ?true $has_visible_history = null;
+
+    /**
+     * Optional. For supergroups, name of group sticker set.
+     */
+    public ?string $sticker_set_name = null;
+
+    /**
+     * Optional. True, if the bot can change the group sticker set.
+     */
+    public ?true $can_set_sticker_set = null;
+
+    /**
+     * Optional. For supergroups, the name of the group's custom emoji sticker set. Custom emoji from this set can be used by all users and bots in the group.
+     */
+    public ?string $custom_emoji_sticker_set_name = null;
+
+    /**
+     * Optional. Unique identifier for the linked chat, i.e. the discussion group identifier for a channel and vice versa;
+     *  for supergroups and channel chats. This identifier may be greater than 32 bits and some programming languages may have difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier.
+     */
+    public ?int $linked_chat_id = null;
+
+    /**
+     * Optional. For supergroups, the location to which the supergroup is connected.
+     */
+    public ?ChatLocation $location = null;
+
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+
+        if (property_exists($init_data, 'photo')) {
+            $this->photo = new ChatPhoto($init_data->photo);
+        }
+
+        if (property_exists($init_data, 'birthdate')) {
+            $this->birthdate = new Birthdate($init_data->birthdate);
+        }
+
+        if (property_exists($init_data, 'business_intro')) {
+            $this->business_intro = new BusinessIntro(
+                $init_data->business_intro,
+            );
+        }
+
+        if (property_exists($init_data, 'business_opening_hours')) {
+            $this->business_opening_hours = new BusinessOpeningHours(
+                $init_data->business_opening_hours,
+            );
+        }
+
+        if (property_exists($init_data, 'business_location')) {
+            $this->business_location = new BusinessLocation(
+                $init_data->business_location,
+            );
+        }
+
+        if (property_exists($init_data, 'personal_chat')) {
+            $this->personal_chat = new Chat($init_data->personal_chat);
+        }
+
+        if (property_exists($init_data, 'pinned_message')) {
+            $this->pinned_message = new Message($init_data->pinned_message);
+        }
+
+        if (property_exists($init_data, 'permissions')) {
+            $this->permissions = new ChatPermissions($init_data->permissions);
+        }
+
+        if (property_exists($init_data, 'location')) {
+            $this->location = new ChatLocation($init_data->location);
+        }
+    }
+}
 
 /**
  * This object represents a message.
@@ -711,8 +1136,7 @@ class Message
     {
         $arr = get_object_vars($init_data);
         foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
+            if (!($value instanceof \stdClass)) {
                 $this->$key = $init_data->$key;
             }
         }
@@ -978,435 +1402,124 @@ class Message
 }
 
 /**
- * Describes the connection of the bot with a business account.
+ * Describes reply parameters for the message that is being sent.
  */
-#[\AllowDynamicProperties]
-class BusinessConnection
+class ReplyParameters implements \JsonSerializable
 {
     /**
-     * Unique identifier of the business connection
+     * Identifier of the message that will be replied to in the current chat, or in the chat chat_id if it is specified
      */
-    public string $id;
+    public int $message_id;
 
     /**
-     * Business account user that created the business connection
+     * Optional. If the message to be replied to is from a different chat, unique identifier for the chat or username of the channel (in the format @channelusername). Not supported for messages sent on behalf of a business account.
+     */
+    public string|int|null $chat_id = null;
+
+    /**
+     * Optional. Pass True if the message should be sent even if the specified message to be replied to is not found. Always False for replies in another chat or forum topic. Always True for messages sent on behalf of a business account.
+     */
+    public ?bool $allow_sending_without_reply = null;
+
+    /**
+     * Optional. Quoted part of the message to be replied to; 0-1024 characters after entities parsing. The quote must be an exact substring of the message to be replied to, including bold, italic, underline, strikethrough, spoiler, and custom_emoji entities. The message will fail to send if the quote isn't found in the original message.
+     */
+    public ?string $quote = null;
+
+    /**
+     * Optional. Mode for parsing entities in the quote. See formatting options for more details.
+     */
+    public ?string $quote_parse_mode = null;
+
+    /**
+     * Optional. A JSON-serialized list of special entities that appear in the quote. It can be specified instead of quote_parse_mode.
+     * @var array<MessageEntity>
+     */
+    public ?array $quote_entities = null;
+
+    /**
+     * Optional. Position of the quote in the original message in UTF-16 code units
+     */
+    public ?int $quote_position = null;
+
+    /**
+     * @param array<MessageEntity> $quote_entities
+     */
+    public function __construct(
+        int $message_id,
+
+        string|int $chat_id = null,
+        bool $allow_sending_without_reply = null,
+        string $quote = null,
+        string $quote_parse_mode = null,
+        array $quote_entities = null,
+        int $quote_position = null,
+    ) {
+        $this->message_id = $message_id;
+
+        $this->chat_id = $chat_id;
+        $this->allow_sending_without_reply = $allow_sending_without_reply;
+        $this->quote = $quote;
+        $this->quote_parse_mode = $quote_parse_mode;
+        $this->quote_entities = $quote_entities;
+        $this->quote_position = $quote_position;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        $obj = (object) [];
+
+        foreach (get_object_vars($this) as $key => $value) {
+            if (!is_null($value)) {
+                $obj->$key = $value;
+            }
+        }
+
+        return $obj;
+    }
+}
+
+/**
+ * This object represents an answer of a user in a non-anonymous poll.
+ */
+class PollAnswer
+{
+    /**
+     * Unique poll identifier
+     */
+    public string $poll_id;
+
+    /**
+     * Optional. The chat that changed the answer to the poll, if the voter is anonymous
+     */
+    public ?Chat $voter_chat;
+
+    /**
+     * Optional. The user that changed the answer to the poll, if the voter isn't anonymous
      */
     public User $user;
 
     /**
-     * Identifier of a private chat with the user who created the business connection. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier.
+     * 0-based identifiers of chosen answer options. May be empty if the vote was retracted.
+     * @var array<int>
      */
-    public int $user_chat_id;
-
-    /**
-     * Date the connection was established in Unix time
-     */
-    public int $date;
-
-    /**
-     * True, if the bot can act on behalf of the business account in chats that were active in the last 24 hours
-     */
-    public bool $can_reply;
-
-    /**
-     * True, if the connection is active
-     */
-    public bool $is_enabled;
+    public array $option_ids;
 
     public function __construct($init_data)
     {
         $arr = get_object_vars($init_data);
         foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
+            if (!($value instanceof \stdClass)) {
                 $this->$key = $init_data->$key;
             }
+        }
+
+        if (property_exists($init_data, 'voter_chat')) {
+            $this->voter_chat = new Chat($init_data->voter_chat);
         }
 
         if (property_exists($init_data, 'user')) {
             $this->user = new User($init_data->user);
-        }
-    }
-}
-
-/**
- * This object is received when messages are deleted from a connected business account.
- */
-#[\AllowDynamicProperties]
-class BusinessMessageDeleted
-{
-    /**
-     * Unique identifier of the business connection
-     */
-    public string $business_connection_id;
-
-    /**
-     * Information about a chat in the business account. The bot may not have access to the chat or the corresponding user.
-     */
-    public Chat $chat;
-
-    /**
-     * The list of identifiers of deleted messages in the chat of the business account
-     * @var array<int>
-     */
-    public array $message_ids;
-
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-
-        if (property_exists($init_data, 'chat')) {
-            $this->chat = new Chat($init_data->chat);
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class MessageReactionUpdated
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class MessageReactionCountUpdated
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * This object represents an incoming inline query. When the user sends an empty query, your bot could return some default or trending results.
- */
-class InlineQuery
-{
-    /**
-     * Unique identifier for this query
-     */
-    public string $id;
-
-    /**
-     * Sender
-     */
-    public User $from;
-
-    /**
-     * Text of the query (up to 256 characters)
-     */
-    public string $query;
-
-    /**
-     * Offset of the results to be returned, can be controlled by the bot
-     */
-    public string $offset;
-
-    /**
-     * Optional. Type of the chat from which the inline query was sent. Can be either “sender” for a private chat with the inline query sender, “private”, “group”, “supergroup”, or “channel”. The chat type should be always known for requests sent from official clients and most third-party clients, unless the request was sent from a secret chat
-     */
-    public ?string $chat_type;
-
-    /**
-     * Optional. Sender location, only for bots that request user location
-     */
-    public ?Location $location;
-
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-
-        if (property_exists($init_data, 'from')) {
-            $this->from = new User($init_data->from);
-        }
-
-        if (property_exists($init_data, 'location')) {
-            $this->location = new Location($init_data->location);
-        }
-    }
-}
-
-/**
- * Represents a result of an inline query that was chosen by the user and sent to their chat partner.
- */
-class ChosenInlineResult
-{
-    /**
-     * The unique identifier for the result that was chosen
-     */
-    public string $result_id;
-
-    /**
-     * The user that chose the result
-     */
-    public User $from;
-
-    /**
-     * Optional. Sender location, only for bots that require user location
-     */
-    public ?Location $location = null;
-
-    /**
-     * Optional. Identifier of the sent inline message. Available only if there is an inline keyboard attached to the message. Will be also received in callback queries and can be used to edit the message.
-     */
-    public ?string $inline_message_id = null;
-
-    /**
-     * The query that was used to obtain the result
-     */
-    public string $query;
-
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-
-        if (property_exists($init_data, 'from')) {
-            $this->from = new User($init_data->from);
-        }
-
-        if (property_exists($init_data, 'location')) {
-            $this->location = new Location($init_data->location);
-        }
-    }
-}
-
-/**
- * This object represents an incoming callback query from a callback button in an inline keyboard. If the button that originated the query was attached to a message sent by the bot, the field message will be present. If the button was attached to a message sent via the bot (in inline mode), the field inline_message_id will be present. Exactly one of the fields data or game_short_name will be present.
- */
-class CallbackQuery
-{
-    /**
-     * Unique identifier for this query
-     */
-    public string $id;
-
-    /**
-     * Sender
-     */
-    public User $from;
-
-    /**
-     * Optional. Message with the callback button that originated the query. Note that message content and message date will not be available if the message is too old
-     */
-    public Message|InaccessibleMessage|null $message = null; // Actually of type MaybeInaccessibleMessage
-
-    /**
-     * Optional. Identifier of the message sent via the bot in inline mode, that originated the query.
-     */
-    public ?string $inline_message_id = null;
-
-    /**
-     * Global identifier, uniquely corresponding to the chat to which the message with the callback button was sent. Useful for high scores in games.
-     */
-    public string $chat_instance;
-
-    /**
-     * Optional. Data associated with the callback button. Be aware that the message originated the query can contain no callback buttons with this data.
-     */
-    public ?string $data = null;
-
-    /**
-     * Optional. Short name of a Game to be returned, serves as the unique identifier for the game
-     */
-    public ?string $game_short_name = null;
-
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-
-        if (property_exists($init_data, 'from')) {
-            $this->from = new User($init_data->from);
-        }
-
-        if (property_exists($init_data, 'message')) {
-            if ($init_data->message->date == 0) {
-                $this->message = new InaccessibleMessage($init_data->message);
-            } else {
-                $this->message = new Message($init_data->message);
-            }
-        }
-    }
-}
-
-/**
- * This object contains information about an incoming shipping query.
- */
-class ShippingQuery
-{
-    /**
-     * Unique query identifier
-     */
-    public string $id;
-
-    /**
-     * User who sent the query
-     */
-    public User $from;
-
-    /**
-     * Bot specified invoice payload
-     */
-    public string $invoice_payload;
-
-    /**
-     * User specified shipping address
-     */
-    public ShippingAddress $shipping_address;
-
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-
-        if (property_exists($init_data, 'from')) {
-            $this->from = new User($init_data->from);
-        }
-
-        if (property_exists($init_data, 'shipping_address')) {
-            $this->shipping_address = new ShippingAddress(
-                $init_data->shipping_address,
-            );
-        }
-    }
-}
-
-/**
- * This object contains information about an incoming pre-checkout query.
- */
-class PreCheckoutQuery
-{
-    /**
-     * Unique query identifier
-     */
-    public string $id;
-
-    /**
-     * User who sent the query
-     */
-    public User $from;
-
-    /**
-     * Three-letter ISO 4217 currency code, or “XTR” for payments in Telegram Stars
-     */
-    public string $currency;
-
-    /**
-     * Total price in the smallest units of the currency (integer, not float/double). For example, for a price of US$ 1.45 pass amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies).
-     */
-    public int $total_amount;
-
-    /**
-     * Bot specified invoice payload
-     */
-    public string $invoice_payload;
-
-    /**
-     * Optional. Identifier of the shipping option chosen by the user
-     */
-    public ?string $shipping_option_id = null;
-
-    /**
-     * Optional. Order information provided by the user
-     */
-    public ?OrderInfo $order_info = null;
-
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-
-        if (property_exists($init_data, 'from')) {
-            $this->from = new User($init_data->from);
-        }
-
-        if (property_exists($init_data, 'order_info')) {
-            $this->order_info = new OrderInfo($init_data->order_info);
-        }
-    }
-}
-
-/**
- * This object contains information about a paid media purchase.
- */
-#[\AllowDynamicProperties]
-class PaidMediaPurchased
-{
-    /**
-     * User who purchased the media
-     */
-    public User $from;
-
-    /**
-     * Bot-specified paid media payload
-     */
-    public string $paid_media_payload;
-
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-
-        if (property_exists($init_data, 'from')) {
-            $this->from = new User($init_data->from);
         }
     }
 }
@@ -1493,8 +1606,7 @@ class Poll
     {
         $arr = get_object_vars($init_data);
         foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
+            if (!($value instanceof \stdClass)) {
                 $this->$key = $init_data->$key;
             }
         }
@@ -1502,48 +1614,508 @@ class Poll
 }
 
 /**
- * This object represents an answer of a user in a non-anonymous poll.
+ * This object contains information about a chat that was shared with the bot using a KeyboardButtonRequestChat button.
  */
-class PollAnswer
+class ChatShared
 {
     /**
-     * Unique poll identifier
+     * Identifier of the request
      */
-    public string $poll_id;
+    public int $request_id;
 
     /**
-     * Optional. The chat that changed the answer to the poll, if the voter is anonymous
+     * Identifier of the shared chat. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier. The bot may not have access to the chat and could be unable to use this identifier, unless the chat is already known to the bot by some other means.
      */
-    public ?Chat $voter_chat;
+    public int $chat_id;
 
     /**
-     * Optional. The user that changed the answer to the poll, if the voter isn't anonymous
+     * Optional. Title of the chat, if the title was requested by the bot.
      */
-    public User $user;
+    public ?string $title = null;
 
     /**
-     * 0-based identifiers of chosen answer options. May be empty if the vote was retracted.
-     * @var array<int>
+     * Optional. Username of the chat, if the username was requested by the bot and available.
      */
-    public array $option_ids;
+    public ?string $username = null;
+
+    /**
+     * Optional. Available sizes of the chat photo, if the photo was requested by the bot
+     * @var array<PhotoSize>
+     */
+    public ?array $photo = null;
 
     public function __construct($init_data)
     {
         $arr = get_object_vars($init_data);
         foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * Describes a Web App.
+ */
+class WebAppInfo
+{
+    /**
+     * An HTTPS URL of a Web App to be opened with additional data as specified in Initializing Web Apps
+     */
+    public string $url;
+
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * This object represents a custom keyboard with reply options (see Introduction to bots for details and examples). Not supported in channels and for messages sent on behalf of a Telegram Business account.
+ */
+class ReplyKeyboardMarkup implements \JsonSerializable
+{
+    /**
+     * Array of button rows, each represented by an Array of KeyboardButton objects
+     * @var array<array<KeyboardButton>>
+     */
+    public array $keyboard;
+
+    /**
+     * Optional. Requests clients to always show the keyboard when the regular keyboard is hidden. Defaults to false, in which case the custom keyboard can be hidden and opened with a keyboard icon.
+     */
+    public ?bool $is_persistent = null;
+
+    /**
+     * Optional. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always of the same height as the app's standard keyboard.
+     */
+
+    public ?bool $resize_keyboard = null;
+
+    /**
+     * Optional. Requests clients to hide the keyboard as soon as it's been used. The keyboard will still be available, but clients will automatically display the usual letter-keyboard in the chat - the user can press a special button in the input field to see the custom keyboard again. Defaults to false.
+     */
+    public ?bool $one_time_keyboard = null;
+
+    /**
+     * Optional. Requests clients to hide the keyboard as soon as it's been used. The keyboard will still be available, but clients will automatically display the usual letter-keyboard in the chat - the user can press a special button in the input field to see the custom keyboard again. Defaults to false.
+     */
+    public ?string $input_field_placeholder = null;
+
+    /**
+     * Optional. Use this parameter if you want to show the keyboard to specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply to a message in the same chat and forum topic, sender of the original message.
+     * Example: A user requests to change the bot's language, bot replies to the request with a keyboard to select the new language. Other users in the group don't see the keyboard.
+     */
+    public ?bool $selective;
+
+    /**
+     * @param array<array<KeyboardButton>> $keyboard
+     */
+    public function __construct(
+        array $keyboard,
+        bool $is_persistent = null,
+        bool $resize_keyboard = null,
+        bool $one_time_keyboard = null,
+        string $input_field_placeholder = null,
+        bool $selective = null,
+    ) {
+        $this->keyboard = $keyboard;
+
+        $this->is_persistent = $is_persistent;
+        $this->resize_keyboard = $resize_keyboard;
+        $this->one_time_keyboard = $one_time_keyboard;
+        $this->input_field_placeholder = $input_field_placeholder;
+        $this->selective = $selective;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        $obj = (object) [];
+
+        foreach (get_object_vars($this) as $key => $value) {
+            if (!is_null($value)) {
+                $obj->$key = $value;
+            }
+        }
+
+        return $obj;
+    }
+}
+
+/**
+ * This object represents one button of the reply keyboard. At most one of the optional fields must be used to specify type of the button. For simple text buttons, String can be used instead of this object to specify the button text.
+ */
+class KeyboardButton implements \JsonSerializable
+{
+    /**
+     * Text of the button. If none of the optional fields are used, it will be sent as a message when the button is pressed
+     */
+    public string $text;
+
+    /**
+     * Optional. If specified, pressing the button will open a list of suitable users. Identifiers of selected users will be sent to the bot in a “users_shared” service message. Available in private chats only.
+     */
+    public ?KeyboardButtonRequestUsers $request_users = null;
+
+    /**
+     * Optional. If specified, pressing the button will open a list of suitable chats. Tapping on a chat will send its identifier to the bot in a “chat_shared” service message. Available in private chats only.
+     */
+    public ?KeyboardButtonRequestChat $request_chat = null;
+
+    /**
+     * Optional. If True, the user's phone number will be sent as a contact when the button is pressed. Available in private chats only.
+     */
+    public ?bool $request_contact = null;
+
+    /**
+     * Optional. If True, the user's current location will be sent when the button is pressed. Available in private chats only.
+     */
+    public ?bool $request_location = null;
+
+    /**
+     * Optional. If specified, the user will be asked to create a poll and send it to the bot when the button is pressed. Available in private chats only.
+     */
+    public ?KeyboardButtonPollType $request_poll = null;
+
+    /**
+     * Optional. If specified, the described Web App will be launched when the button is pressed. The Web App will be able to send a “web_app_data” service message. Available in private chats only.
+     */
+    public ?WebAppInfo $web_app = null;
+
+    public function __construct(
+        string $text,
+        KeyboardButtonRequestUsers $request_users = null,
+        KeyboardButtonRequestChat $request_chat = null,
+        bool $request_contact = null,
+        bool $request_location = null,
+        KeyboardButtonPollType $request_poll = null,
+        WebAppInfo $web_app = null,
+    ) {
+        $this->text = $text;
+
+        $this->request_users = $request_users;
+        $this->request_chat = $request_chat;
+        $this->request_contact = $request_contact;
+        $this->request_location = $request_location;
+        $this->request_poll = $request_poll;
+        $this->web_app = $web_app;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        $obj = (object) [];
+
+        foreach (get_object_vars($this) as $key => $value) {
+            if (!is_null($value)) {
+                $obj->$key = $value;
+            }
+        }
+
+        return $obj;
+    }
+}
+
+/**
+ * This object defines the criteria used to request a suitable chat. Information about the selected chat will be shared with the bot when the corresponding button is pressed. The bot will be granted requested rights in the chat if appropriate. More about requesting chats ».
+ */
+class KeyboardButtonRequestChat implements \JsonSerializable
+{
+    /**
+     * Signed 32-bit identifier of the request, which will be received back in the ChatShared object. Must be unique within the message
+     */
+    public int $request_id;
+
+    /**
+     * Pass True to request a channel chat, pass False to request a group or a supergroup chat.
+     */
+    public ?bool $chat_is_channel = null;
+
+    // TODO ...
+
+    /**
+     * Optional. Pass True to request a chat with the bot as a member. Otherwise, no additional restrictions are applied.
+     */
+    public ?bool $bot_is_member = null;
+
+    /**
+     * Optional. Pass True to request the chat's title
+     */
+    public ?bool $request_title = null;
+
+    /**
+     * Optional. Pass True to request the chat's username
+     */
+    public ?bool $request_username = null;
+
+    /**
+     * Optional. Pass True to request the chat's photo
+     */
+    public ?bool $request_photo = null;
+
+    public function __construct(
+        int $request_id,
+
+        bool $chat_is_channel = null,
+        bool $bot_is_member = null,
+        bool $request_title = null,
+        bool $request_username = null,
+        bool $request_photo = null,
+    ) {
+        $this->request_id = $request_id;
+
+        $this->chat_is_channel = $chat_is_channel;
+        $this->bot_is_member = $bot_is_member;
+        $this->request_title = $request_title;
+        $this->request_username = $request_username;
+        $this->request_photo = $request_photo;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        $obj = (object) [];
+
+        foreach (get_object_vars($this) as $key => $value) {
+            if (!is_null($value)) {
+                $obj->$key = $value;
+            }
+        }
+
+        return $obj;
+    }
+}
+
+/**
+ * Upon receiving a message with this object, Telegram clients will remove the current custom keyboard and display the default letter-keyboard. By default, custom keyboards are displayed until a new keyboard is sent by a bot. An exception is made for one-time keyboards that are hidden immediately after the user presses a button (see ReplyKeyboardMarkup). Not supported in channels and for messages sent on behalf of a Telegram Business account.
+ */
+class ReplyKeyboardRemove implements \JsonSerializable
+{
+    /**
+     * Requests clients to remove the custom keyboard (user will not be able to summon this keyboard; if you want to hide the keyboard from sight but keep it accessible, use one_time_keyboard in ReplyKeyboardMarkup)
+     */
+    public true $remove_keyboard;
+
+    /**
+     * Optional. Use this parameter if you want to remove the keyboard for specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has reply_to_message_id), sender of the original message.
+     * Example: A user votes in a poll, bot returns confirmation message in reply to the vote and removes the keyboard for that user, while still showing the keyboard with poll options to users who haven't voted yet.
+     */
+    public ?bool $selective = null;
+
+    public function __construct(true $remove_keyboard, bool $selective = null)
+    {
+        $this->remove_keyboard = $remove_keyboard;
+
+        $this->selective = $selective;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        $obj = (object) [];
+
+        foreach (get_object_vars($this) as $key => $value) {
+            if (!is_null($value)) {
+                $obj->$key = $value;
+            }
+        }
+
+        return $obj;
+    }
+}
+
+/**
+ * This object represents an inline keyboard that appears right next to the message it belongs to.
+ */
+class InlineKeyboardMarkup implements \JsonSerializable
+{
+    /**
+     * Array of button rows, each represented by an Array of InlineKeyboardButton objects
+     * * @var array<array<InlineKeyboardButton>>
+     */
+    public ?array $inline_keyboard;
+
+    /**
+     * @param array<array<InlineKeyboardButton>> $inline_keyboard
+     */
+    public function __construct(array $inline_keyboard)
+    {
+        $this->inline_keyboard = $inline_keyboard;
+    }
+
+    public static function __fromDecodedJson($init_data)
+    {
+        // @phpstan-ignore new.static
+        return new static((array) $init_data->reply_markup);
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        $obj = (object) [];
+
+        foreach (get_object_vars($this) as $key => $value) {
+            if (!is_null($value)) {
+                $obj->$key = $value;
+            }
+        }
+
+        return $obj;
+    }
+}
+
+/**
+ * This object represents one button of an inline keyboard. Exactly one of the optional fields must be used to specify type of the button.
+ */
+class InlineKeyboardButton implements \JsonSerializable
+{
+    /**
+     * Label text on the button
+     */
+    public string $text;
+
+    /**
+     * Optional. HTTP or tg:// URL to be opened when the button is pressed. Links tg://user?id=<user_id> can be used to mention a user by their identifier without using a username, if this is allowed by their privacy settings.
+     */
+    public ?string $url = null;
+
+    /**
+     * Optional. Data to be sent in a callback query to the bot when the button is pressed, 1-64 bytes
+     */
+    public ?string $callback_data = null;
+
+    // TODO ...
+
+    public function __construct(
+        string $text,
+        string $url = null,
+        string $callback_data = null,
+    ) {
+        $this->text = $text;
+        $this->url = $url;
+        $this->callback_data = $callback_data;
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        $obj = (object) [];
+
+        foreach (get_object_vars($this) as $key => $value) {
+            if (!is_null($value)) {
+                $obj->$key = $value;
+            }
+        }
+
+        return $obj;
+    }
+}
+
+/**
+ * This object represents an incoming callback query from a callback button in an inline keyboard. If the button that originated the query was attached to a message sent by the bot, the field message will be present. If the button was attached to a message sent via the bot (in inline mode), the field inline_message_id will be present. Exactly one of the fields data or game_short_name will be present.
+ */
+class CallbackQuery
+{
+    /**
+     * Unique identifier for this query
+     */
+    public string $id;
+
+    /**
+     * Sender
+     */
+    public User $from;
+
+    /**
+     * Optional. Message with the callback button that originated the query. Note that message content and message date will not be available if the message is too old
+     */
+    public Message|InaccessibleMessage|null $message = null; // Actually of type MaybeInaccessibleMessage
+
+    /**
+     * Optional. Identifier of the message sent via the bot in inline mode, that originated the query.
+     */
+    public ?string $inline_message_id = null;
+
+    /**
+     * Global identifier, uniquely corresponding to the chat to which the message with the callback button was sent. Useful for high scores in games.
+     */
+    public string $chat_instance;
+
+    /**
+     * Optional. Data associated with the callback button. Be aware that the message originated the query can contain no callback buttons with this data.
+     */
+    public ?string $data = null;
+
+    /**
+     * Optional. Short name of a Game to be returned, serves as the unique identifier for the game
+     */
+    public ?string $game_short_name = null;
+
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
                 $this->$key = $init_data->$key;
             }
         }
 
-        if (property_exists($init_data, 'voter_chat')) {
-            $this->voter_chat = new Chat($init_data->voter_chat);
+        if (property_exists($init_data, 'from')) {
+            $this->from = new User($init_data->from);
         }
 
-        if (property_exists($init_data, 'user')) {
-            $this->user = new User($init_data->user);
+        if (property_exists($init_data, 'message')) {
+            if ($init_data->message->date == 0) {
+                $this->message = new InaccessibleMessage($init_data->message);
+            } else {
+                $this->message = new Message($init_data->message);
+            }
         }
+    }
+}
+
+/**
+ * Upon receiving a message with this object, Telegram clients will display a reply interface to the user (act as if the user has selected the bot's message and tapped 'Reply'). This can be extremely useful if you want to create user-friendly step-by-step interfaces without having to sacrifice privacy mode. Not supported in channels and for messages sent on behalf of a Telegram Business account.
+ */
+class ForceReply implements \JsonSerializable
+{
+    /**
+     * Shows reply interface to the user, as if they manually selected the bot's message and tapped 'Reply'
+     */
+    public true $force_reply;
+
+    /**
+     * Optional. The placeholder to be shown in the input field when the reply is active; 1-64 characters
+     */
+    public string $input_field_placeholder;
+
+    /**
+     * Optional. Use this parameter if you want to force reply from specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has reply_to_message_id), sender of the original message.
+     */
+    public bool $selective;
+
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        $obj = (object) [];
+
+        foreach (get_object_vars($this) as $key => $value) {
+            if (!is_null($value)) {
+                $obj->$key = $value;
+            }
+        }
+
+        return $obj;
     }
 }
 
@@ -1570,12 +2142,12 @@ class ChatMemberUpdated
     /**
      * Previous information about the chat member
      */
-    public ChatMember $old_chat_member;
+    public ChatMemberOwner|ChatMemberAdministrator|ChatMemberMember|ChatMemberRestricted|ChatMemberLeft|ChatMemberBanned $old_chat_member;
 
     /**
      * New information about the chat member
      */
-    public ChatMember $new_chat_member;
+    public ChatMemberOwner|ChatMemberAdministrator|ChatMemberMember|ChatMemberRestricted|ChatMemberLeft|ChatMemberBanned $new_chat_member;
 
     /**
      * Optional. Chat invite link, which was used by the user to join the chat for joining by invite link events only.
@@ -1596,8 +2168,7 @@ class ChatMemberUpdated
     {
         $arr = get_object_vars($init_data);
         foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
+            if (!($value instanceof \stdClass)) {
                 $this->$key = $init_data->$key;
             }
         }
@@ -1611,15 +2182,73 @@ class ChatMemberUpdated
         }
 
         if (property_exists($init_data, 'old_chat_member')) {
-            $this->old_chat_member = new ChatMember(
-                $init_data->old_chat_member,
-            );
+            switch ($init_data->old_chat_member->status) {
+                case 'creator':
+                    $this->old_chat_member = new ChatMemberOwner(
+                        $init_data->old_chat_member,
+                    );
+                    break;
+                case 'administrator':
+                    $this->old_chat_member = new ChatMemberAdministrator(
+                        $init_data->old_chat_member,
+                    );
+                    break;
+                case 'member':
+                    $this->old_chat_member = new ChatMemberMember(
+                        $init_data->old_chat_member,
+                    );
+                    break;
+                case 'restricted':
+                    $this->old_chat_member = new ChatMemberRestricted(
+                        $init_data->old_chat_member,
+                    );
+                    break;
+                case 'left':
+                    $this->old_chat_member = new ChatMemberLeft(
+                        $init_data->old_chat_member,
+                    );
+                    break;
+                case 'kicked':
+                    $this->old_chat_member = new ChatMemberBanned(
+                        $init_data->old_chat_member,
+                    );
+                    break;
+            }
         }
 
         if (property_exists($init_data, 'new_chat_member')) {
-            $this->new_chat_member = new ChatMember(
-                $init_data->new_chat_member,
-            );
+            switch ($init_data->new_chat_member->status) {
+                case 'creator':
+                    $this->new_chat_member = new ChatMemberOwner(
+                        $init_data->new_chat_member,
+                    );
+                    break;
+                case 'administrator':
+                    $this->new_chat_member = new ChatMemberAdministrator(
+                        $init_data->new_chat_member,
+                    );
+                    break;
+                case 'member':
+                    $this->new_chat_member = new ChatMemberMember(
+                        $init_data->new_chat_member,
+                    );
+                    break;
+                case 'restricted':
+                    $this->new_chat_member = new ChatMemberRestricted(
+                        $init_data->new_chat_member,
+                    );
+                    break;
+                case 'left':
+                    $this->new_chat_member = new ChatMemberLeft(
+                        $init_data->new_chat_member,
+                    );
+                    break;
+                case 'kicked':
+                    $this->new_chat_member = new ChatMemberBanned(
+                        $init_data->new_chat_member,
+                    );
+                    break;
+            }
         }
 
         if (property_exists($init_data, 'invite_link')) {
@@ -1667,8 +2296,7 @@ class ChatJoinRequest
     {
         $arr = get_object_vars($init_data);
         foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
+            if (!($value instanceof \stdClass)) {
                 $this->$key = $init_data->$key;
             }
         }
@@ -1683,570 +2311,6 @@ class ChatJoinRequest
 
         if (property_exists($init_data, 'invite_link')) {
             $this->invite_link = new ChatInviteLink($init_data->invite_link);
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ChatBoostUpdated
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ChatBoostRemoved
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-// -------------------------------------------------------------------
-
-/**
- * This object represents a button to be shown above inline query results. You must use exactly one of the optional fields.
- */
-class InlineQueryResultsButton
-{
-    /**
-     * Label text on the button
-     */
-    public string $text;
-
-    /**
-     * Optional. Description of the Web App that will be launched when the user presses the button. The Web App will be able to switch back to the inline mode using the method switchInlineQuery inside the Web App.
-     */
-    public ?WebAppInfo $web_app = null;
-
-    /**
-     * Optional. Deep-linking parameter for the /start message sent to the bot when a user presses the button. 1-64 characters, only A-Z, a-z, 0-9, _ and - are allowed.
-     * Example: An inline bot that sends YouTube videos can ask the user to connect the bot to their YouTube account to adapt search results accordingly. To do this, it displays a 'Connect your YouTube account' button above the results, or even before showing any. The user presses the button, switches to a private chat with the bot and, in doing so, passes a start parameter that instructs the bot to return an OAuth link. Once done, the bot can offer a switch_inline button so that the user can easily return to the chat where they wanted to use the bot's inline capabilities.
-     */
-    public ?string $start_parameter = null;
-
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-
-        if (property_exists($init_data, 'web_app')) {
-            $this->web_app = new WebAppInfo($init_data->web_app);
-        }
-    }
-}
-
-/**
- * This object contains full information about a chat.
- */
-class ChatFullInfo
-{
-    /**
-     * Unique identifier for this chat. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier.
-     */
-    public int $id;
-
-    /**
-     * Type of chat, can be either “private”, “group”, “supergroup” or “channel”
-     */
-    public string $type;
-
-    /**
-     * Optional. Title, for supergroups, channels and group chats
-     */
-    public ?string $title = null;
-
-    /**
-     * Optional. Username, for private chats, supergroups and channels if available
-     */
-    public ?string $username = null;
-
-    /**
-     * Optional. First name of the other party in a private chat
-     */
-    public ?string $first_name = null;
-
-    /**
-     * Optional. Last name of the other party in a private chat
-     */
-    public ?string $last_name = null;
-
-    /**
-     * Optional. True, if the supergroup chat is a forum (has topics enabled)
-     */
-    public ?true $is_forum = null;
-
-    /**
-     * Identifier of the accent color for the chat name and backgrounds of the chat photo, reply header, and link preview. See accent colors for more details.
-     */
-    public int $accent_color_id;
-
-    /**
-     * The maximum number of reactions that can be set on a message in the chat
-     */
-    public int $max_reaction_count;
-
-    /**
-     * Optional. Chat photo
-     */
-    public ?ChatPhoto $photo = null;
-
-    /**
-     * Optional. If non-empty, the list of all active chat usernames; for private chats, supergroups and channels
-     * @var array<string>
-     */
-    public ?array $active_usernames = null;
-
-    /**
-     * Optional. For private chats, the date of birth of the user
-     */
-    public ?Birthdate $birthdate = null;
-
-    /**
-     * Optional. For private chats with business accounts, the intro of the business
-     */
-    public ?BusinessIntro $business_intro = null;
-
-    /**
-     * Optional. For private chats with business accounts, the location of the business
-     */
-    public ?BusinessLocation $business_location = null;
-
-    /**
-     * Optional. For private chats with business accounts, the opening hours of the business
-     */
-    public ?BusinessOpeningHours $business_opening_hours = null;
-
-    /**
-     * Optional. For private chats, the personal channel of the user
-     */
-    public ?Chat $personal_chat = null;
-
-    /**
-     * Optional. List of available reactions allowed in the chat. If omitted, then all emoji reactions are allowed.
-     * @var array<ReactionType>
-     */
-    public ?array $available_reactions = null;
-
-    /**
-     * Optional. Custom emoji identifier of the emoji chosen by the chat for the reply header and link preview background
-     */
-    public ?string $background_custom_emoji_id = null;
-
-    /**
-     * Optional. Identifier of the accent color for the chat's profile background. See profile accent colors for more details.
-     */
-    public ?int $profile_accent_color_id = null;
-
-    /**
-     * Optional. Custom emoji identifier of the emoji chosen by the chat for its profile background
-     */
-    public ?string $profile_background_custom_emoji_id = null;
-
-    /**
-     * Optional. Custom emoji identifier of emoji status of the other party in a private chat.
-     */
-    public ?string $emoji_status_custom_emoji_id = null;
-
-    /**
-     * Optional. Expiration date of the emoji status of the chat or the other party in a private chat, in Unix time, if any
-     */
-    public ?int $emoji_status_expiration_date = null;
-
-    /**
-     * Optional. Bio of the other party in a private chat.
-     */
-    public ?string $bio = null;
-
-    /**
-     * Optional. True, if privacy settings of the other party in the private chat allows to use tg://user?id=<user_id> links only in chats with the user.
-     */
-    public ?true $has_private_forwards = null;
-
-    /**
-     * Optional. True, if the privacy settings of the other party restrict sending voice and video note messages in the private chat.
-     */
-    public ?true $has_restricted_voice_and_video_messages = null;
-
-    /**
-     * Optional. True, if users need to join the supergroup before they can send messages.
-     */
-    public ?true $join_to_send_messages = null;
-
-    /**
-     * Optional. True, if all users directly joining the supergroup need to be approved by supergroup administrators.
-     */
-    public ?true $join_by_request = null;
-
-    /**
-     * Optional. Description, for groups, supergroups and channel chats.
-     */
-    public ?string $description = null;
-
-    /**
-     * Optional. Primary invite link, for groups, supergroups and channel chats.
-     */
-    public ?string $invite_link = null;
-
-    /**
-     * Optional. The most recent pinned message (by sending date).
-     */
-    public ?Message $pinned_message = null;
-
-    /**
-     * Optional. Default chat member permissions, for groups and supergroups.
-     */
-    public ?ChatPermissions $permissions = null;
-
-    /**
-     * Optional. True, if paid media messages can be sent or forwarded to the channel chat. The field is available only for channel chats.
-     */
-    public ?true $can_send_paid_media = null;
-
-    /**
-     * Optional. For supergroups, the minimum allowed delay between consecutive messages sent by each unpriviledged user;
-     *  in seconds.
-     */
-    public ?int $slow_mode_delay = null;
-
-    /**
-     * Optional. For supergroups, the minimum number of boosts that a non-administrator user needs to add in order to ignore slow mode and chat permissions
-     */
-    public ?int $unrestrict_boost_count = null;
-
-    /**
-     * Optional. The time after which all messages sent to the chat will be automatically deleted;
-     *  in seconds.
-     */
-    public ?int $message_auto_delete_time = null;
-
-    /**
-     * Optional. True, if aggressive anti-spam checks are enabled in the supergroup. The field is only available to chat administrators.
-     */
-    public ?true $has_aggressive_anti_spam_enabled = null;
-
-    /**
-     * Optional. True, if non-administrators can only get the list of bots and administrators in the chat.
-     */
-    public ?true $has_hidden_members = null;
-
-    /**
-     * Optional. True, if messages from the chat can't be forwarded to other chats.
-     */
-    public ?true $has_protected_content = null;
-
-    /**
-     * Optional. True, if new chat members will have access to old messages; available only to chat administrators
-     */
-    public ?true $has_visible_history = null;
-
-    /**
-     * Optional. For supergroups, name of group sticker set.
-     */
-    public ?string $sticker_set_name = null;
-
-    /**
-     * Optional. True, if the bot can change the group sticker set.
-     */
-    public ?true $can_set_sticker_set = null;
-
-    /**
-     * Optional. For supergroups, the name of the group's custom emoji sticker set. Custom emoji from this set can be used by all users and bots in the group.
-     */
-    public ?string $custom_emoji_sticker_set_name = null;
-
-    /**
-     * Optional. Unique identifier for the linked chat, i.e. the discussion group identifier for a channel and vice versa;
-     *  for supergroups and channel chats. This identifier may be greater than 32 bits and some programming languages may have difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier.
-     */
-    public ?int $linked_chat_id = null;
-
-    /**
-     * Optional. For supergroups, the location to which the supergroup is connected.
-     */
-    public ?ChatLocation $location = null;
-
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-
-        if (property_exists($init_data, 'photo')) {
-            $this->photo = new ChatPhoto($init_data->photo);
-        }
-
-        if (property_exists($init_data, 'birthdate')) {
-            $this->birthdate = new Birthdate($init_data->birthdate);
-        }
-
-        if (property_exists($init_data, 'business_intro')) {
-            $this->business_intro = new BusinessIntro(
-                $init_data->business_intro,
-            );
-        }
-
-        if (property_exists($init_data, 'business_opening_hours')) {
-            $this->business_opening_hours = new BusinessOpeningHours(
-                $init_data->business_opening_hours,
-            );
-        }
-
-        if (property_exists($init_data, 'business_location')) {
-            $this->business_location = new BusinessLocation(
-                $init_data->business_location,
-            );
-        }
-
-        if (property_exists($init_data, 'personal_chat')) {
-            $this->personal_chat = new Chat($init_data->personal_chat);
-        }
-
-        if (property_exists($init_data, 'pinned_message')) {
-            $this->pinned_message = new Message($init_data->pinned_message);
-        }
-
-        if (property_exists($init_data, 'permissions')) {
-            $this->permissions = new ChatPermissions($init_data->permissions);
-        }
-
-        if (property_exists($init_data, 'location')) {
-            $this->location = new ChatLocation($init_data->location);
-        }
-    }
-}
-
-class Chat
-{
-    /**
-     * Unique identifier for this chat. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier.
-     */
-    public int $id;
-
-    /**
-     * Type of chat, can be either “private”, “group”, “supergroup” or “channel”
-     */
-    public string $type;
-
-    /**
-     * Optional. Title, for supergroups, channels and group chats
-     */
-    public ?string $title = null;
-
-    /**
-     * Optional. Username, for private chats, supergroups and channels if available
-     */
-    public ?string $username = null;
-
-    /**
-     * Optional. First name of the other party in a private chat
-     */
-    public ?string $first_name = null;
-
-    /**
-     * Optional. Last name of the other party in a private chat
-     */
-    public ?string $last_name = null;
-
-    /**
-     * Optional. True, if the supergroup chat is a forum (has topics enabled)
-     */
-    public ?true $is_forum = null;
-
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * This object represents a Telegram user or bot.
- */
-class User
-{
-    /**
-     * Unique identifier for this user or bot. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier.
-     */
-    public int $id;
-
-    /**
-     * True, if this user is a bot
-     */
-    public bool $is_bot;
-
-    /**
-     * User's or bot's first name
-     */
-    public string $first_name;
-
-    /**
-     * Optional. User's or bot's last name
-     */
-    public ?string $last_name = null;
-
-    /**
-     * Optional. User's or bot's username
-     */
-    public ?string $username = null;
-
-    /**
-     * Optional. IETF language tag of the user's language
-     */
-    public ?string $language_code = null;
-
-    /**
-     * Optional. True, if this user is a Telegram Premium user
-     */
-    public ?true $is_premium = null;
-
-    /**
-     * Optional. True, if this user added the bot to the attachment menu
-     */
-    public ?true $added_to_attachment_menu = null;
-
-    /**
-     * Optional. True, if the bot can be invited to groups. Returned only in getMe.
-     */
-    public ?bool $can_join_groups = null;
-
-    /**
-     * Optional. True, if privacy mode is disabled for the bot. Returned only in getMe.
-     */
-    public ?bool $can_read_all_group_messages = null;
-
-    /**
-     * Optional. True, if the bot supports inline queries. Returned only in getMe.
-     */
-    public ?bool $supports_inline_queries = null;
-
-    /**
-     * Optional. True, if the bot can be connected to a Telegram Business account to receive its messages. Returned only in getMe.
-     */
-    public ?bool $can_connect_to_business = null;
-
-    /**
-     * Optional. True, if the bot has a main Web App. Returned only in getMe.
-     */
-    public ?bool $has_main_web_app = null;
-
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-
-    public function get_full_name(): string
-    {
-        $full_name = $this->first_name;
-        if ($this->last_name != null) {
-            $full_name .= ' ' . $this->last_name;
-        }
-        return $full_name;
-    }
-}
-
-/**
- * This object contains information about a chat that was shared with the bot using a KeyboardButtonRequestChat button.
- */
-class ChatShared
-{
-    /**
-     * Identifier of the request
-     */
-    public int $request_id;
-
-    /**
-     * Identifier of the shared chat. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier. The bot may not have access to the chat and could be unable to use this identifier, unless the chat is already known to the bot by some other means.
-     */
-    public int $chat_id;
-
-    /**
-     * Optional. Title of the chat, if the title was requested by the bot.
-     */
-    public ?string $title = null;
-
-    /**
-     * Optional. Username of the chat, if the username was requested by the bot and available.
-     */
-    public ?string $username = null;
-
-    /**
-     * Optional. Available sizes of the chat photo, if the photo was requested by the bot
-     * @var array<PhotoSize>
-     */
-    public ?array $photo = null;
-
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * Describes a Web App.
- */
-class WebAppInfo
-{
-    /**
-     * An HTTPS URL of a Web App to be opened with additional data as specified in Initializing Web Apps
-     */
-    public string $url;
-
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
         }
     }
 }
@@ -2270,8 +2334,7 @@ class BotCommand
     {
         $arr = get_object_vars($init_data);
         foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
+            if (!($value instanceof \stdClass)) {
                 $this->$key = $init_data->$key;
             }
         }
@@ -2389,8 +2452,7 @@ class BotName
     {
         $arr = get_object_vars($init_data);
         foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
+            if (!($value instanceof \stdClass)) {
                 $this->$key = $init_data->$key;
             }
         }
@@ -2411,10 +2473,95 @@ class BotDescription
     {
         $arr = get_object_vars($init_data);
         foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
+            if (!($value instanceof \stdClass)) {
                 $this->$key = $init_data->$key;
             }
+        }
+    }
+}
+
+/**
+ * Describes the connection of the bot with a business account.
+ */
+class BusinessConnection
+{
+    /**
+     * Unique identifier of the business connection
+     */
+    public string $id;
+
+    /**
+     * Business account user that created the business connection
+     */
+    public User $user;
+
+    /**
+     * Identifier of a private chat with the user who created the business connection. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier.
+     */
+    public int $user_chat_id;
+
+    /**
+     * Date the connection was established in Unix time
+     */
+    public int $date;
+
+    /**
+     * True, if the bot can act on behalf of the business account in chats that were active in the last 24 hours
+     */
+    public bool $can_reply;
+
+    /**
+     * True, if the connection is active
+     */
+    public bool $is_enabled;
+
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+
+        if (property_exists($init_data, 'user')) {
+            $this->user = new User($init_data->user);
+        }
+    }
+}
+
+/**
+ * This object is received when messages are deleted from a connected business account.
+ */
+class BusinessMessagesDeleted
+{
+    /**
+     * Unique identifier of the business connection
+     */
+    public string $business_connection_id;
+
+    /**
+     * Information about a chat in the business account. The bot may not have access to the chat or the corresponding user.
+     */
+    public Chat $chat;
+
+    /**
+     * The list of identifiers of deleted messages in the chat of the business account
+     * @var array<int>
+     */
+    public array $message_ids;
+
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+
+        if (property_exists($init_data, 'chat')) {
+            $this->chat = new Chat($init_data->chat);
         }
     }
 }
@@ -2422,1813 +2569,279 @@ class BotDescription
 // -------------------------------------------------------------------
 
 /**
- * TODO:
- * Describes the current status of a webhook
+ * This object represents an incoming inline query. When the user sends an empty query, your bot could return some default or trending results.
  */
-#[\AllowDynamicProperties]
-class WebhookInfo
+class InlineQuery
 {
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- * This object represents a unique message identifier.
- */
-#[\AllowDynamicProperties]
-class MessageId
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- * This object represents one special entity in a text message. For example, hashtags, usernames, URLs, etc.
- */
-#[\AllowDynamicProperties]
-class MessageEntity
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- * This object represents one size of a photo or a file / sticker thumbnail.
- */
-#[\AllowDynamicProperties]
-class PhotoSize
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- * This object represents an animation file (GIF or H.264/MPEG-4 AVC video without sound).
- */
-#[\AllowDynamicProperties]
-class Animation
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- * This object represents an audio file to be treated as music by the Telegram clients.
- */
-#[\AllowDynamicProperties]
-class Audio
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- * This object represents a general file (as opposed to photos, voice messages and audio files).
- */
-#[\AllowDynamicProperties]
-class Document
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- * This object represents a video file.
- */
-#[\AllowDynamicProperties]
-class Video
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- * This object represents a video message (available in Telegram apps as of v.4.0).
- */
-#[\AllowDynamicProperties]
-class VideoNote
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- * This object represents a voice note.
- */
-#[\AllowDynamicProperties]
-class Voice
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class UsersShared
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class PaidMediaInfo
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class RefundedPayment
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ChatBoostAdded
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ChatBackground
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class Giveaway
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class GiveawayCreated
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class GiveawayCompleted
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class GiveawayWinners
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class Story
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ExternalReplyInfo
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class TextQuote
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class LinkPreviewOptions
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class MessageOrigin
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class InaccessibleMessage
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class Contact
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class Dice
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class PollOption
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class Location
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class Venue
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class WebAppData
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ProximityAlertTriggered
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class MessageAutoDeleteTimerChanged
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ForumTopicCreated
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ForumTopicClosed
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ForumTopicEdited
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ForumTopicReopened
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class GeneralForumTopicHidden
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class GeneralForumTopicUnhidden
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class WriteAccessAllowed
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class VideoChatScheduled
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class VideoChatStarted
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class VideoChatEnded
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class VideoChatParticipantsInvited
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class UserProfilePhotos
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class File
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class KeyboardButtonRequestUsers
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class KeyboardButtonPollType
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class LoginUrl
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class SwitchInlineQueryChosenChat
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ChatPhoto
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ChatInviteLink
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ChatAdministratorRights
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ChatMember
-{
-    public string $status;
-
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ChatMemberOwner
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ChatMemberAdministrator
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ChatMemberMember
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ChatMemberRestricted
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ChatMemberLeft
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ChatMemberBanned
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ForumTopic
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class BotShortDescription
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class PassportData
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class PassportFile
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class EncryptedPassportElement
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class EncryptedCredentials
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class PassportElementError
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class PassportElementErrorUnspecified
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
+    /**
+     * Unique identifier for this query
+     */
+    public string $id;
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class Game
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
+    /**
+     * Sender
+     */
+    public User $from;
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class CallbackGame
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
+    /**
+     * Text of the query (up to 256 characters)
+     */
+    public string $query;
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class GameHighScore
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
+    /**
+     * Offset of the results to be returned, can be controlled by the bot
+     */
+    public string $offset;
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class SentWebAppMessage
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
+    /**
+     * Optional. Type of the chat from which the inline query was sent. Can be either “sender” for a private chat with the inline query sender, “private”, “group”, “supergroup”, or “channel”. The chat type should be always known for requests sent from official clients and most third-party clients, unless the request was sent from a secret chat
+     */
+    public ?string $chat_type;
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class LabeledPrice
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
+    /**
+     * Optional. Sender location, only for bots that request user location
+     */
+    public ?Location $location;
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class Invoice
-{
     public function __construct($init_data)
     {
         $arr = get_object_vars($init_data);
         foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
+            if (!($value instanceof \stdClass)) {
                 $this->$key = $init_data->$key;
             }
         }
-    }
-}
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ShippingAddress
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
+        if (property_exists($init_data, 'from')) {
+            $this->from = new User($init_data->from);
         }
-    }
-}
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class OrderInfo
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
+        if (property_exists($init_data, 'location')) {
+            $this->location = new Location($init_data->location);
         }
     }
 }
 
 /**
- * TODO:
+ * This object represents a button to be shown above inline query results. You must use exactly one of the optional fields.
  */
-#[\AllowDynamicProperties]
-class ShippingOption
+class InlineQueryResultsButton
 {
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
+    /**
+     * Label text on the button
+     */
+    public string $text;
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class SuccessfulPayment
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
+    /**
+     * Optional. Description of the Web App that will be launched when the user presses the button. The Web App will be able to switch back to the inline mode using the method switchInlineQuery inside the Web App.
+     */
+    public ?WebAppInfo $web_app = null;
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class InlineQueryResult
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
+    /**
+     * Optional. Deep-linking parameter for the /start message sent to the bot when a user presses the button. 1-64 characters, only A-Z, a-z, 0-9, _ and - are allowed.
+     * Example: An inline bot that sends YouTube videos can ask the user to connect the bot to their YouTube account to adapt search results accordingly. To do this, it displays a 'Connect your YouTube account' button above the results, or even before showing any. The user presses the button, switches to a private chat with the bot and, in doing so, passes a start parameter that instructs the bot to return an OAuth link. Once done, the bot can offer a switch_inline button so that the user can easily return to the chat where they wanted to use the bot's inline capabilities.
+     */
+    public ?string $start_parameter = null;
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class InputMessageContent
-{
     public function __construct($init_data)
     {
         $arr = get_object_vars($init_data);
         foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
+            if (!($value instanceof \stdClass)) {
                 $this->$key = $init_data->$key;
             }
         }
-    }
-}
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class Sticker
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
+        if (property_exists($init_data, 'web_app')) {
+            $this->web_app = new WebAppInfo($init_data->web_app);
         }
     }
 }
 
 /**
- * TODO:
+ * Represents a result of an inline query that was chosen by the user and sent to their chat partner.
  */
-#[\AllowDynamicProperties]
-class StickerSet
+class ChosenInlineResult
 {
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
+    /**
+     * The unique identifier for the result that was chosen
+     */
+    public string $result_id;
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class InputMediaPhoto
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
+    /**
+     * The user that chose the result
+     */
+    public User $from;
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class InputMediaVideo
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
+    /**
+     * Optional. Sender location, only for bots that require user location
+     */
+    public ?Location $location = null;
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class InputMediaAnimation
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
+    /**
+     * Optional. Identifier of the sent inline message. Available only if there is an inline keyboard attached to the message. Will be also received in callback queries and can be used to edit the message.
+     */
+    public ?string $inline_message_id = null;
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class InputMediaAudio
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
+    /**
+     * The query that was used to obtain the result
+     */
+    public string $query;
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class InputMediaDocument
-{
     public function __construct($init_data)
     {
         $arr = get_object_vars($init_data);
         foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
+            if (!($value instanceof \stdClass)) {
                 $this->$key = $init_data->$key;
             }
         }
-    }
-}
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class MenuButtonCommands
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
+        if (property_exists($init_data, 'from')) {
+            $this->from = new User($init_data->from);
         }
-    }
-}
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class MenuButtonWebApp
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
+        if (property_exists($init_data, 'location')) {
+            $this->location = new Location($init_data->location);
         }
     }
 }
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class MenuButtonDefault
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
+// -------------------------------------------------------------------
 
 /**
- * TODO:
+ * This object contains information about an incoming shipping query.
  */
-#[\AllowDynamicProperties]
-class ResponseParameters
+class ShippingQuery
 {
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
+    /**
+     * Unique query identifier
+     */
+    public string $id;
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class MaskPosition
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
+    /**
+     * User who sent the query
+     */
+    public User $from;
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class InputSticker
-{
+    /**
+     * Bot specified invoice payload
+     */
+    public string $invoice_payload;
+
+    /**
+     * User specified shipping address
+     */
+    public ShippingAddress $shipping_address;
+
     public function __construct($init_data)
     {
         $arr = get_object_vars($init_data);
         foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
+            if (!($value instanceof \stdClass)) {
                 $this->$key = $init_data->$key;
             }
         }
-    }
-}
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ChatPermissions
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
+        if (property_exists($init_data, 'from')) {
+            $this->from = new User($init_data->from);
         }
-    }
-}
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ChatLocation
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
+        if (property_exists($init_data, 'shipping_address')) {
+            $this->shipping_address = new ShippingAddress(
+                $init_data->shipping_address,
+            );
         }
     }
 }
 
 /**
- * TODO:
+ * This object contains information about an incoming pre-checkout query.
  */
-#[\AllowDynamicProperties]
-class Birthdate
+class PreCheckoutQuery
 {
+    /**
+     * Unique query identifier
+     */
+    public string $id;
+
+    /**
+     * User who sent the query
+     */
+    public User $from;
+
+    /**
+     * Three-letter ISO 4217 currency code, or “XTR” for payments in Telegram Stars
+     */
+    public string $currency;
+
+    /**
+     * Total price in the smallest units of the currency (integer, not float/double). For example, for a price of US$ 1.45 pass amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies).
+     */
+    public int $total_amount;
+
+    /**
+     * Bot specified invoice payload
+     */
+    public string $invoice_payload;
+
+    /**
+     * Optional. Identifier of the shipping option chosen by the user
+     */
+    public ?string $shipping_option_id = null;
+
+    /**
+     * Optional. Order information provided by the user
+     */
+    public ?OrderInfo $order_info = null;
+
     public function __construct($init_data)
     {
         $arr = get_object_vars($init_data);
         foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
+            if (!($value instanceof \stdClass)) {
                 $this->$key = $init_data->$key;
             }
         }
-    }
-}
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class BusinessIntro
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
+        if (property_exists($init_data, 'from')) {
+            $this->from = new User($init_data->from);
         }
-    }
-}
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class BusinessLocation
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
+        if (property_exists($init_data, 'order_info')) {
+            $this->order_info = new OrderInfo($init_data->order_info);
         }
     }
 }
 
 /**
- * TODO:
+ * This object contains information about a paid media purchase.
  */
-#[\AllowDynamicProperties]
-class BusinessOpeningHours
+class PaidMediaPurchased
 {
+    /**
+     * User who purchased the media
+     */
+    public User $from;
+
+    /**
+     * Bot-specified paid media payload
+     */
+    public string $paid_media_payload;
+
     public function __construct($init_data)
     {
         $arr = get_object_vars($init_data);
         foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
+            if (!($value instanceof \stdClass)) {
                 $this->$key = $init_data->$key;
             }
         }
-    }
-}
 
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class ReactionType
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if ($value instanceof stdClass) {
-            } else {
-                $this->$key = $init_data->$key;
-            }
+        if (property_exists($init_data, 'from')) {
+            $this->from = new User($init_data->from);
         }
     }
 }
+
+// -------------------------------------------------------------------

@@ -1,5 +1,7 @@
 <?php
 
+namespace Litegram;
+
 use GuzzleHttp\Promise;
 use GuzzleHttp\Client;
 

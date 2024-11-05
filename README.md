@@ -1,0 +1,198 @@
+# Litegram [Work in Progress]
+
+[Bot API v7.10 (September 6, 2024)](https://core.telegram.org/bots/api) ([Snapshot Link](https://web.archive.org/web/20241009125109/https://core.telegram.org/bots/api))
+
+## Implemented classes and methods:
+
+Getting updates:
+- [X] [Update](https://core.telegram.org/bots/api#Update)
+- [ ] [getUpdates()](#)
+- [ ] [setWebhook()](#)
+- [ ] [deleteWebhook()](#)
+- [ ] [getWebhookInfo()](#)
+- [ ] [WebhookInfo](#)
+---
+Available types:
+- [X] [User](#)
+- [X] [Chat](#)
+- [X] [ChatFullInfo](#)
+- [X] [Message](#)
+- [ ] [MessageId](#)
+- [ ] [InaccessibleMessage](#)
+- [X] [MaybeInaccessibleMessage](#) : InaccessibleMessage | Message
+- [ ] [MessageEntity](#)
+- [ ] [TextQuote](#)
+- [ ] [ExternalReplyInfo](#)
+- [X] [ReplyParameters](#)
+- [X] [MessageOrigin](#) : MessageOriginUser | MessageOriginHiddenUser | MessageOriginChat | MessageOriginChannel
+- [ ] [MessageOriginUser](#)
+- [ ] [MessageOriginHiddenUser](#)
+- [ ] [MessageOriginChat](#)
+- [ ] [MessageOriginChannel](#)
+- [ ] [PhotoSize](#)
+- [ ] [Animation](#)
+- [ ] [Audio](#)
+- [ ] [Document](#)
+- [ ] [Story](#)
+- [ ] [Video](#)
+- [ ] [VideoNote](#)
+- [ ] [Voice](#)
+- [ ] [PaidMediaInfo](#)
+- [X] [PaidMedia](#) : PaidMediaPreview | PaidMediaPhoto | PaidMediaVideo
+- [ ] [PaidMediaPreview](#)
+- [ ] [PaidMediaPhoto](#)
+- [ ] [PaidMediaVideo](#)
+- [ ] [Contact](#)
+- [ ] [Dice](#)
+- [ ] [PollOption](#)
+- [ ] [InputPollOption](#)
+- [X] [PollAnswer](#)
+- [X] [Poll](#)
+- [ ] [Location](#)
+- [ ] [Venue](#)
+- [ ] [WebAppData](#)
+- [ ] [ProximityAlertTriggered](#)
+- [ ] [MessageAutoDeleteTimerChanged](#)
+- [ ] [ChatBoostAdded](#)
+- [ ] [BackgroundFill](#)
+- [ ] [BackgroundFillSolid](#)
+- [ ] [BackgroundFillGradient](#)
+- [ ] [BackgroundFilFreeformGradient](#)
+- [ ] [BackgroundType](#)
+- [ ] [BackgroundTypeFill](#)
+- [ ] [BackgroundTypeWallpaper](#)
+- [ ] [BackgroundTypePattern](#)
+- [ ] [BackgroundTypeChatTheme](#)
+- [ ] [ChatBackground](#)
+- [ ] [ForumTopicCreated](#)
+- [ ] [ForumTopicClosed](#)
+- [ ] [ForumTopicEdited](#)
+- [ ] [ForumTopicReopened](#)
+- [ ] [GeneralForumTopicHidden](#)
+- [ ] [GeneralForumTopicUnhidden](#)
+- [ ] [SharedUser](#)
+- [ ] [UsersShared](#)
+- [X] [ChatShared](#)
+- [ ] [WriteAccessAllowed](#)
+- [ ] [VideoChatScheduled](#)
+- [ ] [VideoChatStarted](#)
+- [ ] [VideoChatEnded](#)
+- [ ] [VideoChatParticipantsInvited](#)
+- [ ] [GiveawayCreated](#)
+- [ ] [Giveaway](#)
+- [ ] [GiveawayWinners](#)
+- [ ] [GiveawayCompleted](#)
+- [ ] [LinkPreviewOptions](#)
+- [ ] [UserProfilePhotos](#)
+- [ ] [File](#)
+- [X] [WebAppInfo](#)
+- [X] [ReplyKeyboardMarkup](#)
+- [X] [KeyboardButton](#)
+- [ ] [KeyboardButtonRequestUsers](#)
+- [X] [KeyboardButtonRequestChat](#)
+- [ ] [KeyboardButtonPollType](#)
+- [X] [ReplyKeyboardRemove](#)
+- [X] [InlineKeyboardMarkup](#)
+- [X] [InlineKeyboardButton](#)
+- [ ] [LoginUrl](#)
+- [ ] [SwitchInlineQueryChosenChat](#)
+- [X] [CallbackQuery](#)
+- [X] [ForceReply](#)
+- [ ] [ChatPhoto](#)
+- [ ] [ChatInviteLink](#)
+- [ ] [ChatAdministratorRights](#)
+- [X] [ChatMemberUpdated](#)
+- [X] [ChatMember](#) : ChatMemberOwner | ChatMemberAdministrator | ChatMemberMember | ChatMemberRestricted | ChatMemberLeft | ChatMemberBanned
+- [ ] [ChatMemberOwner](#)
+- [ ] [ChatMemberAdministrator](#)
+- [ ] [ChatMemberMember](#)
+- [ ] [ChatMemberRestricted](#)
+- [ ] [ChatMemberLeft](#)
+- [ ] [ChatMemberBanned](#)
+- [X] [ChatJoinRequest](#)
+- [ ] [ChatPermissions](#)
+- [ ] [Birthdate](#)
+- [ ] [BusinessIntro](#)
+- [ ] [BusinessLocation](#)
+- [ ] [BusinessOpeningHoursInterval](#)
+- [ ] [BusinessOpeningHours](#)
+- [ ] [ChatLocation](#)
+- [X] [ReactionType](#) : ReactionTypeEmoji | ReactionTypeCustomEmoji | ReactionTypePaid
+- [ ] [ReactionTypeEmoji](#)
+- [ ] [ReactionTypeCustomEmoji](#)
+- [ ] [ReactionTypePaid](#)
+- [ ] [ReactionCount](#)
+- [ ] [MessageReactionUpdated](#)
+- [ ] [MessageReactionCountUpdated](#)
+- [ ] [ForumTopic](#)
+- [X] [BotCommand](#)
+- [X] [BotCommandScope](#) : BotCommandScopeDefault | BotCommandScopeAllPrivateChats | BotCommandScopeAllGroupChats | BotCommandScopeAllChatAdministrators | BotCommandScopeChat | BotCommandScopeChatAdministrators | BotCommandScopeChatMember
+- [X] [BotCommandScopeDefault](#)
+- [X] [BotCommandScopeAllPrivateChats](#)
+- [X] [BotCommandScopeAllGroupChats](#)
+- [X] [BotCommandScopeAllChatAdministrators](#)
+- [X] [BotCommandScopeChat](#)
+- [X] [BotCommandScopeChatAdministrators](#)
+- [X] [BotCommandScopeChatMember](#)
+- [X] [BotName](#)
+- [X] [BotDescription](#)
+- [ ] [BotShortDescription](#)
+- [X] [MenuButton](#) : MenuButtonCommands | MenuButtonWebApp | MenuButtonDefault
+- [ ] [MenuButtonCommands](#)
+- [ ] [MenuButtonWebApp](#)
+- [ ] [MenuButtonDefault](#)
+- [X] [ChatBoostSource](#) : ChatBoostSourcePremium | ChatBoostSourceGiftCode | ChatBoostSourceGiveaway
+- [ ] [ChatBoostSourcePremium](#)
+- [ ] [ChatBoostSourceGiftCode](#)
+- [ ] [ChatBoostSourceGiveaway](#)
+- [ ] [ChatBoost](#)
+- [ ] [ChatBoostUpdated](#)
+- [ ] [ChatBoostRemoved](#)
+- [ ] [UserChatBoosts](#)
+- [X] [BusinessConnection](#)
+- [X] [BusinessMessagesDeleted](#)
+- [ ] [ResponseParameters](#)
+- [X] [InputMedia](#) : InputMediaAnimation | InputMediaDocument | InputMediaAudio | InputMediaPhoto | InputMediaVideo
+- [ ] [InputMediaPhoto](#)
+- [ ] [InputMediaVideo](#)
+- [ ] [InputMediaAnimation](#)
+- [ ] [InputMediaAudio](#)
+- [ ] [InputMediaDocument](#)
+- [ ] [InputFile](#)
+- [X] [InputPaidMedia](#) : InputPaidMediaPhoto | InputPaidMediaVideo
+- [ ] [InputPaidMediaPhoto](#)
+- [ ] [InputPaidMediaVideo](#)
+---
+Available methods:
+- [ ] ...
+- [X] [sendMessage()](#)
+- [ ] ...
+- [X] [copyMessage()](#)
+- [ ] ...
+---
+Updating messages:
+- [ ] ...
+---
+Stickers:
+- [ ] ...
+---
+Inline mode:
+- [X] [InlineQuery](#)
+- [ ] ...
+- [X] [InlineQueryResultsButton](#)
+- [ ] ...
+- [X] [ChosenInlineResult](#)
+- [ ] ...
+---
+Payments:
+- [ ] ...
+- [X] [ShippingQuery](#)
+- [X] [PreCheckoutQuery](#)
+- [X] [PaidMediaPurchased](#)
+- [ ] ...
+---
+Telegram Passport:
+- [ ] ...
+---
+Games:
+- [ ] ...
