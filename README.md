@@ -1,6 +1,45 @@
 # Litegram [Work in Progress]
 
-[Bot API v7.10 (September 6, 2024)](https://core.telegram.org/bots/api) ([Snapshot Link](https://web.archive.org/web/20241009125109/https://core.telegram.org/bots/api))
+Lightweight PHP wrapper library for Telegram Bot API
+
+Bot API version: [v7.10 (September 6, 2024)](https://core.telegram.org/bots/api#september-6-2024) ([Snapshot Link](https://web.archive.org/web/20241009125109/https://core.telegram.org/bots/api))
+
+* Minimal, Doesn't get in your way
+* Employs identical names for methods and classes as those found in the official API
+* Uses Guzzle as the HTTP client
+* Provides type hints for IDE autocompletion
+* TODO: Async / Concurrent requests
+
+```php
+require_once './vendor/autoload.php';
+
+use Litegram\TelegramMethods;
+use Litegram\SendMessageParams;
+
+try {
+    $token = '0123456789:...';
+    $some_chat_id = '-100...';
+
+    // TODO: Add examples for getUpdates and getMe after the methods are implemented.
+
+    // Options for [Guzzle](https://docs.guzzlephp.org/en/stable/request-options.html)
+    $options = [
+        'timeout' => 5.0,
+        // 'proxy' => 'http://localhost:8118',
+    ];
+
+    // If the request doesn't fail, an object of type Litegram\Message will be returned
+    $res = TelegramMethods::sendMessage(
+        token: $token,
+        params: new SendMessageParams(chat_id: $some_chat_id, text: 'Test'),
+        options: $options,
+    );
+
+    var_dump('Result:', $res);
+} catch (\Throwable $th) {
+    var_dump('Exception:', $th);
+}
+```
 
 ## Implemented classes and methods:
 
