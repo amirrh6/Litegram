@@ -9,7 +9,6 @@ Bot API version: [v7.10 (September 6, 2024)](https://core.telegram.org/bots/api#
 * Uses Guzzle as the HTTP client
 * Provides type hints for IDE autocompletion
 * TODO: Async / Concurrent requests
-* TODO: Use [Constructor Property Promotion for every method-type class](https://www.php.net/manual/en/language.oop5.decon.php#language.oop5.decon.constructor.promotion)
 * TODO: Implement file uploads (Class: InputFile)
 
 ```php
