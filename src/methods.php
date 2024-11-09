@@ -11,6 +11,174 @@ class TelegramMethods
     static string $telegramApiUrl = 'https://api.telegram.org/bot';
 
     /**
+     * Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
+     * @return Update[]
+     */
+    static function getUpdates(
+        string $token,
+        GetUpdatesParams $params,
+        $options = [],
+    ): array {
+        $client = new Client(['base_uri' => '', ...$options]);
+
+        $response = $client->post(
+            static::$telegramApiUrl . $token . '/getUpdates',
+            [
+                'json' => $params,
+            ],
+        );
+
+        $body = (string) $response->getBody();
+        $body_decoded = json_decode($body);
+
+        if (!is_object($body_decoded)) {
+            throw new Exception('Could not decode the response!');
+        }
+
+        $updates = [];
+
+        foreach ($body_decoded->result as $update) {
+            $updates[] = new Update($update);
+        }
+
+        return $updates;
+    }
+
+    /**
+     * Use this method to specify a URL and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified URL, containing a JSON-serialized Update. In case of an unsuccessful request, we will give up after a reasonable amount of attempts. Returns True on success.
+     * If you'd like to make sure that the webhook was set by you, you can specify secret data in the parameter secret_token. If specified, the request will contain a header “X-Telegram-Bot-Api-Secret-Token” with the secret token as content.
+     */
+    static function setWebhook(
+        string $token,
+        SetWebhookParams $params,
+        $options = [],
+    ): true {
+        $client = new Client(['base_uri' => '', ...$options]);
+
+        $response = $client->post(
+            static::$telegramApiUrl . $token . '/setWebhook',
+            [
+                'json' => $params,
+            ],
+        );
+
+        $body = (string) $response->getBody();
+        $body_decoded = json_decode($body);
+
+        if (!is_object($body_decoded)) {
+            throw new Exception('Could not decode the response!');
+        }
+
+        return true;
+    }
+
+    /**
+ * Use this method to remove webhook integration if you decide to switch back to getUpdates. Returns True on success.
+     */
+    static function deleteWebhook(
+        string $token,
+        DeleteWebhookParams $params,
+        $options = [],
+    ): true {
+        $client = new Client(['base_uri' => '', ...$options]);
+
+        $response = $client->post(
+            static::$telegramApiUrl . $token . '/deleteWebhook',
+            [
+                'json' => $params,
+            ],
+        );
+
+        $body = (string) $response->getBody();
+        $body_decoded = json_decode($body);
+
+        if (!is_object($body_decoded)) {
+            throw new Exception('Could not decode the response!');
+        }
+
+        return true;
+    }
+
+    /**
+     * Use this method to get current webhook status. Requires no parameters. On success, returns a WebhookInfo object. If the bot is using getUpdates, will return an object with the url field empty.
+     */
+    static function getWebhookInfo(string $token, $options = []): WebhookInfo
+    {
+        $client = new Client(['base_uri' => '', ...$options]);
+
+        $response = $client->post(
+            static::$telegramApiUrl . $token . '/getWebhookInfo',
+        );
+
+        $body = (string) $response->getBody();
+        $body_decoded = json_decode($body);
+
+        if (!is_object($body_decoded)) {
+            throw new Exception('Could not decode the response!');
+        }
+
+        return new WebhookInfo($body_decoded->result);
+    }
+
+    /**
+     * A simple method for testing your bot's authentication token. Requires no parameters. Returns basic information about the bot in form of a User object.
+     */
+    static function getMe(string $token, $options = []): User
+    {
+        $client = new Client(['base_uri' => '', ...$options]);
+
+        $response = $client->post(static::$telegramApiUrl . $token . '/getMe');
+
+        $body = (string) $response->getBody();
+        $body_decoded = json_decode($body);
+
+        if (!is_object($body_decoded)) {
+            throw new Exception('Could not decode the response!');
+        }
+
+        return new User($body_decoded->result);
+    }
+
+    /**
+     * Use this method to log out from the cloud Bot API server before launching the bot locally. You must log out the bot before running it locally, otherwise there is no guarantee that the bot will receive updates. After a successful call, you can immediately log in on a local server, but will not be able to log in back to the cloud Bot API server for 10 minutes. Returns True on success. Requires no parameters.
+     */
+    static function logOut(string $token, $options = []): true
+    {
+        $client = new Client(['base_uri' => '', ...$options]);
+
+        $response = $client->post(static::$telegramApiUrl . $token . '/logOut');
+
+        $body = (string) $response->getBody();
+        $body_decoded = json_decode($body);
+
+        if (!is_object($body_decoded)) {
+            throw new Exception('Could not decode the response!');
+        }
+
+        return true;
+    }
+
+    /**
+     * Use this method to close the bot instance before moving it from one local server to another. You need to delete the webhook before calling this method to ensure that the bot isn't launched again after server restart. The method will return error 429 in the first 10 minutes after the bot is launched. Returns True on success. Requires no parameters.
+
+     */
+    static function close(string $token, $options = []): true
+    {
+        $client = new Client(['base_uri' => '', ...$options]);
+
+        $response = $client->post(static::$telegramApiUrl . $token . '/close');
+
+        $body = (string) $response->getBody();
+        $body_decoded = json_decode($body);
+
+        if (!is_object($body_decoded)) {
+            throw new Exception('Could not decode the response!');
+        }
+
+        return true;
+    }
+
+    /**
      * Use this method to copy messages of any kind. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
      * @throws ClientException
      */

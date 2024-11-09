@@ -5,10 +5,12 @@ Lightweight PHP wrapper library for Telegram Bot API
 Bot API version: [v7.10 (September 6, 2024)](https://core.telegram.org/bots/api#september-6-2024) ([Snapshot Link](https://web.archive.org/web/20241009125109/https://core.telegram.org/bots/api))
 
 * Minimal, Doesn't get in your way
-* Employs identical names for methods and classes as those found in the official API
+* Fully documented, Employs identical names for methods and classes as those found in the official API
 * Uses Guzzle as the HTTP client
 * Provides type hints for IDE autocompletion
 * TODO: Async / Concurrent requests
+* TODO: Use [Constructor Property Promotion for every method-type class](https://www.php.net/manual/en/language.oop5.decon.php#language.oop5.decon.constructor.promotion)
+* TODO: Implement file uploads (Class: InputFile)
 
 ```php
 require_once './vendor/autoload.php';
@@ -45,11 +47,11 @@ try {
 
 Getting updates:
 - [X] [Update](https://core.telegram.org/bots/api#Update)
-- [ ] [getUpdates()](#)
-- [ ] [setWebhook()](#)
-- [ ] [deleteWebhook()](#)
-- [ ] [getWebhookInfo()](#)
-- [ ] [WebhookInfo](#)
+- [X] [getUpdates()](#)
+- [X] [setWebhook()](#)
+- [X] [deleteWebhook()](#)
+- [X] [getWebhookInfo()](#)
+- [X] [WebhookInfo](#)
 ---
 Available types:
 - [X] [User](#)
@@ -203,9 +205,11 @@ Available types:
 - [ ] [InputPaidMediaVideo](#)
 ---
 Available methods:
-- [ ] ...
+- [X] [getMe()](#)
+- [X] [logOut()](#)
+- [X] [close()](#)
 - [X] [sendMessage()](#)
-- [ ] ...
+- [ ] [forwardMessage()](#)
 - [X] [copyMessage()](#)
 - [ ] ...
 ---
@@ -217,11 +221,15 @@ Stickers:
 ---
 Inline mode:
 - [X] [InlineQuery](#)
-- [ ] ...
+- [ ] [answerInlineQuery](#)
 - [X] [InlineQueryResultsButton](#)
+- [X] [InlineQueryResult](#) : InlineQueryResultCachedAudio | InlineQueryResultCachedDocument | InlineQueryResultCachedGif | InlineQueryResultCachedMpeg4Gif | InlineQueryResultCachedPhoto | InlineQueryResultCachedSticker | InlineQueryResultCachedVideo | InlineQueryResultCachedVoice | InlineQueryResultArticle | InlineQueryResultAudio | InlineQueryResultContact | InlineQueryResultGame | InlineQueryResultDocument | InlineQueryResultGif | InlineQueryResultLocation | InlineQueryResultMpeg4Gif | InlineQueryResultPhoto | InlineQueryResultVenue | InlineQueryResultVideo | InlineQueryResultVoice
+- [ ] ...
+- [X] [InputMessageContent](#) : InputTextMessageContent | InputLocationMessageContent | InputVenueMessageContent | InputContactMessageContent | InputInvoiceMessageContent
 - [ ] ...
 - [X] [ChosenInlineResult](#)
-- [ ] ...
+- [ ] [answerWebAppQuery()](#)
+- [ ] [SentWebAppMessage](#)
 ---
 Payments:
 - [ ] ...

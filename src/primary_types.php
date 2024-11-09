@@ -3,7 +3,6 @@
 namespace Litegram;
 
 define('LITEGRAM_BOT_API_VERSION', '7.10');
-define('LITEGRAM_VERSION', '0.7.0');
 
 // TODO: Use constructor property promotion (https://www.php.net/manual/en/language.oop5.decon.php#language.oop5.decon.constructor.promotion)
 // TODO: Consider the need for setting up arrays in the constructors
@@ -2564,6 +2563,13 @@ class BusinessMessagesDeleted
             $this->chat = new Chat($init_data->chat);
         }
     }
+}
+
+/**
+ * This object represents the contents of a file to be uploaded. Must be posted using multipart/form-data in the usual way that files are uploaded via the browser.
+ */
+class InputFile
+{
 }
 
 // -------------------------------------------------------------------
