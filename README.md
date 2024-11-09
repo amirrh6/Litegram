@@ -60,12 +60,12 @@ Available types:
 - [X] [Message](#)
 - [ ] [MessageId](#)
 - [ ] [InaccessibleMessage](#)
-- [X] [MaybeInaccessibleMessage](#) : InaccessibleMessage | Message
+- [MaybeInaccessibleMessage](#) : [InaccessibleMessage](#) | [Message](#)
 - [ ] [MessageEntity](#)
 - [ ] [TextQuote](#)
 - [ ] [ExternalReplyInfo](#)
 - [X] [ReplyParameters](#)
-- [X] [MessageOrigin](#) : MessageOriginUser | MessageOriginHiddenUser | MessageOriginChat | MessageOriginChannel
+- [MessageOrigin](#) : [MessageOriginUser](#) | [MessageOriginHiddenUser](#) | [MessageOriginChat](#) | [MessageOriginChannel](#)
 - [ ] [MessageOriginUser](#)
 - [ ] [MessageOriginHiddenUser](#)
 - [ ] [MessageOriginChat](#)
@@ -79,7 +79,7 @@ Available types:
 - [ ] [VideoNote](#)
 - [ ] [Voice](#)
 - [ ] [PaidMediaInfo](#)
-- [X] [PaidMedia](#) : PaidMediaPreview | PaidMediaPhoto | PaidMediaVideo
+- [PaidMedia](#) : [PaidMediaPreview](#) | [PaidMediaPhoto](#) | [PaidMediaVideo](#)
 - [ ] [PaidMediaPreview](#)
 - [ ] [PaidMediaPhoto](#)
 - [ ] [PaidMediaVideo](#)
@@ -143,7 +143,7 @@ Available types:
 - [ ] [ChatInviteLink](#)
 - [ ] [ChatAdministratorRights](#)
 - [X] [ChatMemberUpdated](#)
-- [X] [ChatMember](#) : ChatMemberOwner | ChatMemberAdministrator | ChatMemberMember | ChatMemberRestricted | ChatMemberLeft | ChatMemberBanned
+- [ChatMember](#) : [ChatMemberOwner](#) | [ChatMemberAdministrator](#) | [ChatMemberMember](#) | [ChatMemberRestricted](#) | [ChatMemberLeft](#) | [ChatMemberBanned](#)
 - [ ] [ChatMemberOwner](#)
 - [ ] [ChatMemberAdministrator](#)
 - [ ] [ChatMemberMember](#)
@@ -158,7 +158,7 @@ Available types:
 - [ ] [BusinessOpeningHoursInterval](#)
 - [ ] [BusinessOpeningHours](#)
 - [ ] [ChatLocation](#)
-- [X] [ReactionType](#) : ReactionTypeEmoji | ReactionTypeCustomEmoji | ReactionTypePaid
+- [ReactionType](#) : [ReactionTypeEmoji](#) | [ReactionTypeCustomEmoji](#) | [ReactionTypePaid](#)
 - [ ] [ReactionTypeEmoji](#)
 - [ ] [ReactionTypeCustomEmoji](#)
 - [ ] [ReactionTypePaid](#)
@@ -167,7 +167,7 @@ Available types:
 - [ ] [MessageReactionCountUpdated](#)
 - [ ] [ForumTopic](#)
 - [X] [BotCommand](#)
-- [X] [BotCommandScope](#) : BotCommandScopeDefault | BotCommandScopeAllPrivateChats | BotCommandScopeAllGroupChats | BotCommandScopeAllChatAdministrators | BotCommandScopeChat | BotCommandScopeChatAdministrators | BotCommandScopeChatMember
+- [BotCommandScope](#) : [BotCommandScopeDefault](#) | [BotCommandScopeAllPrivateChats](#) | [BotCommandScopeAllGroupChats](#) | [BotCommandScopeAllChatAdministrators](#) | [BotCommandScopeChat](#) | [BotCommandScopeChatAdministrators](#) | [BotCommandScopeChatMember](#)
 - [X] [BotCommandScopeDefault](#)
 - [X] [BotCommandScopeAllPrivateChats](#)
 - [X] [BotCommandScopeAllGroupChats](#)
@@ -178,11 +178,11 @@ Available types:
 - [X] [BotName](#)
 - [X] [BotDescription](#)
 - [ ] [BotShortDescription](#)
-- [X] [MenuButton](#) : MenuButtonCommands | MenuButtonWebApp | MenuButtonDefault
+- [MenuButton](#) : [MenuButtonCommands](#) | [MenuButtonWebApp](#) | [MenuButtonDefault](#)
 - [ ] [MenuButtonCommands](#)
 - [ ] [MenuButtonWebApp](#)
 - [ ] [MenuButtonDefault](#)
-- [X] [ChatBoostSource](#) : ChatBoostSourcePremium | ChatBoostSourceGiftCode | ChatBoostSourceGiveaway
+- [ChatBoostSource](#) : [ChatBoostSourcePremium](#) | [ChatBoostSourceGiftCode](#) | [ChatBoostSourceGiveaway](#)
 - [ ] [ChatBoostSourcePremium](#)
 - [ ] [ChatBoostSourceGiftCode](#)
 - [ ] [ChatBoostSourceGiveaway](#)
@@ -193,14 +193,14 @@ Available types:
 - [X] [BusinessConnection](#)
 - [X] [BusinessMessagesDeleted](#)
 - [ ] [ResponseParameters](#)
-- [X] [InputMedia](#) : InputMediaAnimation | InputMediaDocument | InputMediaAudio | InputMediaPhoto | InputMediaVideo
+- [InputMedia](#) : [InputMediaAnimation](#) | [InputMediaDocument](#) | [InputMediaAudio](#) | [InputMediaPhoto](#) | [InputMediaVideo](#)
 - [ ] [InputMediaPhoto](#)
 - [ ] [InputMediaVideo](#)
 - [ ] [InputMediaAnimation](#)
 - [ ] [InputMediaAudio](#)
 - [ ] [InputMediaDocument](#)
 - [ ] [InputFile](#)
-- [X] [InputPaidMedia](#) : InputPaidMediaPhoto | InputPaidMediaVideo
+- [InputPaidMedia](#) : [InputPaidMediaPhoto](#) | [InputPaidMediaVideo](#)
 - [ ] [InputPaidMediaPhoto](#)
 - [ ] [InputPaidMediaVideo](#)
 ---
@@ -223,7 +223,7 @@ Inline mode:
 - [X] [InlineQuery](#)
 - [ ] [answerInlineQuery](#)
 - [X] [InlineQueryResultsButton](#)
-- [X] [InlineQueryResult](#) : InlineQueryResultCachedAudio | InlineQueryResultCachedDocument | InlineQueryResultCachedGif | InlineQueryResultCachedMpeg4Gif | InlineQueryResultCachedPhoto | InlineQueryResultCachedSticker | InlineQueryResultCachedVideo | InlineQueryResultCachedVoice | InlineQueryResultArticle | InlineQueryResultAudio | InlineQueryResultContact | InlineQueryResultGame | InlineQueryResultDocument | InlineQueryResultGif | InlineQueryResultLocation | InlineQueryResultMpeg4Gif | InlineQueryResultPhoto | InlineQueryResultVenue | InlineQueryResultVideo | InlineQueryResultVoice
+- [InlineQueryResult](#) : [InlineQueryResultCachedAudio](#) | [InlineQueryResultCachedDocument](#) | [InlineQueryResultCachedGif](#) | [InlineQueryResultCachedMpeg4Gif](#) | [InlineQueryResultCachedPhoto](#) | [InlineQueryResultCachedSticker](#) | [InlineQueryResultCachedVideo](#) | [InlineQueryResultCachedVoice](#) | [InlineQueryResultArticle](#) | [InlineQueryResultAudio](#) | [InlineQueryResultContact](#) | [InlineQueryResultGame](#) | [InlineQueryResultDocument](#) | [InlineQueryResultGif](#) | [InlineQueryResultLocation](#) | [InlineQueryResultMpeg4Gif](#) | [InlineQueryResultPhoto](#) | [InlineQueryResultVenue](#) | [InlineQueryResultVideo](#) | [InlineQueryResultVoice](#)
 - [ ] [InlineQueryResultArticle](#)
 - [ ] [InlineQueryResultPhoto](#)
 - [ ] [InlineQueryResultGif](#)
@@ -244,7 +244,7 @@ Inline mode:
 - [ ] [InlineQueryResultCachedVideo](#)
 - [ ] [InlineQueryResultCachedVoice](#)
 - [ ] [InlineQueryResultCachedAudio](#)
-- [X] [InputMessageContent](#) : InputTextMessageContent | InputLocationMessageContent | InputVenueMessageContent | InputContactMessageContent | InputInvoiceMessageContent
+- [InputMessageContent](#) : [InputTextMessageContent](#) | [InputLocationMessageContent](#) | [InputVenueMessageContent](#) | [InputContactMessageContent](#) | [InputInvoiceMessageContent](#)
 - [ ] [InputTextMessageContent](#)
 - [ ] [InputLocationMessageContent](#)
 - [ ] [InputVenueMessageContent](#)
