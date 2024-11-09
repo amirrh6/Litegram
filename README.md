@@ -2,7 +2,7 @@
 
 Lightweight PHP wrapper library for Telegram Bot API
 
-Bot API version: [v7.10 (September 6, 2024)](https://core.telegram.org/bots/api#september-6-2024) ([Snapshot Link](https://web.archive.org/web/20241009125109/https://core.telegram.org/bots/api))
+Bot API version: [v7.10 (September 6, 2024)](https://core.telegram.org/bots/api#september-6-2024) <a href="https://web.archive.org/web/20241009125109/https://core.telegram.org/bots/api" target="_blank">(Snapshot Link)</a>
 
 * Minimal, Doesn't get in your way
 * Fully documented, Employs identical names for methods and classes as those found in the official API
