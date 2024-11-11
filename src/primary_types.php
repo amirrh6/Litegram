@@ -2570,6 +2570,14 @@ class BusinessMessagesDeleted
  */
 class InputFile
 {
+    // TODO: Check if file exists and is less than 10 MBs (for photos) / 50 MBs (for documents)
+
+    /**
+     * @param string $_path Path to the file
+     */
+    public function __construct(public string $_path)
+    {
+    }
 }
 
 // -------------------------------------------------------------------

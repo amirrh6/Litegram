@@ -182,3 +182,53 @@ class CopyMessageParams implements \JsonSerializable
         return $obj;
     }
 }
+
+class SendPhotoParams implements \JsonSerializable
+{
+    /**
+     * @param string|int $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param string|InputFile $photo Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a photo from the Internet, or upload a new photo using multipart/form-data. The photo must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total. Width and height ratio must be at most 20. More information on Sending Files »
+     * @param ?string $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
+     * @param ?int $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param ?string $caption Photo caption (may also be used when resending photos by file_id), 0-1024 characters after entities parsing
+     * @param ?string $parse_mode Mode for parsing entities in the photo caption. See formatting options for more details.
+     * @param ?array<MessageEntity> $caption_entities A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
+     * @param ?bool $show_caption_above_media Pass True, if the caption must be shown above the message media
+     * @param ?bool $has_spoiler Pass True if the photo needs to be covered with a spoiler animation
+     * @param ?bool $disable_notifications Sends the message silently. Users will receive a notification with no sound.
+     * @param ?bool $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param ?string $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
+     * @param ?ReplyParameters $reply_parameters Description of the message to reply to
+     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     */
+    public function __construct(
+        public string|int $chat_id,
+        public string|InputFile $photo,
+        public ?string $business_connection_id = null,
+        public ?int $message_thread_id = null,
+        public ?string $caption = null,
+        public ?string $parse_mode = null,
+        public ?array $caption_entities = null,
+        public ?bool $show_caption_above_media = null,
+        public ?bool $has_spoiler = null,
+        public ?bool $disable_notifications = null,
+        public ?bool $protect_content = null,
+        public ?string $message_effect_id = null,
+        public ?ReplyParameters $reply_parameters = null,
+        public InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup = null,
+    ) {
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        $obj = (object) [];
+
+        foreach (get_object_vars($this) as $key => $value) {
+            if (!is_null($value)) {
+                $obj->$key = $value;
+            }
+        }
+
+        return $obj;
+    }
+}

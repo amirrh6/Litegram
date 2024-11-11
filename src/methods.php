@@ -10,6 +10,45 @@ class TelegramMethods
 {
     static string $telegramApiUrl = 'https://api.telegram.org/bot';
 
+    private static function jsonEncodeNonPrimaryFields(object $params)
+    {
+        $result = [];
+
+        foreach (get_object_vars($params) as $property => $value) {
+            if ($value === null) {
+                continue;
+            }
+
+            if ($value instanceof InputFile) {
+                $result[] = [
+                    'name' => $property,
+                    'contents' => fopen($value->_path, 'r'),
+                ];
+            } else {
+                if (
+                    !(
+                        is_string($value) ||
+                        is_numeric($value) ||
+                        is_bool($value)
+                    )
+                ) {
+                    $value = json_encode($value);
+                } else {
+                    if (is_bool($value)) {
+                        $value = $value === true ? 'True' : 'False';
+                    }
+                }
+
+                $result[] = [
+                    'name' => $property,
+                    'contents' => $value,
+                ];
+            }
+        }
+
+        return $result;
+    }
+
     /**
      * Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
      * @return Update[]
@@ -73,7 +112,7 @@ class TelegramMethods
     }
 
     /**
- * Use this method to remove webhook integration if you decide to switch back to getUpdates. Returns True on success.
+     * Use this method to remove webhook integration if you decide to switch back to getUpdates. Returns True on success.
      */
     static function deleteWebhook(
         string $token,
@@ -223,6 +262,47 @@ class TelegramMethods
                 'json' => $params,
             ],
         );
+
+        $body = (string) $response->getBody();
+        $body_decoded = json_decode($body);
+
+        if (!is_object($body_decoded)) {
+            throw new Exception('Could not decode the response!');
+        }
+
+        return new Message($body_decoded->result);
+    }
+
+    /**
+     * Use this method to send photos. On success, the sent Message is returned.
+     * @throws ClientException
+     */
+    static function sendPhoto(
+        string $token,
+        SendPhotoParams $params,
+        $options = [],
+    ): Message {
+        $client = new Client(['base_uri' => '', ...$options]);
+
+        if ($params->photo instanceof InputFile) {
+            $multipart = [
+                ...TelegramMethods::jsonEncodeNonPrimaryFields($params),
+            ];
+
+            $response = $client->post(
+                static::$telegramApiUrl . $token . '/sendPhoto',
+                [
+                    'multipart' => $multipart,
+                ],
+            );
+        } else {
+            $response = $client->post(
+                static::$telegramApiUrl . $token . '/sendPhoto',
+                [
+                    'json' => $params,
+                ],
+            );
+        }
 
         $body = (string) $response->getBody();
         $body_decoded = json_decode($body);
