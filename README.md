@@ -90,6 +90,8 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 
 ## Implemented classes and methods:
 
+\* Make sure you view this section on [Github](https://github.com/amirrh6/Litegram?tab=readme-ov-file#implemented-classes-and-methods) rather than Packagist as it doesn't display checkmarks correctly.
+
 Getting updates:
 - [X] [Update](https://core.telegram.org/bots/api#update)
 - [X] [getUpdates](https://core.telegram.org/bots/api#getupdates)
