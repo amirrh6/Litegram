@@ -81,7 +81,8 @@ try {
 
 ## History
 
-TODO
+Over a year ago, during my free time between university classes, I started working on another Telegram bot.
+I wanted to challenge myself by creating my own wrapper library for it. Although the bot project was eventually abandoned, I decided to revive the wrapper library, and here we are today.
 
 ## License:
 
