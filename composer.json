@@ -2,6 +2,7 @@
     "name": "amirrh6/litegram",
     "description": "Lightweight PHP wrapper library for Telegram Bot API",
     "type": "library",
+    "license": "GPL-2.0-only",
     "require": {
         "guzzlehttp/guzzle": "^7.0"
     },
