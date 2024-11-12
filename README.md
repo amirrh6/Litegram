@@ -99,7 +99,9 @@ Getting updates:
 - [X] [deleteWebhook](https://core.telegram.org/bots/api#deletewebhook)
 - [X] [getWebhookInfo](https://core.telegram.org/bots/api#getwebhookinfo)
 - [X] [WebhookInfo](https://core.telegram.org/bots/api#webhookinfo)
----
+
+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
 Available types:
 - [X] [User](https://core.telegram.org/bots/api#user)
 - [X] [Chat](https://core.telegram.org/bots/api#chat)
@@ -250,7 +252,9 @@ Available types:
 - [InputPaidMedia](https://core.telegram.org/bots/api#inputpaidmedia) : InputPaidMediaPhoto | InputPaidMediaVideo
 - [ ] [InputPaidMediaPhoto](https://core.telegram.org/bots/api#inputpaidmediaphoto)
 - [ ] [InputPaidMediaVideo](https://core.telegram.org/bots/api#inputpaidmediavideo)
----
+
+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
 Available methods:
 - [X] [getMe](https://core.telegram.org/bots/api#getme)
 - [X] [logOut](https://core.telegram.org/bots/api#logout)
@@ -264,13 +268,27 @@ Available methods:
 - [ ] ...
 - [X] [answerCallbackQuery](https://core.telegram.org/bots/api#answercallbackquery)
 - [ ] ...
----
+
+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
 Updating messages:
 - [X] [editMessageText](https://core.telegram.org/bots/api#editmessagetext)
----
+- [ ] [editMessageCaption](https://core.telegram.org/bots/api#editmessagecaption)
+- [ ] [editMessageMedia](https://core.telegram.org/bots/api#editmessagemedia)
+- [ ] [editMessageLiveLocation](https://core.telegram.org/bots/api#editmessagelivelocation)
+- [ ] [stopMessageLiveLocation](https://core.telegram.org/bots/api#stopmessagelivelocation)
+- [ ] [editMessageReplyMarkup](https://core.telegram.org/bots/api#editmessagereplymarkup)
+- [ ] [stopPoll](https://core.telegram.org/bots/api#stoppoll)
+- [ ] [deleteMessage](https://core.telegram.org/bots/api#deletemessage)
+- [ ] [deleteMessages](https://core.telegram.org/bots/api#deletemessages)
+
+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
 Stickers:
 - [ ] ...
----
+
+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
 Inline mode:
 - [X] [InlineQuery](https://core.telegram.org/bots/api#inlinequery)
 - [ ] [answerInlineQuery](https://core.telegram.org/bots/api#answerinlinequery)
@@ -305,16 +323,22 @@ Inline mode:
 - [X] [ChosenInlineResult](https://core.telegram.org/bots/api#choseninlineresult)
 - [ ] [answerWebAppQuery](https://core.telegram.org/bots/api#answerwebappquery)
 - [ ] [SentWebAppMessage](https://core.telegram.org/bots/api#sentwebappmessage)
----
+
+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
 Payments:
 - [ ] ...
 - [X] [ShippingQuery](https://core.telegram.org/bots/api#shippingquery)
 - [X] [PreCheckoutQuery](https://core.telegram.org/bots/api#precheckoutquery)
 - [X] [PaidMediaPurchased](https://core.telegram.org/bots/api#paidmediapurchased)
 - [ ] ...
----
+
+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
 Telegram Passport:
 - [ ] ...
----
+
+--- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+
 Games:
 - [ ] ...
