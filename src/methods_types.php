@@ -232,3 +232,75 @@ class SendPhotoParams implements \JsonSerializable
         return $obj;
     }
 }
+
+class EditMessageTextParams implements \JsonSerializable
+{
+    /**
+     * @param string $text New text of the message, 1-4096 characters after entities parsing
+     * @param ?string $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
+     * @param string|int|null $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param ?int $message_id Required if inline_message_id is not specified. Identifier of the message to edit
+     * @param ?int $inline_message_id Required if chat_id and message_id are not specified. Identifier of the inline message
+     * @param ?string $parse_mode Mode for parsing entities in the photo caption. See formatting options for more details.
+     * @param ?array<MessageEntity> $entities A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
+     * @param ?LinkPreviewOptions $link_preview_options Link preview generation options for the message
+     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup A JSON-serialized object for an inline keyboard.
+     */
+    public function __construct(
+        public string $text,
+        public ?string $business_connection_id = null,
+        public string|int|null $chat_id = null,
+        public ?int $message_id = null,
+        public ?int $inline_message_id = null,
+        public ?string $parse_mode = null,
+        public ?array $entities = null,
+        public ?LinkPreviewOptions $link_preview_options = null,
+        public InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup = null,
+    ) {
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        $obj = (object) [];
+
+        foreach (get_object_vars($this) as $key => $value) {
+            if (!is_null($value)) {
+                $obj->$key = $value;
+            }
+        }
+
+        return $obj;
+    }
+}
+
+class AnswerCallbackQueryParams implements \JsonSerializable
+{
+    /**
+     * @param string $callback_query_id Unique identifier for the query to be answered
+     * @param ?string $text Text of the notification. If not specified, nothing will be shown to the user, 0-200 characters
+     * @param ?bool $show_alert If True, an alert will be shown by the client instead of a notification at the top of the chat screen. Defaults to false.
+     * @param ?string $url URL that will be opened by the user's client. If you have created a Game and accepted the conditions via @BotFather, specify the URL that opens your game - note that this will only work if the query comes from a callback_game button. Otherwise, you may use links like t.me/your_bot?start=XXXX that open your bot with a parameter.
+     * @param ?int $cache_time The maximum amount of time in seconds that the result of the callback query may be cached client-side. Telegram apps will support caching starting in version 3.14. Defaults to 0.
+     */
+    public function __construct(
+        public string $callback_query_id,
+        public ?string $text = null,
+        public ?bool $show_alert = null,
+        public ?string $url = null,
+        public ?int $cache_time = null,
+    ) {
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        $obj = (object) [];
+
+        foreach (get_object_vars($this) as $key => $value) {
+            if (!is_null($value)) {
+                $obj->$key = $value;
+            }
+        }
+
+        return $obj;
+    }
+}
