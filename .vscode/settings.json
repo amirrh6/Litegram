@@ -1,5 +1,7 @@
 {
     "cSpell.words": [
+        "amirrh",
+        "autoload",
         "Birthdate",
         "channelusername",
         "CURLOPT",
@@ -11,6 +13,7 @@
         "supergroup",
         "supergroups",
         "supergroupusername",
+        "symfony",
         "unban",
         "unpriviledged",
         "unrestrict"

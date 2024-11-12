@@ -1,4 +1,4 @@
-# Litegram [Work in Progress]
+# Litegram
 
 Lightweight PHP wrapper library for Telegram Bot API
 
@@ -9,6 +9,16 @@ Bot API version: [v7.10 (September 6, 2024)](https://core.telegram.org/bots/api#
 * Uses Guzzle as the HTTP client
 * Provides type hints for IDE autocompletion
 * TODO: Async / Concurrent requests
+
+Litegram is still in early development stages so expect bugs and non-backward compatible changes.
+
+Use Github Issues for comments, bug reports and questions.
+
+## Installation
+
+`composer require amirrh6/litegram`
+
+## Usage
 
 ```php
 require_once './vendor/autoload.php';
@@ -68,6 +78,14 @@ try {
     dump('Exception:', $th);
 }
 ```
+
+## History
+
+TODO
+
+## License:
+
+[GPL 2.0 only](https://spdx.org/licenses/GPL-2.0-only.html)
 
 ## Implemented classes and methods:
 
