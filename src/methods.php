@@ -5,6 +5,8 @@ namespace Litegram;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Promise\PromiseInterface;
+use GuzzleHttp\Promise\Utils;
 
 class TelegramMethods
 {
@@ -215,6 +217,35 @@ class TelegramMethods
         }
 
         return true;
+    }
+
+    /**
+     * Bulk version of copyMessage (Experimental)
+     * @param array<CopyMessageParams> $array_of_params
+     */
+    static function _bulkCopyMessage(
+        string $token,
+        array $array_of_params,
+        $options = [],
+    ): PromiseInterface {
+        $client = new Client(['base_uri' => '', ...$options]);
+
+        $promises = [];
+
+        foreach ($array_of_params as $copyMessageParamsObject) {
+            array_push(
+                $promises,
+                $client->requestAsync(
+                    'POST',
+                    static::$telegramApiUrl . $token . '/copyMessage',
+                    [
+                        'json' => $copyMessageParamsObject,
+                    ],
+                ),
+            );
+        }
+
+        return Utils::settle($promises);
     }
 
     /**

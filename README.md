@@ -2,13 +2,16 @@
 
 Lightweight PHP wrapper library for Telegram Bot API
 
-Bot API version: [v7.10 (September 6, 2024)](https://core.telegram.org/bots/api#september-6-2024) <a href="https://web.archive.org/web/20241009125109/https://core.telegram.org/bots/api" target="_blank">(Snapshot Link)</a>
+Bot API version: [v7.10 (September 6, 2024)](https://core.telegram.org/bots/api#september-6-2024) - [Snapshot Link](https://web.archive.org/web/20241009125109/https://core.telegram.org/bots/api)
 
 * Minimal, Doesn't get in your way
 * Fully documented, Employs identical names for methods and classes as those found in the official API
 * Uses Guzzle as the HTTP client
 * Provides type hints for IDE autocompletion
-* TODO: Async / Concurrent requests
+* TODO: Complete implementation of all methods and classes
+* TODO: Concurrent (bulk) requests: Has been experimentally implemented for some methods
+* TODO: Async requests
+* TODO: Provide helper utilities (e.g. For formatting messages using HTML or Markdown) and builtin checks (e.g. Making sure the message text's length does not exceed 4096 chars)
 
 Litegram is still in early development stages so expect bugs and non-backward compatible changes.
 
@@ -23,61 +26,26 @@ Use Github Issues for comments, bug reports and questions.
 ```php
 require_once './vendor/autoload.php';
 
-// Just in case you have not installed the awesome 'symfony/var-dumper' package for beautiful dump outputs:
-if (!function_exists('dump')) {
-    function dump(mixed ...$vars)
-    {
-        var_dump('dump:', ...$vars);
-    }
-}
-
 // --- --- --- --- --- --- ---
 
 $token = '0123456789:...';
-$some_chat_id = '-100...';
-
-// Options for Guzzle (https://docs.guzzlephp.org/en/stable/request-options.html)
-$options = [
-    'timeout' => 5.0,
-    // 'proxy' => 'http://localhost:8118',
-];
 
 // --- --- --- --- --- --- ---
 
-use Litegram\InputFile;
 use Litegram\TelegramMethods;
-use Litegram\SendMessageParams;
-use Litegram\SendPhotoParams;
 
 try {
     // If the request doesn't fail, an object of type Litegram\User will be returned
-    $res = TelegramMethods::getMe(token: $token, options: $options);
-    dump('Result:', $res);
-
-    // If the request doesn't fail, an object of type Litegram\Message will be returned
-    $res = TelegramMethods::sendMessage(
-        token: $token,
-        params: new SendMessageParams(chat_id: $some_chat_id, text: 'Test'),
-        options: $options,
-    );
-    dump('Result:', $res);
-
-    // If the request doesn't fail, an object of type Litegram\Message will be returned
-    $res = TelegramMethods::sendPhoto(
-        token: $token,
-        params: new SendPhotoParams(
-            chat_id: $some_chat_id,
-            photo: new InputFile('/home/amir/test.jpg'),
-            caption: 'Look at this beautiful landscape!',
-            show_caption_above_media: true,
-        ),
-        options: $options,
-    );
-    dump('Result:', $res);
+    $res = TelegramMethods::getMe(token: $token);
+    var_dump('Result:', $res);
 } catch (\Throwable $th) {
-    dump('Exception:', $th);
+    var_dump('Exception:', $th);
 }
 ```
+
+## Examples
+
+[This file](https://github.com/amirrh6/Litegram/blob/main/examples/example.php) provides usage example for some primary methods.
 
 ## History
 

@@ -1,4 +1,5 @@
 vendor
 node_modules
 _bulk_methods.php
-tests
+examples/test_data.php
+examples/_*.php
