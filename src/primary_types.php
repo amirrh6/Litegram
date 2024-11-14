@@ -1900,10 +1900,13 @@ class InlineKeyboardMarkup extends CustomJsonSerialization
         $this->inline_keyboard = $inline_keyboard;
     }
 
+    /**
+     * Serves as an overload of the constructor
+     */
     public static function __fromDecodedJson($init_data)
     {
         // @phpstan-ignore new.static
-        return new static((array) $init_data->reply_markup);
+        return new static((array) $init_data->reply_markup->inline_keyboard);
     }
 }
 
