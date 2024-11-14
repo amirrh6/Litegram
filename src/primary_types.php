@@ -5,13 +5,32 @@ namespace Litegram;
 // TODO: Use constructor property promotion (https://www.php.net/manual/en/language.oop5.decon.php#language.oop5.decon.constructor.promotion)
 // TODO: Consider the need for setting up arrays in the constructors
 
+/**
+ * This class provided a custom JSON serialization which does not include fields that evaluate to null
+ */
+class CustomJsonSerialization implements \JsonSerializable
+{
+    public function jsonSerialize(): mixed
+    {
+        $obj = (object) [];
+
+        foreach (get_object_vars($this) as $key => $value) {
+            if (!is_null($value)) {
+                $obj->$key = $value;
+            }
+        }
+
+        return $obj;
+    }
+}
+
 // -------------------------------------------------------------------
 
 /**
  * This object represents an incoming update.
  * At most one of the optional parameters can be present in any given update.
  */
-class Update implements \JsonSerializable
+class Update extends CustomJsonSerialization
 {
     /**
      * The update's unique identifier. Update identifiers start from a certain positive number and increase sequentially. This ID becomes especially handy if you're using webhooks, since it allows you to ignore repeated updates or to restore the correct update sequence, should they get out of order. If there are no new updates for at least a week, then identifier of the next update will be chosen randomly instead of sequentially.
@@ -267,19 +286,6 @@ class Update implements \JsonSerializable
             }
         }
     }
-
-    public function jsonSerialize(): mixed
-    {
-        $obj = (object) [];
-
-        foreach (get_object_vars($this) as $key => $value) {
-            if (!is_null($value)) {
-                $obj->$key = $value;
-            }
-        }
-
-        return $obj;
-    }
 }
 
 // -------------------------------------------------------------------
@@ -287,7 +293,7 @@ class Update implements \JsonSerializable
 /**
  * This object represents a Telegram user or bot.
  */
-class User
+class User extends CustomJsonSerialization
 {
     /**
      * Unique identifier for this user or bot. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier.
@@ -374,7 +380,10 @@ class User
     }
 }
 
-class Chat
+/**
+ * This object represents a chat.
+ */
+class Chat extends CustomJsonSerialization
 {
     /**
      * Unique identifier for this chat. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier.
@@ -425,7 +434,7 @@ class Chat
 /**
  * This object contains full information about a chat.
  */
-class ChatFullInfo
+class ChatFullInfo extends CustomJsonSerialization
 {
     /**
      * Unique identifier for this chat. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier.
@@ -710,7 +719,7 @@ class ChatFullInfo
  */
 // Needed because sometimes Telegram adds some properties in order to ensure backward compatibility
 #[\AllowDynamicProperties]
-class Message
+class Message extends CustomJsonSerialization
 {
     /**
      * Unique message identifier inside this chat
@@ -1414,7 +1423,7 @@ class Message
 /**
  * Describes reply parameters for the message that is being sent.
  */
-class ReplyParameters implements \JsonSerializable
+class ReplyParameters extends CustomJsonSerialization
 {
     /**
      * Identifier of the message that will be replied to in the current chat, or in the chat chat_id if it is specified
@@ -1474,25 +1483,12 @@ class ReplyParameters implements \JsonSerializable
         $this->quote_entities = $quote_entities;
         $this->quote_position = $quote_position;
     }
-
-    public function jsonSerialize(): mixed
-    {
-        $obj = (object) [];
-
-        foreach (get_object_vars($this) as $key => $value) {
-            if (!is_null($value)) {
-                $obj->$key = $value;
-            }
-        }
-
-        return $obj;
-    }
 }
 
 /**
  * This object represents an answer of a user in a non-anonymous poll.
  */
-class PollAnswer
+class PollAnswer extends CustomJsonSerialization
 {
     /**
      * Unique poll identifier
@@ -1537,7 +1533,7 @@ class PollAnswer
 /**
  * This object contains information about a poll.
  */
-class Poll
+class Poll extends CustomJsonSerialization
 {
     /**
      * Unique poll identifier
@@ -1626,7 +1622,7 @@ class Poll
 /**
  * This object contains information about a chat that was shared with the bot using a KeyboardButtonRequestChat button.
  */
-class ChatShared
+class ChatShared extends CustomJsonSerialization
 {
     /**
      * Identifier of the request
@@ -1668,7 +1664,7 @@ class ChatShared
 /**
  * Describes a Web App.
  */
-class WebAppInfo
+class WebAppInfo extends CustomJsonSerialization
 {
     /**
      * An HTTPS URL of a Web App to be opened with additional data as specified in Initializing Web Apps
@@ -1689,7 +1685,7 @@ class WebAppInfo
 /**
  * This object represents a custom keyboard with reply options (see Introduction to bots for details and examples). Not supported in channels and for messages sent on behalf of a Telegram Business account.
  */
-class ReplyKeyboardMarkup implements \JsonSerializable
+class ReplyKeyboardMarkup extends CustomJsonSerialization
 {
     /**
      * Array of button rows, each represented by an Array of KeyboardButton objects
@@ -1743,25 +1739,12 @@ class ReplyKeyboardMarkup implements \JsonSerializable
         $this->input_field_placeholder = $input_field_placeholder;
         $this->selective = $selective;
     }
-
-    public function jsonSerialize(): mixed
-    {
-        $obj = (object) [];
-
-        foreach (get_object_vars($this) as $key => $value) {
-            if (!is_null($value)) {
-                $obj->$key = $value;
-            }
-        }
-
-        return $obj;
-    }
 }
 
 /**
  * This object represents one button of the reply keyboard. At most one of the optional fields must be used to specify type of the button. For simple text buttons, String can be used instead of this object to specify the button text.
  */
-class KeyboardButton implements \JsonSerializable
+class KeyboardButton extends CustomJsonSerialization
 {
     /**
      * Text of the button. If none of the optional fields are used, it will be sent as a message when the button is pressed
@@ -1816,25 +1799,12 @@ class KeyboardButton implements \JsonSerializable
         $this->request_poll = $request_poll;
         $this->web_app = $web_app;
     }
-
-    public function jsonSerialize(): mixed
-    {
-        $obj = (object) [];
-
-        foreach (get_object_vars($this) as $key => $value) {
-            if (!is_null($value)) {
-                $obj->$key = $value;
-            }
-        }
-
-        return $obj;
-    }
 }
 
 /**
  * This object defines the criteria used to request a suitable chat. Information about the selected chat will be shared with the bot when the corresponding button is pressed. The bot will be granted requested rights in the chat if appropriate. More about requesting chats ».
  */
-class KeyboardButtonRequestChat implements \JsonSerializable
+class KeyboardButtonRequestChat extends CustomJsonSerialization
 {
     /**
      * Signed 32-bit identifier of the request, which will be received back in the ChatShared object. Must be unique within the message
@@ -1885,25 +1855,12 @@ class KeyboardButtonRequestChat implements \JsonSerializable
         $this->request_username = $request_username;
         $this->request_photo = $request_photo;
     }
-
-    public function jsonSerialize(): mixed
-    {
-        $obj = (object) [];
-
-        foreach (get_object_vars($this) as $key => $value) {
-            if (!is_null($value)) {
-                $obj->$key = $value;
-            }
-        }
-
-        return $obj;
-    }
 }
 
 /**
  * Upon receiving a message with this object, Telegram clients will remove the current custom keyboard and display the default letter-keyboard. By default, custom keyboards are displayed until a new keyboard is sent by a bot. An exception is made for one-time keyboards that are hidden immediately after the user presses a button (see ReplyKeyboardMarkup). Not supported in channels and for messages sent on behalf of a Telegram Business account.
  */
-class ReplyKeyboardRemove implements \JsonSerializable
+class ReplyKeyboardRemove extends CustomJsonSerialization
 {
     /**
      * Requests clients to remove the custom keyboard (user will not be able to summon this keyboard; if you want to hide the keyboard from sight but keep it accessible, use one_time_keyboard in ReplyKeyboardMarkup)
@@ -1922,25 +1879,12 @@ class ReplyKeyboardRemove implements \JsonSerializable
 
         $this->selective = $selective;
     }
-
-    public function jsonSerialize(): mixed
-    {
-        $obj = (object) [];
-
-        foreach (get_object_vars($this) as $key => $value) {
-            if (!is_null($value)) {
-                $obj->$key = $value;
-            }
-        }
-
-        return $obj;
-    }
 }
 
 /**
  * This object represents an inline keyboard that appears right next to the message it belongs to.
  */
-class InlineKeyboardMarkup implements \JsonSerializable
+class InlineKeyboardMarkup extends CustomJsonSerialization
 {
     /**
      * Array of button rows, each represented by an Array of InlineKeyboardButton objects
@@ -1961,25 +1905,12 @@ class InlineKeyboardMarkup implements \JsonSerializable
         // @phpstan-ignore new.static
         return new static((array) $init_data->reply_markup);
     }
-
-    public function jsonSerialize(): mixed
-    {
-        $obj = (object) [];
-
-        foreach (get_object_vars($this) as $key => $value) {
-            if (!is_null($value)) {
-                $obj->$key = $value;
-            }
-        }
-
-        return $obj;
-    }
 }
 
 /**
  * This object represents one button of an inline keyboard. Exactly one of the optional fields must be used to specify type of the button.
  */
-class InlineKeyboardButton implements \JsonSerializable
+class InlineKeyboardButton extends CustomJsonSerialization
 {
     /**
      * Label text on the button
@@ -2007,25 +1938,12 @@ class InlineKeyboardButton implements \JsonSerializable
         $this->url = $url;
         $this->callback_data = $callback_data;
     }
-
-    public function jsonSerialize(): mixed
-    {
-        $obj = (object) [];
-
-        foreach (get_object_vars($this) as $key => $value) {
-            if (!is_null($value)) {
-                $obj->$key = $value;
-            }
-        }
-
-        return $obj;
-    }
 }
 
 /**
  * This object represents an incoming callback query from a callback button in an inline keyboard. If the button that originated the query was attached to a message sent by the bot, the field message will be present. If the button was attached to a message sent via the bot (in inline mode), the field inline_message_id will be present. Exactly one of the fields data or game_short_name will be present.
  */
-class CallbackQuery
+class CallbackQuery extends CustomJsonSerialization
 {
     /**
      * Unique identifier for this query
@@ -2088,7 +2006,7 @@ class CallbackQuery
 /**
  * Upon receiving a message with this object, Telegram clients will display a reply interface to the user (act as if the user has selected the bot's message and tapped 'Reply'). This can be extremely useful if you want to create user-friendly step-by-step interfaces without having to sacrifice privacy mode. Not supported in channels and for messages sent on behalf of a Telegram Business account.
  */
-class ForceReply implements \JsonSerializable
+class ForceReply extends CustomJsonSerialization
 {
     /**
      * Shows reply interface to the user, as if they manually selected the bot's message and tapped 'Reply'
@@ -2114,25 +2032,12 @@ class ForceReply implements \JsonSerializable
             }
         }
     }
-
-    public function jsonSerialize(): mixed
-    {
-        $obj = (object) [];
-
-        foreach (get_object_vars($this) as $key => $value) {
-            if (!is_null($value)) {
-                $obj->$key = $value;
-            }
-        }
-
-        return $obj;
-    }
 }
 
 /**
  * This object represents changes in the status of a chat member.
  */
-class ChatMemberUpdated
+class ChatMemberUpdated extends CustomJsonSerialization
 {
     /**
      * Chat the user belongs to
@@ -2270,7 +2175,7 @@ class ChatMemberUpdated
 /**
  * Represents a join request sent to a chat.
  */
-class ChatJoinRequest
+class ChatJoinRequest extends CustomJsonSerialization
 {
     /**
      * Chat to which the request was sent
@@ -2328,7 +2233,7 @@ class ChatJoinRequest
 /**
  * This object represents a bot command.
  */
-class BotCommand
+class BotCommand extends CustomJsonSerialization
 {
     /**
      * Text of the command; 1-32 characters. Can contain only lowercase English letters, digits and underscores.
@@ -2354,7 +2259,7 @@ class BotCommand
 /**
  * Represents the default scope of bot commands. Default commands are used if no commands with a narrower scope are specified for the user.
  */
-class BotCommandScopeDefault
+class BotCommandScopeDefault extends CustomJsonSerialization
 {
     /**
      * Scope type, must be default
@@ -2365,7 +2270,7 @@ class BotCommandScopeDefault
 /**
  * Represents the scope of bot commands, covering all private chats.
  */
-class BotCommandScopeAllPrivateChats
+class BotCommandScopeAllPrivateChats extends CustomJsonSerialization
 {
     /**
      * Scope type, must be all_private_chats
@@ -2376,7 +2281,7 @@ class BotCommandScopeAllPrivateChats
 /**
  * Represents the scope of bot commands, covering all group and supergroup chats.
  */
-class BotCommandScopeAllGroupChats
+class BotCommandScopeAllGroupChats extends CustomJsonSerialization
 {
     /**
      * Scope type, must be all_group_chats
@@ -2387,7 +2292,7 @@ class BotCommandScopeAllGroupChats
 /**
  * Represents the scope of bot commands, covering all group and supergroup chat administrators.
  */
-class BotCommandScopeAllChatAdministrators
+class BotCommandScopeAllChatAdministrators extends CustomJsonSerialization
 {
     /**
      * Scope type, must be all_chat_administrators
@@ -2398,7 +2303,7 @@ class BotCommandScopeAllChatAdministrators
 /**
  * Represents the scope of bot commands, covering a specific chat.
  */
-class BotCommandScopeChat
+class BotCommandScopeChat extends CustomJsonSerialization
 {
     /**
      * Scope type, must be chat
@@ -2414,7 +2319,7 @@ class BotCommandScopeChat
 /**
  * Represents the scope of bot commands, covering all administrators of a specific group or supergroup chat.
  */
-class BotCommandScopeChatAdministrators
+class BotCommandScopeChatAdministrators extends CustomJsonSerialization
 {
     /**
      * Scope type, must be chat_administrators
@@ -2430,7 +2335,7 @@ class BotCommandScopeChatAdministrators
 /**
  * Represents the scope of bot commands, covering a specific member of a group or supergroup chat.
  */
-class BotCommandScopeChatMember
+class BotCommandScopeChatMember extends CustomJsonSerialization
 {
     /**
      * Scope type, must be chat_member
@@ -2451,7 +2356,7 @@ class BotCommandScopeChatMember
 /**
  * This object represents the bot's name.
  */
-class BotName
+class BotName extends CustomJsonSerialization
 {
     /**
      * The bot's name
@@ -2472,7 +2377,7 @@ class BotName
 /**
  * This object represents the bot's description.
  */
-class BotDescription
+class BotDescription extends CustomJsonSerialization
 {
     /**
      * The bot's description
@@ -2493,7 +2398,7 @@ class BotDescription
 /**
  * Describes the connection of the bot with a business account.
  */
-class BusinessConnection
+class BusinessConnection extends CustomJsonSerialization
 {
     /**
      * Unique identifier of the business connection
@@ -2543,7 +2448,7 @@ class BusinessConnection
 /**
  * This object is received when messages are deleted from a connected business account.
  */
-class BusinessMessagesDeleted
+class BusinessMessagesDeleted extends CustomJsonSerialization
 {
     /**
      * Unique identifier of the business connection
@@ -2579,7 +2484,7 @@ class BusinessMessagesDeleted
 /**
  * This object represents the contents of a file to be uploaded. Must be posted using multipart/form-data in the usual way that files are uploaded via the browser.
  */
-class InputFile
+class InputFile extends CustomJsonSerialization
 {
     // TODO: Check if file exists and is less than 10 MBs (for photos) / 50 MBs (for documents)
 
@@ -2596,7 +2501,7 @@ class InputFile
 /**
  * This object represents an incoming inline query. When the user sends an empty query, your bot could return some default or trending results.
  */
-class InlineQuery
+class InlineQuery extends CustomJsonSerialization
 {
     /**
      * Unique identifier for this query
@@ -2650,7 +2555,7 @@ class InlineQuery
 /**
  * This object represents a button to be shown above inline query results. You must use exactly one of the optional fields.
  */
-class InlineQueryResultsButton
+class InlineQueryResultsButton extends CustomJsonSerialization
 {
     /**
      * Label text on the button
@@ -2686,7 +2591,7 @@ class InlineQueryResultsButton
 /**
  * Represents a result of an inline query that was chosen by the user and sent to their chat partner.
  */
-class ChosenInlineResult
+class ChosenInlineResult extends CustomJsonSerialization
 {
     /**
      * The unique identifier for the result that was chosen
@@ -2737,7 +2642,7 @@ class ChosenInlineResult
 /**
  * This object contains information about an incoming shipping query.
  */
-class ShippingQuery
+class ShippingQuery extends CustomJsonSerialization
 {
     /**
      * Unique query identifier
@@ -2783,7 +2688,7 @@ class ShippingQuery
 /**
  * This object contains information about an incoming pre-checkout query.
  */
-class PreCheckoutQuery
+class PreCheckoutQuery extends CustomJsonSerialization
 {
     /**
      * Unique query identifier
@@ -2842,7 +2747,7 @@ class PreCheckoutQuery
 /**
  * This object contains information about a paid media purchase.
  */
-class PaidMediaPurchased
+class PaidMediaPurchased extends CustomJsonSerialization
 {
     /**
      * User who purchased the media
