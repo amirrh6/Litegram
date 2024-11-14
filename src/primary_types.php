@@ -2,8 +2,6 @@
 
 namespace Litegram;
 
-define('LITEGRAM_BOT_API_VERSION', '7.10');
-
 // TODO: Use constructor property promotion (https://www.php.net/manual/en/language.oop5.decon.php#language.oop5.decon.constructor.promotion)
 // TODO: Consider the need for setting up arrays in the constructors
 
