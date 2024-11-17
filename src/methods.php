@@ -51,6 +51,8 @@ class TelegramMethods
         return $result;
     }
 
+    // -------------------------------------------------------------------
+
     /**
      * Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
      * @return Update[]
@@ -160,6 +162,8 @@ class TelegramMethods
 
         return new WebhookInfo($body_decoded->result);
     }
+
+    // -------------------------------------------------------------------
 
     /**
      * A simple method for testing your bot's authentication token. Requires no parameters. Returns basic information about the bot in form of a User object.
@@ -346,6 +350,37 @@ class TelegramMethods
     }
 
     /**
+     * Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. On success, True is returned.
+     * Alternatively, the user can be redirected to the specified Game URL. For this option to work, you must first create a game for your bot via @BotFather and accept the terms. Otherwise, you may use links like t.me/your_bot?start=XXXX that open your bot with a parameter.
+     * @throws ClientException
+     */
+    static function answerCallbackQuery(
+        string $token,
+        AnswerCallbackQueryParams $params,
+        $options = [],
+    ): true {
+        $client = new Client(['base_uri' => '', ...$options]);
+
+        $response = $client->post(
+            static::$telegramApiUrl . $token . '/answerCallbackQuery',
+            [
+                'json' => $params,
+            ],
+        );
+
+        $body = (string) $response->getBody();
+        $body_decoded = json_decode($body);
+
+        if (!is_object($body_decoded)) {
+            throw new Exception('Could not decode the response!');
+        }
+
+        return true;
+    }
+
+    // -------------------------------------------------------------------
+
+    /**
      * Use this method to edit text and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
      * @throws ClientException
      */
@@ -377,32 +412,5 @@ class TelegramMethods
         }
     }
 
-    /**
-     * Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. On success, True is returned.
-     * Alternatively, the user can be redirected to the specified Game URL. For this option to work, you must first create a game for your bot via @BotFather and accept the terms. Otherwise, you may use links like t.me/your_bot?start=XXXX that open your bot with a parameter.
-     * @throws ClientException
-     */
-    static function answerCallbackQuery(
-        string $token,
-        AnswerCallbackQueryParams $params,
-        $options = [],
-    ): true {
-        $client = new Client(['base_uri' => '', ...$options]);
-
-        $response = $client->post(
-            static::$telegramApiUrl . $token . '/answerCallbackQuery',
-            [
-                'json' => $params,
-            ],
-        );
-
-        $body = (string) $response->getBody();
-        $body_decoded = json_decode($body);
-
-        if (!is_object($body_decoded)) {
-            throw new Exception('Could not decode the response!');
-        }
-
-        return true;
-    }
+    // -------------------------------------------------------------------
 }

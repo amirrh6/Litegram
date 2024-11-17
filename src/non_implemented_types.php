@@ -22,24 +22,6 @@ class WebhookInfo
 
 /**
  * TODO:
- * This object represents a unique message identifier.
- */
-#[\AllowDynamicProperties]
-class MessageId
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
  * This object represents one special entity in a text message. For example, hashtags, usernames, URLs, etc.
  */
 #[\AllowDynamicProperties]
@@ -476,23 +458,6 @@ class LinkPreviewOptions
  */
 #[\AllowDynamicProperties]
 class MessageOrigin
-{
-    public function __construct($init_data)
-    {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
-    }
-}
-
-/**
- * TODO:
- */
-#[\AllowDynamicProperties]
-class InaccessibleMessage
 {
     public function __construct($init_data)
     {

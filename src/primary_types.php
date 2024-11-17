@@ -370,7 +370,7 @@ class User extends CustomJsonSerialization
         }
     }
 
-    public function get_full_name(): string
+    public function _get_full_name(): string
     {
         $full_name = $this->first_name;
         if ($this->last_name != null) {
@@ -1416,6 +1416,62 @@ class Message extends CustomJsonSerialization
             $this->reply_markup = InlineKeyboardMarkup::__fromDecodedJson(
                 $init_data,
             );
+        }
+    }
+}
+
+/**
+ * This object represents a unique message identifier.
+ */
+class MessageId extends CustomJsonSerialization
+{
+    /**
+     * Unique message identifier
+     */
+    public int $message_id;
+
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * This object describes a message that was deleted or is otherwise inaccessible to the bot.
+ */
+class InaccessibleMessage extends CustomJsonSerialization
+{
+    /**
+     * Chat the message belonged to
+     */
+    public Chat $chat;
+
+    /**
+     * Unique message identifier inside the chat
+     */
+    public int $message_id;
+
+    /**
+     * Always 0. The field can be used to differentiate regular and inaccessible messages.
+     */
+    public int $date;
+
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+
+        if (property_exists($init_data, 'chat')) {
+            $this->chat = new Chat($init_data->chat);
         }
     }
 }

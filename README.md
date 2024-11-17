@@ -66,7 +66,7 @@ Getting updates:
 - [X] [setWebhook](https://core.telegram.org/bots/api#setwebhook)
 - [X] [deleteWebhook](https://core.telegram.org/bots/api#deletewebhook)
 - [X] [getWebhookInfo](https://core.telegram.org/bots/api#getwebhookinfo)
-- [X] [WebhookInfo](https://core.telegram.org/bots/api#webhookinfo)
+- [ ] [WebhookInfo](https://core.telegram.org/bots/api#webhookinfo)
 
 --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
@@ -75,8 +75,8 @@ Available types:
 - [X] [Chat](https://core.telegram.org/bots/api#chat)
 - [X] [ChatFullInfo](https://core.telegram.org/bots/api#chatfullinfo)
 - [X] [Message](https://core.telegram.org/bots/api#message)
-- [ ] [MessageId](https://core.telegram.org/bots/api#messageid)
-- [ ] [InaccessibleMessage](https://core.telegram.org/bots/api#inaccessiblemessage)
+- [X] [MessageId](https://core.telegram.org/bots/api#messageid)
+- [X] [InaccessibleMessage](https://core.telegram.org/bots/api#inaccessiblemessage)
 - [MaybeInaccessibleMessage](https://core.telegram.org/bots/api#maybeinaccessiblemessage) : InaccessibleMessage | Message
 - [ ] [MessageEntity](https://core.telegram.org/bots/api#messageentity)
 - [ ] [TextQuote](https://core.telegram.org/bots/api#textquote)
@@ -230,12 +230,14 @@ Available methods:
 - [X] [sendMessage](https://core.telegram.org/bots/api#sendmessage)
 - [ ] [forwardMessage](https://core.telegram.org/bots/api#forwardmessage)
 - [ ] [forwardMessages](https://core.telegram.org/bots/api#forwardmessages)
-- [X] [copyMessage](https://core.telegram.org/bots/api#copymessage)
+- [X] [copyMessage](https://core.telegram.org/bots/api#copymessage) *
 - [ ] [copyMessages](https://core.telegram.org/bots/api#copymessages)
 - [X] [sendPhoto](https://core.telegram.org/bots/api#sendphoto)
 - [ ] ...
 - [X] [answerCallbackQuery](https://core.telegram.org/bots/api#answercallbackquery)
 - [ ] ...
+
+\* Experimental bulk (concurrent) version is available. These methods are named like this: `copyMessage()` ---> `_bulkCopyMessage()`
 
 --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
