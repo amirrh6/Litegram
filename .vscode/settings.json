@@ -5,6 +5,7 @@
         "Birthdate",
         "channelusername",
         "CURLOPT",
+        "datacenters",
         "HTTPHEADER",
         "LITEGRAM",
         "phpstan",
@@ -15,6 +16,7 @@
         "supergroupusername",
         "symfony",
         "unban",
+        "unhide",
         "unpriviledged",
         "unrestrict"
     ],
