@@ -72,6 +72,7 @@ Getting updates (4/4 methods implemented, 2/2 classes implemented):
 
 Available types (34/139 classes implemented + 10 union types):
 - [X] [User](https://core.telegram.org/bots/api#user)
+- - `_get_full_name()` helper method is provided by Litegram
 - [X] [Chat](https://core.telegram.org/bots/api#chat)
 - [X] [ChatFullInfo](https://core.telegram.org/bots/api#chatfullinfo)
 - [X] [Message](https://core.telegram.org/bots/api#message)

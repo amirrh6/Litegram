@@ -288,6 +288,67 @@ class Update extends CustomJsonSerialization
     }
 }
 
+/**
+ * Describes the current status of a webhook
+ */
+class WebhookInfo extends CustomJsonSerialization
+{
+    /**
+     * Webhook URL, may be empty if webhook is not set up
+     */
+    public string $url;
+
+    /**
+     * True, if a custom certificate was provided for webhook certificate checks
+     */
+    public bool $has_custom_certificate;
+
+    /**
+     * Number of updates awaiting delivery
+     */
+    public int $pending_update_count;
+
+    /**
+     * Optional. Currently used webhook IP address
+     */
+    public ?string $ip_address = null;
+
+    /**
+     * Optional. Unix time for the most recent error that happened when trying to deliver an update via webhook
+     */
+    public ?int $last_error_date = null;
+
+    /**
+     * Optional. Error message in human-readable format for the most recent error that happened when trying to deliver an update via webhook
+     */
+    public ?string $last_error_message = null;
+
+    /**
+     * Optional. Unix time of the most recent error that happened when trying to synchronize available updates with Telegram datacenters
+     */
+    public ?int $last_synchronization_error_date = null;
+
+    /**
+     * Optional. The maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery
+     */
+    public ?int $max_connections = null;
+
+    /**
+     * @var array<string> $allowed_updates Optional. A list of update types the bot is subscribed to. Defaults to all update types except chat_member
+     */
+    public ?array $allowed_updates = null;
+
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
 // -------------------------------------------------------------------
 
 /**
@@ -519,7 +580,7 @@ class ChatFullInfo extends CustomJsonSerialization
 
     /**
      * Optional. List of available reactions allowed in the chat. If omitted, then all emoji reactions are allowed.
-     * @var array<ReactionType>
+     * @var array<ReactionTypeEmoji|ReactionTypeCustomEmoji|ReactionTypePaid>
      */
     public ?array $available_reactions = null;
 
@@ -769,7 +830,7 @@ class Message extends CustomJsonSerialization
     /**
      * Optional. Information about the original message for forwarded messages
      */
-    public ?MessageOrigin $forward_origin = null;
+    public MessageOriginUser|MessageOriginHiddenUser|MessageOriginChat|MessageOriginChannel|null $forward_origin = null;
 
     /**
      * Optional. True, if the message is sent to a forum topic
@@ -1179,9 +1240,32 @@ class Message extends CustomJsonSerialization
         }
 
         if (property_exists($init_data, 'forward_origin')) {
-            $this->forward_origin = new MessageOrigin(
-                $init_data->forward_origin,
-            );
+            // @phpstan-ignore property.notFound
+            switch ($this->forward_origin->type) {
+                case 'user':
+                    $this->forward_origin = new MessageOriginUser(
+                        $init_data->forward_origin,
+                    );
+                    break;
+
+                case 'hidden_user':
+                    $this->forward_origin = new MessageOriginHiddenUser(
+                        $init_data->forward_origin,
+                    );
+                    break;
+
+                case 'chat':
+                    $this->forward_origin = new MessageOriginChat(
+                        $init_data->forward_origin,
+                    );
+                    break;
+
+                case 'channel':
+                    $this->forward_origin = new MessageOriginChannel(
+                        $init_data->forward_origin,
+                    );
+                    break;
+            }
         }
 
         if (property_exists($init_data, 'reply_to_message')) {
@@ -1477,6 +1561,58 @@ class InaccessibleMessage extends CustomJsonSerialization
 }
 
 /**
+ * TODO:
+ * This object represents one special entity in a text message. For example, hashtags, usernames, URLs, etc.
+ */
+#[\AllowDynamicProperties]
+class MessageEntity extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class TextQuote extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ExternalReplyInfo extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
  * Describes reply parameters for the message that is being sent.
  */
 class ReplyParameters extends CustomJsonSerialization
@@ -1538,6 +1674,353 @@ class ReplyParameters extends CustomJsonSerialization
         $this->quote_parse_mode = $quote_parse_mode;
         $this->quote_entities = $quote_entities;
         $this->quote_position = $quote_position;
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class MessageOriginUser extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class MessageOriginHiddenUser extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class MessageOriginChat extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class MessageOriginChannel extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ * This object represents one size of a photo or a file / sticker thumbnail.
+ */
+#[\AllowDynamicProperties]
+class PhotoSize extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ * This object represents an animation file (GIF or H.264/MPEG-4 AVC video without sound).
+ */
+#[\AllowDynamicProperties]
+class Animation extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ * This object represents an audio file to be treated as music by the Telegram clients.
+ */
+#[\AllowDynamicProperties]
+class Audio extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ * This object represents a general file (as opposed to photos, voice messages and audio files).
+ */
+#[\AllowDynamicProperties]
+class Document extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class Story extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ * This object represents a video file.
+ */
+#[\AllowDynamicProperties]
+class Video extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ * This object represents a video message (available in Telegram apps as of v.4.0).
+ */
+#[\AllowDynamicProperties]
+class VideoNote extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ * This object represents a voice note.
+ */
+#[\AllowDynamicProperties]
+class Voice extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class PaidMediaInfo extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class PaidMediaPreview extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class PaidMediaPhoto extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class PaidMediaVideo extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class Contact extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class Dice extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class PollOption extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class InputPollOption extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
     }
 }
 
@@ -1676,6 +2159,414 @@ class Poll extends CustomJsonSerialization
 }
 
 /**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class Location extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class Venue extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class WebAppData extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ProximityAlertTriggered extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class MessageAutoDeleteTimerChanged extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ChatBoostAdded extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class BackgroundFill extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class BackgroundFillSolid extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class BackgroundFillGradient extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class BackgroundFillFreeformGradient extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class BackgroundType extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class BackgroundTypeFill extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class BackgroundTypeWallpaper extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class BackgroundTypePattern extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class BackgroundTypeChatTheme extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ChatBackground extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ForumTopicCreated extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ForumTopicClosed extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ForumTopicEdited extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ForumTopicReopened extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class GeneralForumTopicHidden extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class GeneralForumTopicUnhidden extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class SharedUser extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class UsersShared extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
  * This object contains information about a chat that was shared with the bot using a KeyboardButtonRequestChat button.
  */
 class ChatShared extends CustomJsonSerialization
@@ -1706,6 +2597,210 @@ class ChatShared extends CustomJsonSerialization
      */
     public ?array $photo = null;
 
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class WriteAccessAllowed extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class VideoChatScheduled extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class VideoChatStarted extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class VideoChatEnded extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class VideoChatParticipantsInvited extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class GiveawayCreated extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class Giveaway extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class GiveawayWinners extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class GiveawayCompleted extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class LinkPreviewOptions extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class UserProfilePhotos extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class File extends CustomJsonSerialization
+{
     public function __construct($init_data)
     {
         $arr = get_object_vars($init_data);
@@ -1858,6 +2953,23 @@ class KeyboardButton extends CustomJsonSerialization
 }
 
 /**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class KeyboardButtonRequestUsers extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
  * This object defines the criteria used to request a suitable chat. Information about the selected chat will be shared with the bot when the corresponding button is pressed. The bot will be granted requested rights in the chat if appropriate. More about requesting chats ».
  */
 class KeyboardButtonRequestChat extends CustomJsonSerialization
@@ -1910,6 +3022,23 @@ class KeyboardButtonRequestChat extends CustomJsonSerialization
         $this->request_title = $request_title;
         $this->request_username = $request_username;
         $this->request_photo = $request_photo;
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class KeyboardButtonPollType extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
     }
 }
 
@@ -2000,6 +3129,40 @@ class InlineKeyboardButton extends CustomJsonSerialization
 }
 
 /**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class LoginUrl extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class SwitchInlineQueryChosenChat extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
  * This object represents an incoming callback query from a callback button in an inline keyboard. If the button that originated the query was attached to a message sent by the bot, the field message will be present. If the button was attached to a message sent via the bot (in inline mode), the field inline_message_id will be present. Exactly one of the fields data or game_short_name will be present.
  */
 class CallbackQuery extends CustomJsonSerialization
@@ -2082,6 +3245,57 @@ class ForceReply extends CustomJsonSerialization
      */
     public bool $selective;
 
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ChatPhoto extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ChatInviteLink extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ChatAdministratorRights extends CustomJsonSerialization
+{
     public function __construct($init_data)
     {
         $arr = get_object_vars($init_data);
@@ -2232,6 +3446,108 @@ class ChatMemberUpdated extends CustomJsonSerialization
 }
 
 /**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ChatMemberOwner extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ChatMemberAdministrator extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ChatMemberMember extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ChatMemberRestricted extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ChatMemberLeft extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ChatMemberBanned extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
  * Represents a join request sent to a chat.
  */
 class ChatJoinRequest extends CustomJsonSerialization
@@ -2285,6 +3601,244 @@ class ChatJoinRequest extends CustomJsonSerialization
 
         if (property_exists($init_data, 'invite_link')) {
             $this->invite_link = new ChatInviteLink($init_data->invite_link);
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ChatPermissions extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class Birthdate extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class BusinessIntro extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class BusinessLocation extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class BusinessOpeningHoursInterval extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class BusinessOpeningHours extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ChatLocation extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ReactionTypeEmoji extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ReactionTypeCustomEmoji extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ReactionTypePaid extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ReactionCount extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class MessageReactionUpdated extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class MessageReactionCountUpdated extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ForumTopic extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
         }
     }
 }
@@ -2455,6 +4009,193 @@ class BotDescription extends CustomJsonSerialization
 }
 
 /**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class BotShortDescription extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class MenuButtonCommands extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class MenuButtonWebApp extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class MenuButtonDefault extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ChatBoostSourcePremium extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ChatBoostSourceGiftCode extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ChatBoostSourceGiveaway extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ChatBoost extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ChatBoostUpdated extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ChatBoostRemoved extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class UserChatBoosts extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
  * Describes the connection of the bot with a business account.
  */
 class BusinessConnection extends CustomJsonSerialization
@@ -2541,6 +4282,108 @@ class BusinessMessagesDeleted extends CustomJsonSerialization
 }
 
 /**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ResponseParameters extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class InputMediaPhoto extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class InputMediaVideo extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class InputMediaAnimation extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class InputMediaAudio extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class InputMediaDocument extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
  * This object represents the contents of a file to be uploaded. Must be posted using multipart/form-data in the usual way that files are uploaded via the browser.
  */
 class InputFile extends CustomJsonSerialization
@@ -2552,6 +4395,110 @@ class InputFile extends CustomJsonSerialization
      */
     public function __construct(public string $_path)
     {
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class InputPaidMediaPhoto extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class InputPaidMediaVideo extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+// -------------------------------------------------------------------
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class Sticker extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class StickerSet extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class MaskPosition extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class InputSticker extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
     }
 }
 
@@ -2699,6 +4646,108 @@ class ChosenInlineResult extends CustomJsonSerialization
 // -------------------------------------------------------------------
 
 /**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class Invoice extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ShippingAddress extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class OrderInfo extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class ShippingOption extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class SuccessfulPayment extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class RefundedPayment extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
  * This object contains information about an incoming shipping query.
  */
 class ShippingQuery extends CustomJsonSerialization
@@ -2834,3 +4883,73 @@ class PaidMediaPurchased extends CustomJsonSerialization
 }
 
 // -------------------------------------------------------------------
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class PassportData extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+// -------------------------------------------------------------------
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class Game extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class CallbackGame extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
+class GameHighScore extends CustomJsonSerialization
+{
+    public function __construct($init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
+}

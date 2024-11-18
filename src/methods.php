@@ -224,35 +224,6 @@ class TelegramMethods
     }
 
     /**
-     * Bulk version of copyMessage (Experimental)
-     * @param array<CopyMessageParams> $array_of_params
-     */
-    static function _bulkCopyMessage(
-        string $token,
-        array $array_of_params,
-        $options = [],
-    ): PromiseInterface {
-        $client = new Client(['base_uri' => '', ...$options]);
-
-        $promises = [];
-
-        foreach ($array_of_params as $copyMessageParamsObject) {
-            array_push(
-                $promises,
-                $client->requestAsync(
-                    'POST',
-                    static::$telegramApiUrl . $token . '/copyMessage',
-                    [
-                        'json' => $copyMessageParamsObject,
-                    ],
-                ),
-            );
-        }
-
-        return Utils::settle($promises);
-    }
-
-    /**
      * Use this method to copy messages of any kind. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
      * @throws ClientException
      */
@@ -376,6 +347,37 @@ class TelegramMethods
         }
 
         return true;
+    }
+
+    // -------------------------------------------------------------------
+
+    /**
+     * Bulk version of copyMessage (Experimental)
+     * @param array<CopyMessageParams> $array_of_params
+     */
+    static function _bulkCopyMessage(
+        string $token,
+        array $array_of_params,
+        $options = [],
+    ): PromiseInterface {
+        $client = new Client(['base_uri' => '', ...$options]);
+
+        $promises = [];
+
+        foreach ($array_of_params as $copyMessageParamsObject) {
+            array_push(
+                $promises,
+                $client->requestAsync(
+                    'POST',
+                    static::$telegramApiUrl . $token . '/copyMessage',
+                    [
+                        'json' => $copyMessageParamsObject,
+                    ],
+                ),
+            );
+        }
+
+        return Utils::settle($promises);
     }
 
     // -------------------------------------------------------------------
