@@ -162,8 +162,9 @@ class Update extends CustomJsonSerialization
      */
     public ?ChatBoostRemoved $removed_chat_boost = null;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
+        parent::__construct($init_data);
 
             if (property_exists($init_data, 'message')) {
                 $this->message = new Message($init_data->message);
