@@ -8,6 +8,7 @@
         "datacenters",
         "HTTPHEADER",
         "LITEGRAM",
+        "Packagist",
         "phpstan",
         "POSTFIELDS",
         "RETURNTRANSFER",

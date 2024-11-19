@@ -21,7 +21,7 @@ Use Github Issues for comments, bug reports and questions.
 
 `composer require amirrh6/litegram`
 
-## Usage
+## Usage and Examples
 
 ```php
 require_once './vendor/autoload.php';
@@ -29,21 +29,55 @@ require_once './vendor/autoload.php';
 // --- --- --- --- --- --- ---
 
 $token = '0123456789:...';
+$some_chat_id = '-100...';
+
+// Options for Guzzle (https://docs.guzzlephp.org/en/stable/request-options.html)
+$guzzle_options = [
+    'timeout' => 5.0,
+    // 'proxy' => 'http://localhost:8118',
+];
 
 // --- --- --- --- --- --- ---
 
+use Litegram\SendMessageParams;
+use Litegram\InlineKeyboardMarkup;
+use Litegram\InlineKeyboardButton;
 use Litegram\TelegramMethods;
 
 try {
-    // If the request doesn't fail, an object of type Litegram\User will be returned
-    $res = TelegramMethods::getMe(token: $token);
+    // If the request doesn't fail, an object of type Litegram\Message will be returned
+    $res = TelegramMethods::sendMessage(
+        token: $token,
+        params: new SendMessageParams(
+            chat_id: $some_chat_id,
+            text: 'Test',
+            reply_markup: InlineKeyboardMarkup::__fromParameters([
+                [
+                    InlineKeyboardButton::__fromParameters(
+                        'Hi',
+                        callback_data: 'say_hi',
+                    ),
+                    InlineKeyboardButton::__fromParameters(
+                        'Bye',
+                        callback_data: 'say_bye',
+                    ),
+                ],
+                [
+                    InlineKeyboardButton::__fromParameters(
+                        'Close',
+                        callback_data: 'close',
+                    ),
+                ],
+            ]),
+        ),
+        guzzle_options: $guzzle_options,
+    );
     var_dump('Result:', $res);
+
 } catch (\Throwable $th) {
     var_dump('Exception:', $th);
 }
 ```
-
-## Examples
 
 [This file](https://github.com/amirrh6/litegram/blob/main/examples/example.php) provides usage example for some primary methods.
 
@@ -56,11 +90,14 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 
 [GPL 2.0 only](https://spdx.org/licenses/gpl-2.0-only.html)
 
-## Implemented classes and methods:
+## Classes and methods:
 
 \* Make sure you view this section on [Github](https://github.com/amirrh6/litegram?tab=readme-ov-file#implemented-classes-and-methods) rather than Packagist as it doesn't display checkmarks correctly.
 
-Getting updates (4/4 methods implemented, 2/2 classes implemented):
+### Getting updates
+
+(4/4 methods implemented, 2/2 classes implemented)
+
 - [X] [Update](https://core.telegram.org/bots/api#update)
 - [X] [getUpdates](https://core.telegram.org/bots/api#getupdates)
 - [X] [setWebhook](https://core.telegram.org/bots/api#setwebhook)
@@ -68,9 +105,12 @@ Getting updates (4/4 methods implemented, 2/2 classes implemented):
 - [X] [getWebhookInfo](https://core.telegram.org/bots/api#getwebhookinfo)
 - [X] [WebhookInfo](https://core.telegram.org/bots/api#webhookinfo)
 
---- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+### Available types
 
-Available types (34/139 classes implemented + 10 union types):
+(34/139 classes implemented + 10 union types)
+
+\* Note that if you want to use these types (such as ReplyParameters) in the methods, you should use static `__fromParameters()` function of these types rather than their constructor.
+
 - [X] [User](https://core.telegram.org/bots/api#user)
 - - `_get_full_name()` helper method is provided by Litegram
 - [X] [Chat](https://core.telegram.org/bots/api#chat)
@@ -83,6 +123,7 @@ Available types (34/139 classes implemented + 10 union types):
 - [ ] [TextQuote](https://core.telegram.org/bots/api#textquote)
 - [ ] [ExternalReplyInfo](https://core.telegram.org/bots/api#externalreplyinfo)
 - [X] [ReplyParameters](https://core.telegram.org/bots/api#replyparameters)
+- - Use `ReplyParameters::__fromParameters()` to instantiate the class
 - [MessageOrigin](https://core.telegram.org/bots/api##messageorigin)
 - - [ ] [MessageOriginUser](https://core.telegram.org/bots/api#messageoriginuser)
 - - [ ] [MessageOriginHiddenUser](https://core.telegram.org/bots/api#messageoriginhiddenuser)
@@ -146,13 +187,19 @@ Available types (34/139 classes implemented + 10 union types):
 - [ ] [File](https://core.telegram.org/bots/api#file)
 - [X] [WebAppInfo](https://core.telegram.org/bots/api#webappinfo)
 - [X] [ReplyKeyboardMarkup](https://core.telegram.org/bots/api#replykeyboardmarkup)
+- - Use `ReplyKeyboardMarkup::__fromParameters()` to instantiate the class
 - [X] [KeyboardButton](https://core.telegram.org/bots/api#keyboardbutton)
+- - Use `KeyboardButton::__fromParameters()` to instantiate the class
 - [ ] [KeyboardButtonRequestUsers](https://core.telegram.org/bots/api#keyboardbuttonrequestusers)
 - [X] [KeyboardButtonRequestChat](https://core.telegram.org/bots/api#keyboardbuttonrequestchat)
+- - Use `KeyboardButtonRequestChat::__fromParameters()` to instantiate the class
 - [ ] [KeyboardButtonPollType](https://core.telegram.org/bots/api#keyboardbuttonpolltype)
 - [X] [ReplyKeyboardRemove](https://core.telegram.org/bots/api#replykeyboardremove)
+- - Use `ReplyKeyboardRemove::__fromParameters()` to instantiate the class
 - [X] [InlineKeyboardMarkup](https://core.telegram.org/bots/api#inlinekeyboardmarkup)
+- - Use `InlineKeyboardMarkup::__fromParameters()` to instantiate the class
 - [X] [InlineKeyboardButton](https://core.telegram.org/bots/api#inlinekeyboardbutton)
+- - Use `InlineKeyboardButton::__fromParameters()` to instantiate the class
 - [ ] [LoginUrl](https://core.telegram.org/bots/api#loginurl)
 - [ ] [SwitchInlineQueryChosenChat](https://core.telegram.org/bots/api#switchinlinequerychosenchat)
 - [X] [CallbackQuery](https://core.telegram.org/bots/api#callbackquery)
@@ -218,13 +265,26 @@ Available types (34/139 classes implemented + 10 union types):
 - - [ ] [InputMediaAudio](https://core.telegram.org/bots/api#inputmediaaudio)
 - - [ ] [InputMediaDocument](https://core.telegram.org/bots/api#inputmediadocument)
 - [X] [InputFile](https://core.telegram.org/bots/api#inputfile)
+- - Use `InputFile::__fromParameters()` to instantiate the class
 - [InputPaidMedia](https://core.telegram.org/bots/api#inputpaidmedia)
 - - [ ] [InputPaidMediaPhoto](https://core.telegram.org/bots/api#inputpaidmediaphoto)
 - - [ ] [InputPaidMediaVideo](https://core.telegram.org/bots/api#inputpaidmediavideo)
 
---- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+### Available methods
 
-Available methods (7/85 methods implemented):
+(7/85 methods implemented)
+
+\* Every method here has a signature **similar** to:
+```php
+static function sendMessage(
+    string $token,
+    SendMessageParams $params,
+    $guzzle_options = []
+): Message
+```
+Unlike ordinary types, Classes such as 'SendMessageParams' which end with 'Params' can be instantiated normally (using new keyword).
+See [here](#usage-and-examples) for usage and examples.
+
 - [X] [getMe](https://core.telegram.org/bots/api#getme)
 - [X] [logOut](https://core.telegram.org/bots/api#logout)
 - [X] [close](https://core.telegram.org/bots/api#close)
@@ -311,11 +371,12 @@ Available methods (7/85 methods implemented):
 - [ ] [setMyDefaultAdministratorRights](https://core.telegram.org/bots/api#setmydefaultadministratorrights)
 - [ ] [getMyDefaultAdministratorRights](https://core.telegram.org/bots/api#getmydefaultadministratorrights)
 
-\* Experimental bulk (concurrent) version is available. These methods are named like this: `copyMessage()` ---> `_bulkCopyMessage()`
+\* Experimental bulk (concurrent) version of this method is available. These methods are named like this: `copyMessage()` ---> `_bulkCopyMessage()`
 
---- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+### Updating messages
 
-Updating messages (1/9 methods implemented):
+(1/9 methods implemented)
+
 - [X] [editMessageText](https://core.telegram.org/bots/api#editmessagetext)
 - [ ] [editMessageCaption](https://core.telegram.org/bots/api#editmessagecaption)
 - [ ] [editMessageMedia](https://core.telegram.org/bots/api#editmessagemedia)
@@ -326,9 +387,10 @@ Updating messages (1/9 methods implemented):
 - [ ] [deleteMessage](https://core.telegram.org/bots/api#deletemessage)
 - [ ] [deleteMessages](https://core.telegram.org/bots/api#deletemessages)
 
---- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+### Stickers
 
-Stickers (0/16 methods implemented, 0/4 classes implemented):
+(0/16 methods implemented, 0/4 classes implemented)
+
 - [ ] [Sticker](https://core.telegram.org/bots/api#sticker)
 - [ ] [StickerSet](https://core.telegram.org/bots/api#stickerset)
 - [ ] [MaskPosition](https://core.telegram.org/bots/api#maskposition)
@@ -350,9 +412,10 @@ Stickers (0/16 methods implemented, 0/4 classes implemented):
 - [ ] [setCustomEmojiStickerSetThumbnail](https://core.telegram.org/bots/api#setcustomemojistickersetthumbnail)
 - [ ] [deleteStickerSet](https://core.telegram.org/bots/api#deletestickerset)
 
---- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+### Inline mode
 
-Inline mode (0/2 methods implemented, 3/29 classes implemented + 2 union types):
+(0/2 methods implemented, 3/29 classes implemented + 2 union types)
+
 - [X] [InlineQuery](https://core.telegram.org/bots/api#inlinequery)
 - [ ] [answerInlineQuery](https://core.telegram.org/bots/api#answerinlinequery)
 - [X] [InlineQueryResultsButton](https://core.telegram.org/bots/api#inlinequeryresultsbutton)
@@ -387,9 +450,10 @@ Inline mode (0/2 methods implemented, 3/29 classes implemented + 2 union types):
 - [ ] [answerWebAppQuery](https://core.telegram.org/bots/api#answerwebappquery)
 - [ ] [SentWebAppMessage](https://core.telegram.org/bots/api#sentwebappmessage)
 
---- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+### Payments
 
-Payments (0/6 methods implemented, 3/19 classes implemented + 2 union types):
+(0/6 methods implemented, 3/19 classes implemented + 2 union types)
+
 - [ ] [sendInvoice](https://core.telegram.org/bots/api#sendinvoice)
 - [ ] [createInvoiceLink](https://core.telegram.org/bots/api#createinvoicelink)
 - [ ] [answerShippingQuery](https://core.telegram.org/bots/api#answershippingquery)
@@ -418,10 +482,10 @@ Payments (0/6 methods implemented, 3/19 classes implemented + 2 union types):
 - [ ] [StarTransaction](https://core.telegram.org/bots/api#startransaction)
 - [ ] [StarTransactions](https://core.telegram.org/bots/api#startransactions)
 
+### Telegram Passport
 
---- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+(0/1 methods implemented, 0/13 classes implemented + 1 union type)
 
-Telegram Passport (0/1 methods implemented, 0/13 classes implemented + 1 union type):
 - [ ] [PassportData](https://core.telegram.org/bots/api#passportdata)
 - [ ] [PassportFile](https://core.telegram.org/bots/api#passportfile)
 - [ ] [EncryptedPassportElement](https://core.telegram.org/bots/api#encryptedpassportelement)
@@ -438,9 +502,10 @@ Telegram Passport (0/1 methods implemented, 0/13 classes implemented + 1 union t
 - - [ ] [PassportElementErrorTranslationFiles](https://core.telegram.org/bots/api#passportelementerrortranslationfiles)
 - - [ ] [PassportElementErrorUnspecified](https://core.telegram.org/bots/api#passportelementerrorunspecified)
 
---- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
+### Games
 
-Games (0/3 methods implemented, 0/3 classes implemented):
+(0/3 methods implemented, 0/3 classes implemented)
+
 - [ ] [sendGame](https://core.telegram.org/bots/api#sendgame)
 - [ ] [Game](https://core.telegram.org/bots/api#game)
 - [ ] [CallbackGame](https://core.telegram.org/bots/api#callbackgame)

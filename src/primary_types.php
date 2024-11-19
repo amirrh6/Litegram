@@ -166,6 +166,8 @@ class Update extends CustomJsonSerialization
     {
         parent::__construct($init_data);
 
+        // TODO: Think of a better way to automatically initialize these properties
+
         if (property_exists($init_data, 'message')) {
             $this->message = new Message($init_data->message);
         }
@@ -1613,12 +1615,25 @@ class ReplyParameters extends CustomJsonSerialization
      */
     public ?int $quote_position = null;
 
-    /**
-     * @param array<MessageEntity> $quote_entities
-     */
-    public function __construct(
-        int $message_id,
+    public function __construct(object $init_data)
+    {
+        parent::__construct($init_data);
+    }
 
+    // TODO: Replace statements such as 'int $quote_position = null' with '?int $quote_position' inside function declaration
+
+    /**
+     * TODO: Add Docs
+     * @param int $message_id,
+     * @param string|int|null $chat_id
+     * @param ?bool $allow_sending_without_reply
+     * @param ?string $quote
+     * @param ?string $quote_parse_mode
+     * @param ?array<MessageEntity> $quote_entities
+     * @param ?int $quote_position
+     */
+    public static function __fromParameters(
+        int $message_id,
         string|int $chat_id = null,
         bool $allow_sending_without_reply = null,
         string $quote = null,
@@ -1626,14 +1641,18 @@ class ReplyParameters extends CustomJsonSerialization
         array $quote_entities = null,
         int $quote_position = null,
     ) {
-        $this->message_id = $message_id;
+        // @phpstan-ignore new.static
+        $obj = new static(new \stdClass());
 
-        $this->chat_id = $chat_id;
-        $this->allow_sending_without_reply = $allow_sending_without_reply;
-        $this->quote = $quote;
-        $this->quote_parse_mode = $quote_parse_mode;
-        $this->quote_entities = $quote_entities;
-        $this->quote_position = $quote_position;
+        $obj->message_id = $message_id;
+        $obj->chat_id = $chat_id;
+        $obj->allow_sending_without_reply = $allow_sending_without_reply;
+        $obj->quote = $quote;
+        $obj->quote_parse_mode = $quote_parse_mode;
+        $obj->quote_entities = $quote_entities;
+        $obj->quote_position = $quote_position;
+
+        return $obj;
     }
 }
 
@@ -2531,10 +2550,21 @@ class ReplyKeyboardMarkup extends CustomJsonSerialization
      */
     public ?bool $selective;
 
+    public function __construct(object $init_data)
+    {
+        parent::__construct($init_data);
+    }
+
     /**
+     * TODO: Add Docs
      * @param array<array<KeyboardButton>> $keyboard
+     * @param ?bool $is_persistent
+     * @param ?bool $resize_keyboard
+     * @param ?bool $one_time_keyboard
+     * @param ?string $input_field_placeholder
+     * @param ?bool $selective
      */
-    public function __construct(
+    public static function __fromParameters(
         array $keyboard,
         bool $is_persistent = null,
         bool $resize_keyboard = null,
@@ -2542,13 +2572,17 @@ class ReplyKeyboardMarkup extends CustomJsonSerialization
         string $input_field_placeholder = null,
         bool $selective = null,
     ) {
-        $this->keyboard = $keyboard;
+        // @phpstan-ignore new.static
+        $obj = new static(new \stdClass());
 
-        $this->is_persistent = $is_persistent;
-        $this->resize_keyboard = $resize_keyboard;
-        $this->one_time_keyboard = $one_time_keyboard;
-        $this->input_field_placeholder = $input_field_placeholder;
-        $this->selective = $selective;
+        $obj->keyboard = $keyboard;
+        $obj->is_persistent = $is_persistent;
+        $obj->resize_keyboard = $resize_keyboard;
+        $obj->one_time_keyboard = $one_time_keyboard;
+        $obj->input_field_placeholder = $input_field_placeholder;
+        $obj->selective = $selective;
+
+        return $obj;
     }
 }
 
@@ -2592,7 +2626,22 @@ class KeyboardButton extends CustomJsonSerialization
      */
     public ?WebAppInfo $web_app = null;
 
-    public function __construct(
+    public function __construct(object $init_data)
+    {
+        parent::__construct($init_data);
+    }
+
+    /**
+     * TODO: Add Docs
+     * @param string $text
+     * @param ?KeyboardButtonRequestUsers $request_users
+     * @param ?KeyboardButtonRequestChat $request_chat
+     * @param ?bool $request_contact
+     * @param ?bool $request_location
+     * @param ?KeyboardButtonPollType $request_poll
+     * @param ?WebAppInfo $web_app
+     */
+    public static function __fromParameters(
         string $text,
         KeyboardButtonRequestUsers $request_users = null,
         KeyboardButtonRequestChat $request_chat = null,
@@ -2601,14 +2650,18 @@ class KeyboardButton extends CustomJsonSerialization
         KeyboardButtonPollType $request_poll = null,
         WebAppInfo $web_app = null,
     ) {
-        $this->text = $text;
+        // @phpstan-ignore new.static
+        $obj = new static(new \stdClass());
 
-        $this->request_users = $request_users;
-        $this->request_chat = $request_chat;
-        $this->request_contact = $request_contact;
-        $this->request_location = $request_location;
-        $this->request_poll = $request_poll;
-        $this->web_app = $web_app;
+        $obj->text = $text;
+        $obj->request_users = $request_users;
+        $obj->request_chat = $request_chat;
+        $obj->request_contact = $request_contact;
+        $obj->request_location = $request_location;
+        $obj->request_poll = $request_poll;
+        $obj->web_app = $web_app;
+
+        return $obj;
     }
 }
 
@@ -2661,22 +2714,39 @@ class KeyboardButtonRequestChat extends CustomJsonSerialization
      */
     public ?bool $request_photo = null;
 
-    public function __construct(
-        int $request_id,
+    public function __construct(object $init_data)
+    {
+        parent::__construct($init_data);
+    }
 
+    /**
+     * TODO: Add Docs
+     * @param int $request_id
+     * @param ?bool $chat_is_channel
+     * @param ?bool $bot_is_member
+     * @param ?bool $request_title
+     * @param ?bool $request_username
+     * @param ?bool $request_photo
+     */
+    public static function __fromParameters(
+        int $request_id,
         bool $chat_is_channel = null,
         bool $bot_is_member = null,
         bool $request_title = null,
         bool $request_username = null,
         bool $request_photo = null,
     ) {
-        $this->request_id = $request_id;
+        // @phpstan-ignore new.static
+        $obj = new static(new \stdClass());
 
-        $this->chat_is_channel = $chat_is_channel;
-        $this->bot_is_member = $bot_is_member;
-        $this->request_title = $request_title;
-        $this->request_username = $request_username;
-        $this->request_photo = $request_photo;
+        $obj->request_id = $request_id;
+        $obj->chat_is_channel = $chat_is_channel;
+        $obj->bot_is_member = $bot_is_member;
+        $obj->request_title = $request_title;
+        $obj->request_username = $request_username;
+        $obj->request_photo = $request_photo;
+
+        return $obj;
     }
 }
 
@@ -2708,11 +2778,27 @@ class ReplyKeyboardRemove extends CustomJsonSerialization
      */
     public ?bool $selective = null;
 
-    public function __construct(true $remove_keyboard, bool $selective = null)
+    public function __construct(object $init_data)
     {
-        $this->remove_keyboard = $remove_keyboard;
+        parent::__construct($init_data);
+    }
 
-        $this->selective = $selective;
+    /**
+     * TODO: Add Docs
+     * @param true $remove_keyboard
+     * @param ?bool $selective
+     */
+    public static function __fromParameters(
+        true $remove_keyboard,
+        bool $selective = null,
+    ) {
+        // @phpstan-ignore new.static
+        $obj = new static(new \stdClass());
+
+        $obj->remove_keyboard = $remove_keyboard;
+        $obj->selective = $selective;
+
+        return $obj;
     }
 }
 
@@ -2739,7 +2825,9 @@ class InlineKeyboardMarkup extends CustomJsonSerialization
     {
         // @phpstan-ignore new.static
         $obj = new static(new \stdClass());
+
         $obj->inline_keyboard = $inline_keyboard;
+
         return $obj;
     }
 }
@@ -2802,14 +2890,30 @@ class InlineKeyboardButton extends CustomJsonSerialization
      */
     public ?bool $pay = null;
 
-    public function __construct(
+    public function __construct(object $init_data)
+    {
+        parent::__construct($init_data);
+    }
+
+    /**
+     * TODO: Add Docs
+     * @param string $text
+     * @param ?string $url
+     * @param ?string $callback_data
+     */
+    public static function __fromParameters(
         string $text,
         string $url = null,
         string $callback_data = null,
     ) {
-        $this->text = $text;
-        $this->url = $url;
-        $this->callback_data = $callback_data;
+        // @phpstan-ignore new.static
+        $obj = new static(new \stdClass());
+
+        $obj->text = $text;
+        $obj->url = $url;
+        $obj->callback_data = $callback_data;
+
+        return $obj;
     }
 }
 
@@ -3820,11 +3924,24 @@ class InputFile extends CustomJsonSerialization
 {
     // TODO: Check if file exists and is less than 10 MBs (for photos) / 50 MBs (for documents)
 
+    public string $_path;
+
+    public function __construct(object $init_data)
+    {
+        parent::__construct($init_data);
+    }
+
     /**
      * @param string $_path Path to the file
      */
-    public function __construct(public string $_path)
+    public static function __fromParameters(string $_path)
     {
+        // @phpstan-ignore new.static
+        $obj = new static(new \stdClass());
+
+        $obj->_path = $_path;
+
+        return $obj;
     }
 }
 

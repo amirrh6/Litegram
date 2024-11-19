@@ -60,9 +60,9 @@ class TelegramMethods
     static function getUpdates(
         string $token,
         GetUpdatesParams $params,
-        $options = [],
+        $guzzle_options = [],
     ): array {
-        $client = new Client(['base_uri' => '', ...$options]);
+        $client = new Client(['base_uri' => '', ...$guzzle_options]);
 
         $response = $client->post(
             static::$telegramApiUrl . $token . '/getUpdates',
@@ -94,9 +94,9 @@ class TelegramMethods
     static function setWebhook(
         string $token,
         SetWebhookParams $params,
-        $options = [],
+        $guzzle_options = [],
     ): true {
-        $client = new Client(['base_uri' => '', ...$options]);
+        $client = new Client(['base_uri' => '', ...$guzzle_options]);
 
         $response = $client->post(
             static::$telegramApiUrl . $token . '/setWebhook',
@@ -121,9 +121,9 @@ class TelegramMethods
     static function deleteWebhook(
         string $token,
         DeleteWebhookParams $params,
-        $options = [],
+        $guzzle_options = [],
     ): true {
-        $client = new Client(['base_uri' => '', ...$options]);
+        $client = new Client(['base_uri' => '', ...$guzzle_options]);
 
         $response = $client->post(
             static::$telegramApiUrl . $token . '/deleteWebhook',
@@ -145,9 +145,11 @@ class TelegramMethods
     /**
      * Use this method to get current webhook status. Requires no parameters. On success, returns a WebhookInfo object. If the bot is using getUpdates, will return an object with the url field empty.
      */
-    static function getWebhookInfo(string $token, $options = []): WebhookInfo
-    {
-        $client = new Client(['base_uri' => '', ...$options]);
+    static function getWebhookInfo(
+        string $token,
+        $guzzle_options = [],
+    ): WebhookInfo {
+        $client = new Client(['base_uri' => '', ...$guzzle_options]);
 
         $response = $client->post(
             static::$telegramApiUrl . $token . '/getWebhookInfo',
@@ -168,9 +170,9 @@ class TelegramMethods
     /**
      * A simple method for testing your bot's authentication token. Requires no parameters. Returns basic information about the bot in form of a User object.
      */
-    static function getMe(string $token, $options = []): User
+    static function getMe(string $token, $guzzle_options = []): User
     {
-        $client = new Client(['base_uri' => '', ...$options]);
+        $client = new Client(['base_uri' => '', ...$guzzle_options]);
 
         $response = $client->post(static::$telegramApiUrl . $token . '/getMe');
 
@@ -187,9 +189,9 @@ class TelegramMethods
     /**
      * Use this method to log out from the cloud Bot API server before launching the bot locally. You must log out the bot before running it locally, otherwise there is no guarantee that the bot will receive updates. After a successful call, you can immediately log in on a local server, but will not be able to log in back to the cloud Bot API server for 10 minutes. Returns True on success. Requires no parameters.
      */
-    static function logOut(string $token, $options = []): true
+    static function logOut(string $token, $guzzle_options = []): true
     {
-        $client = new Client(['base_uri' => '', ...$options]);
+        $client = new Client(['base_uri' => '', ...$guzzle_options]);
 
         $response = $client->post(static::$telegramApiUrl . $token . '/logOut');
 
@@ -207,9 +209,9 @@ class TelegramMethods
      * Use this method to close the bot instance before moving it from one local server to another. You need to delete the webhook before calling this method to ensure that the bot isn't launched again after server restart. The method will return error 429 in the first 10 minutes after the bot is launched. Returns True on success. Requires no parameters.
 
      */
-    static function close(string $token, $options = []): true
+    static function close(string $token, $guzzle_options = []): true
     {
-        $client = new Client(['base_uri' => '', ...$options]);
+        $client = new Client(['base_uri' => '', ...$guzzle_options]);
 
         $response = $client->post(static::$telegramApiUrl . $token . '/close');
 
@@ -230,9 +232,9 @@ class TelegramMethods
     static function copyMessage(
         string $token,
         CopyMessageParams $params,
-        $options = [],
+        $guzzle_options = [],
     ): MessageId {
-        $client = new Client(['base_uri' => '', ...$options]);
+        $client = new Client(['base_uri' => '', ...$guzzle_options]);
 
         $response = $client->post(
             static::$telegramApiUrl . $token . '/copyMessage',
@@ -258,9 +260,9 @@ class TelegramMethods
     static function sendMessage(
         string $token,
         SendMessageParams $params,
-        $options = [],
+        $guzzle_options = [],
     ): Message {
-        $client = new Client(['base_uri' => '', ...$options]);
+        $client = new Client(['base_uri' => '', ...$guzzle_options]);
 
         $response = $client->post(
             static::$telegramApiUrl . $token . '/sendMessage',
@@ -286,9 +288,9 @@ class TelegramMethods
     static function sendPhoto(
         string $token,
         SendPhotoParams $params,
-        $options = [],
+        $guzzle_options = [],
     ): Message {
-        $client = new Client(['base_uri' => '', ...$options]);
+        $client = new Client(['base_uri' => '', ...$guzzle_options]);
 
         if ($params->photo instanceof InputFile) {
             $multipart = [
@@ -328,9 +330,9 @@ class TelegramMethods
     static function answerCallbackQuery(
         string $token,
         AnswerCallbackQueryParams $params,
-        $options = [],
+        $guzzle_options = [],
     ): true {
-        $client = new Client(['base_uri' => '', ...$options]);
+        $client = new Client(['base_uri' => '', ...$guzzle_options]);
 
         $response = $client->post(
             static::$telegramApiUrl . $token . '/answerCallbackQuery',
@@ -358,9 +360,9 @@ class TelegramMethods
     static function _bulkCopyMessage(
         string $token,
         array $array_of_params,
-        $options = [],
+        $guzzle_options = [],
     ): PromiseInterface {
-        $client = new Client(['base_uri' => '', ...$options]);
+        $client = new Client(['base_uri' => '', ...$guzzle_options]);
 
         $promises = [];
 
@@ -389,9 +391,9 @@ class TelegramMethods
     static function editMessageText(
         string $token,
         EditMessageTextParams $params,
-        $options = [],
+        $guzzle_options = [],
     ): Message|true {
-        $client = new Client(['base_uri' => '', ...$options]);
+        $client = new Client(['base_uri' => '', ...$guzzle_options]);
 
         $response = $client->post(
             static::$telegramApiUrl . $token . '/editMessageText',
