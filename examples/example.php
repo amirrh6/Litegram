@@ -16,6 +16,7 @@ require_once dirname(__FILE__) . '/test_data.php'; // Includes $token, $some_cha
 
 // --- --- --- --- --- --- ---
 
+use Litegram\Update;
 use Litegram\CopyMessageParams;
 use Litegram\InputFile;
 use Litegram\ReplyParameters;
@@ -24,6 +25,10 @@ use Litegram\SendMessageParams;
 use Litegram\SendPhotoParams;
 
 try {
+    runExampleForReceivingUpdatesFromWebhook();
+
+    // TODO: Add example for receiving updates manually (via getUpdates method)
+
     runExampleForGetMe();
 
     runExampleForSendMessage();
@@ -33,6 +38,24 @@ try {
     runExampleFor_bulkCopyMessage();
 } catch (\Throwable $th) {
     dump('Exception:', $th);
+}
+
+function runExampleForReceivingUpdatesFromWebhook()
+{
+    // * IMPORTANT: Make sure you have set up webhook
+    $update_str = file_get_contents('php://input');
+
+    if (!$update_str) {
+        error_log('No update was received from webhook!');
+        exit(0);
+    }
+
+    try {
+        $update = new Update(init_data: json_decode($update_str));
+        dump($update);
+    } catch (\Throwable $th) {
+        dump('Exception:', $th);
+    }
 }
 
 function runExampleForGetMe()
