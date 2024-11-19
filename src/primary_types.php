@@ -1482,8 +1482,8 @@ class Message extends CustomJsonSerialization
         }
 
         if (property_exists($init_data, 'reply_markup')) {
-            $this->reply_markup = InlineKeyboardMarkup::__fromDecodedJson(
-                $init_data,
+            $this->reply_markup = new InlineKeyboardMarkup(
+                $init_data->reply_markup,
             );
         }
     }
@@ -2725,23 +2725,22 @@ class InlineKeyboardMarkup extends CustomJsonSerialization
      * Array of button rows, each represented by an Array of InlineKeyboardButton objects
      * * @var array<array<InlineKeyboardButton>>
      */
-    public ?array $inline_keyboard;
+    public array $inline_keyboard;
 
-    /**
-     * @param array<array<InlineKeyboardButton>> $inline_keyboard
-     */
-    public function __construct(array $inline_keyboard)
+    public function __construct(object $init_data)
     {
-        $this->inline_keyboard = $inline_keyboard;
+        parent::__construct($init_data);
     }
 
     /**
-     * Serves as an overload of the constructor
+     * @param array<array<InlineKeyboardButton>> $inline_keyboard Array of button rows, each represented by an Array of InlineKeyboardButton objects
      */
-    public static function __fromDecodedJson($init_data)
+    public static function __fromParameters(array $inline_keyboard)
     {
         // @phpstan-ignore new.static
-        return new static((array) $init_data->reply_markup->inline_keyboard);
+        $obj = new static(new \stdClass());
+        $obj->inline_keyboard = $inline_keyboard;
+        return $obj;
     }
 }
 
