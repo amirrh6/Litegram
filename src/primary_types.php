@@ -166,130 +166,124 @@ class Update extends CustomJsonSerialization
     {
         parent::__construct($init_data);
 
-            if (property_exists($init_data, 'message')) {
-                $this->message = new Message($init_data->message);
-            }
+        if (property_exists($init_data, 'message')) {
+            $this->message = new Message($init_data->message);
+        }
 
-            if (property_exists($init_data, 'edited_message')) {
-                $this->edited_message = new Message($init_data->edited_message);
-            }
+        if (property_exists($init_data, 'edited_message')) {
+            $this->edited_message = new Message($init_data->edited_message);
+        }
 
-            if (property_exists($init_data, 'channel_post')) {
-                $this->channel_post = new Message($init_data->channel_post);
-            }
+        if (property_exists($init_data, 'channel_post')) {
+            $this->channel_post = new Message($init_data->channel_post);
+        }
 
-            if (property_exists($init_data, 'edited_channel_post')) {
-                $this->edited_channel_post = new Message(
-                    $init_data->edited_channel_post,
-                );
-            }
+        if (property_exists($init_data, 'edited_channel_post')) {
+            $this->edited_channel_post = new Message(
+                $init_data->edited_channel_post,
+            );
+        }
 
-            if (property_exists($init_data, 'business_connection')) {
-                $this->business_connection = new BusinessConnection(
-                    $init_data->business_connection,
-                );
-            }
+        if (property_exists($init_data, 'business_connection')) {
+            $this->business_connection = new BusinessConnection(
+                $init_data->business_connection,
+            );
+        }
 
-            if (property_exists($init_data, 'business_message')) {
-                $this->business_message = new Message(
-                    $init_data->business_message,
-                );
-            }
+        if (property_exists($init_data, 'business_message')) {
+            $this->business_message = new Message($init_data->business_message);
+        }
 
-            if (property_exists($init_data, 'edited_business_message')) {
-                $this->edited_business_message = new Message(
-                    $init_data->edited_business_message,
-                );
-            }
+        if (property_exists($init_data, 'edited_business_message')) {
+            $this->edited_business_message = new Message(
+                $init_data->edited_business_message,
+            );
+        }
 
-            if (property_exists($init_data, 'deleted_business_message')) {
-                $this->deleted_business_message = new BusinessMessagesDeleted(
-                    $init_data->deleted_business_message,
-                );
-            }
+        if (property_exists($init_data, 'deleted_business_message')) {
+            $this->deleted_business_message = new BusinessMessagesDeleted(
+                $init_data->deleted_business_message,
+            );
+        }
 
-            if (property_exists($init_data, 'message_reaction')) {
-                $this->message_reaction = new MessageReactionUpdated(
-                    $init_data->message_reaction,
-                );
-            }
+        if (property_exists($init_data, 'message_reaction')) {
+            $this->message_reaction = new MessageReactionUpdated(
+                $init_data->message_reaction,
+            );
+        }
 
-            if (property_exists($init_data, 'message_reaction_count')) {
-                $this->message_reaction_count = new MessageReactionCountUpdated(
-                    $init_data->message_reaction_count,
-                );
-            }
+        if (property_exists($init_data, 'message_reaction_count')) {
+            $this->message_reaction_count = new MessageReactionCountUpdated(
+                $init_data->message_reaction_count,
+            );
+        }
 
-            if (property_exists($init_data, 'inline_query')) {
-                $this->inline_query = new InlineQuery($init_data->inline_query);
-            }
+        if (property_exists($init_data, 'inline_query')) {
+            $this->inline_query = new InlineQuery($init_data->inline_query);
+        }
 
-            if (property_exists($init_data, 'chosen_inline_result')) {
-                $this->chosen_inline_result = new ChosenInlineResult(
-                    $init_data->chosen_inline_result,
-                );
-            }
+        if (property_exists($init_data, 'chosen_inline_result')) {
+            $this->chosen_inline_result = new ChosenInlineResult(
+                $init_data->chosen_inline_result,
+            );
+        }
 
-            if (property_exists($init_data, 'callback_query')) {
-                $this->callback_query = new CallbackQuery(
-                    $init_data->callback_query,
-                );
-            }
+        if (property_exists($init_data, 'callback_query')) {
+            $this->callback_query = new CallbackQuery(
+                $init_data->callback_query,
+            );
+        }
 
-            if (property_exists($init_data, 'shipping_query')) {
-                $this->shipping_query = new ShippingQuery(
-                    $init_data->shipping_query,
-                );
-            }
+        if (property_exists($init_data, 'shipping_query')) {
+            $this->shipping_query = new ShippingQuery(
+                $init_data->shipping_query,
+            );
+        }
 
-            if (property_exists($init_data, 'pre_checkout_query')) {
-                $this->pre_checkout_query = new PreCheckoutQuery(
-                    $init_data->pre_checkout_query,
-                );
-            }
+        if (property_exists($init_data, 'pre_checkout_query')) {
+            $this->pre_checkout_query = new PreCheckoutQuery(
+                $init_data->pre_checkout_query,
+            );
+        }
 
-            if (property_exists($init_data, 'purchased_paid_media')) {
-                $this->purchased_paid_media = new PaidMediaPurchased(
-                    $init_data->purchased_paid_media,
-                );
-            }
+        if (property_exists($init_data, 'purchased_paid_media')) {
+            $this->purchased_paid_media = new PaidMediaPurchased(
+                $init_data->purchased_paid_media,
+            );
+        }
 
-            if (property_exists($init_data, 'poll')) {
-                $this->poll = new Poll($init_data->poll);
-            }
+        if (property_exists($init_data, 'poll')) {
+            $this->poll = new Poll($init_data->poll);
+        }
 
-            if (property_exists($init_data, 'poll_answer')) {
-                $this->poll_answer = new PollAnswer($init_data->poll_answer);
-            }
+        if (property_exists($init_data, 'poll_answer')) {
+            $this->poll_answer = new PollAnswer($init_data->poll_answer);
+        }
 
-            if (property_exists($init_data, 'my_chat_member')) {
-                $this->my_chat_member = new ChatMemberUpdated(
-                    $init_data->my_chat_member,
-                );
-            }
+        if (property_exists($init_data, 'my_chat_member')) {
+            $this->my_chat_member = new ChatMemberUpdated(
+                $init_data->my_chat_member,
+            );
+        }
 
-            if (property_exists($init_data, 'chat_member')) {
-                $this->chat_member = new ChatMemberUpdated(
-                    $init_data->chat_member,
-                );
-            }
+        if (property_exists($init_data, 'chat_member')) {
+            $this->chat_member = new ChatMemberUpdated($init_data->chat_member);
+        }
 
-            if (property_exists($init_data, 'chat_join_request')) {
-                $this->chat_join_request = new ChatJoinRequest(
-                    $init_data->chat_join_request,
-                );
-            }
+        if (property_exists($init_data, 'chat_join_request')) {
+            $this->chat_join_request = new ChatJoinRequest(
+                $init_data->chat_join_request,
+            );
+        }
 
-            if (property_exists($init_data, 'chat_boost')) {
-                $this->chat_boost = new ChatBoostUpdated(
-                    $init_data->chat_boost,
-                );
-            }
+        if (property_exists($init_data, 'chat_boost')) {
+            $this->chat_boost = new ChatBoostUpdated($init_data->chat_boost);
+        }
 
-            if (property_exists($init_data, 'removed_chat_boost')) {
-                $this->removed_chat_boost = new ChatBoostRemoved(
-                    $init_data->removed_chat_boost,
-                );
+        if (property_exists($init_data, 'removed_chat_boost')) {
+            $this->removed_chat_boost = new ChatBoostRemoved(
+                $init_data->removed_chat_boost,
+            );
         }
     }
 }
