@@ -22,6 +22,16 @@ class CustomJsonSerialization implements \JsonSerializable
 
         return $obj;
     }
+
+    public function __construct(object $init_data)
+    {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $this->$key = $init_data->$key;
+            }
+        }
+    }
 }
 
 // -------------------------------------------------------------------
@@ -338,14 +348,9 @@ class WebhookInfo extends CustomJsonSerialization
      */
     public ?array $allowed_updates = null;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -421,14 +426,9 @@ class User extends CustomJsonSerialization
      */
     public ?bool $has_main_web_app = null;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 
     public function _get_full_name(): string
@@ -481,14 +481,9 @@ class Chat extends CustomJsonSerialization
      */
     public ?true $is_forum = null;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -722,14 +717,9 @@ class ChatFullInfo extends CustomJsonSerialization
      */
     public ?ChatLocation $location = null;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
 
         if (property_exists($init_data, 'photo')) {
             $this->photo = new ChatPhoto($init_data->photo);
@@ -745,15 +735,15 @@ class ChatFullInfo extends CustomJsonSerialization
             );
         }
 
-        if (property_exists($init_data, 'business_opening_hours')) {
-            $this->business_opening_hours = new BusinessOpeningHours(
-                $init_data->business_opening_hours,
-            );
-        }
-
         if (property_exists($init_data, 'business_location')) {
             $this->business_location = new BusinessLocation(
                 $init_data->business_location,
+            );
+        }
+
+        if (property_exists($init_data, 'business_opening_hours')) {
+            $this->business_opening_hours = new BusinessOpeningHours(
+                $init_data->business_opening_hours,
             );
         }
 
@@ -1212,14 +1202,9 @@ class Message extends CustomJsonSerialization
      */
     public ?InlineKeyboardMarkup $reply_markup = null;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
 
         if (property_exists($init_data, 'from')) {
             $this->from = new User($init_data->from);
@@ -1288,6 +1273,12 @@ class Message extends CustomJsonSerialization
 
         if (property_exists($init_data, 'via_bot')) {
             $this->via_bot = new User($init_data->via_bot);
+        }
+
+        if (property_exists($init_data, 'link_preview_options')) {
+            $this->link_preview_options = new LinkPreviewOptions(
+                $init_data->link_preview_options,
+            );
         }
 
         if (property_exists($init_data, 'animation')) {
@@ -1451,7 +1442,9 @@ class Message extends CustomJsonSerialization
         }
 
         if (property_exists($init_data, 'giveaway_created')) {
-            $this->giveaway_created = new GiveawayCreated($init_data->giveaway);
+            $this->giveaway_created = new GiveawayCreated(
+                $init_data->giveaway_created,
+            );
         }
 
         if (property_exists($init_data, 'giveaway')) {
@@ -1459,12 +1452,14 @@ class Message extends CustomJsonSerialization
         }
 
         if (property_exists($init_data, 'giveaway_winners')) {
-            $this->giveaway_winners = new GiveawayWinners($init_data->giveaway);
+            $this->giveaway_winners = new GiveawayWinners(
+                $init_data->giveaway_winners,
+            );
         }
 
         if (property_exists($init_data, 'giveaway_completed')) {
             $this->giveaway_completed = new GiveawayCompleted(
-                $init_data->giveaway,
+                $init_data->giveaway_completed,
             );
         }
 
@@ -1514,14 +1509,9 @@ class MessageId extends CustomJsonSerialization
      */
     public int $message_id;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -1545,14 +1535,9 @@ class InaccessibleMessage extends CustomJsonSerialization
      */
     public int $date;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
 
         if (property_exists($init_data, 'chat')) {
             $this->chat = new Chat($init_data->chat);
@@ -1567,14 +1552,9 @@ class InaccessibleMessage extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class MessageEntity extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -1584,14 +1564,9 @@ class MessageEntity extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class TextQuote extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -1601,14 +1576,9 @@ class TextQuote extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ExternalReplyInfo extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -1683,14 +1653,9 @@ class ReplyParameters extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class MessageOriginUser extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -1700,14 +1665,9 @@ class MessageOriginUser extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class MessageOriginHiddenUser extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -1717,14 +1677,9 @@ class MessageOriginHiddenUser extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class MessageOriginChat extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -1734,14 +1689,9 @@ class MessageOriginChat extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class MessageOriginChannel extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -1752,14 +1702,9 @@ class MessageOriginChannel extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PhotoSize extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -1770,14 +1715,9 @@ class PhotoSize extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Animation extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -1788,14 +1728,9 @@ class Animation extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Audio extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -1806,14 +1741,9 @@ class Audio extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Document extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -1823,14 +1753,9 @@ class Document extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Story extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -1841,14 +1766,9 @@ class Story extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Video extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -1859,14 +1779,9 @@ class Video extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class VideoNote extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -1877,14 +1792,9 @@ class VideoNote extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Voice extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -1894,14 +1804,9 @@ class Voice extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PaidMediaInfo extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -1911,14 +1816,9 @@ class PaidMediaInfo extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PaidMediaPreview extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -1928,14 +1828,9 @@ class PaidMediaPreview extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PaidMediaPhoto extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -1945,14 +1840,9 @@ class PaidMediaPhoto extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PaidMediaVideo extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -1962,14 +1852,9 @@ class PaidMediaVideo extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Contact extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -1979,14 +1864,9 @@ class Contact extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Dice extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -1996,14 +1876,9 @@ class Dice extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PollOption extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2013,14 +1888,9 @@ class PollOption extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputPollOption extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2050,14 +1920,9 @@ class PollAnswer extends CustomJsonSerialization
      */
     public array $option_ids;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
 
         if (property_exists($init_data, 'voter_chat')) {
             $this->voter_chat = new Chat($init_data->voter_chat);
@@ -2147,14 +2012,9 @@ class Poll extends CustomJsonSerialization
      */
     public ?int $close_date = null;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2164,14 +2024,9 @@ class Poll extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Location extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2181,14 +2036,9 @@ class Location extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Venue extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2198,14 +2048,9 @@ class Venue extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class WebAppData extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2215,14 +2060,9 @@ class WebAppData extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ProximityAlertTriggered extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2232,14 +2072,9 @@ class ProximityAlertTriggered extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class MessageAutoDeleteTimerChanged extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2249,14 +2084,9 @@ class MessageAutoDeleteTimerChanged extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatBoostAdded extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2266,14 +2096,9 @@ class ChatBoostAdded extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BackgroundFill extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2283,14 +2108,9 @@ class BackgroundFill extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BackgroundFillSolid extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2300,14 +2120,9 @@ class BackgroundFillSolid extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BackgroundFillGradient extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2317,14 +2132,9 @@ class BackgroundFillGradient extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BackgroundFillFreeformGradient extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2334,14 +2144,9 @@ class BackgroundFillFreeformGradient extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BackgroundType extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2351,14 +2156,9 @@ class BackgroundType extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BackgroundTypeFill extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2368,14 +2168,9 @@ class BackgroundTypeFill extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BackgroundTypeWallpaper extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2385,14 +2180,9 @@ class BackgroundTypeWallpaper extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BackgroundTypePattern extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2402,14 +2192,9 @@ class BackgroundTypePattern extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BackgroundTypeChatTheme extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2419,14 +2204,9 @@ class BackgroundTypeChatTheme extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatBackground extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2436,14 +2216,9 @@ class ChatBackground extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ForumTopicCreated extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2453,14 +2228,9 @@ class ForumTopicCreated extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ForumTopicClosed extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2470,14 +2240,9 @@ class ForumTopicClosed extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ForumTopicEdited extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2487,14 +2252,9 @@ class ForumTopicEdited extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ForumTopicReopened extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2504,14 +2264,9 @@ class ForumTopicReopened extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class GeneralForumTopicHidden extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2521,14 +2276,9 @@ class GeneralForumTopicHidden extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class GeneralForumTopicUnhidden extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2538,14 +2288,9 @@ class GeneralForumTopicUnhidden extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class SharedUser extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2555,14 +2300,9 @@ class SharedUser extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class UsersShared extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2597,14 +2337,9 @@ class ChatShared extends CustomJsonSerialization
      */
     public ?array $photo = null;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2614,14 +2349,9 @@ class ChatShared extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class WriteAccessAllowed extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2631,14 +2361,9 @@ class WriteAccessAllowed extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class VideoChatScheduled extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2648,14 +2373,9 @@ class VideoChatScheduled extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class VideoChatStarted extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2665,14 +2385,9 @@ class VideoChatStarted extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class VideoChatEnded extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2682,14 +2397,9 @@ class VideoChatEnded extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class VideoChatParticipantsInvited extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2699,14 +2409,9 @@ class VideoChatParticipantsInvited extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class GiveawayCreated extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2716,14 +2421,9 @@ class GiveawayCreated extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Giveaway extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2733,14 +2433,9 @@ class Giveaway extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class GiveawayWinners extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2750,14 +2445,9 @@ class GiveawayWinners extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class GiveawayCompleted extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2767,14 +2457,9 @@ class GiveawayCompleted extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class LinkPreviewOptions extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2784,14 +2469,9 @@ class LinkPreviewOptions extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class UserProfilePhotos extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2801,14 +2481,9 @@ class UserProfilePhotos extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class File extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2822,14 +2497,9 @@ class WebAppInfo extends CustomJsonSerialization
      */
     public string $url;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -2958,14 +2628,9 @@ class KeyboardButton extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class KeyboardButtonRequestUsers extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3031,14 +2696,9 @@ class KeyboardButtonRequestChat extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class KeyboardButtonPollType extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3170,14 +2830,9 @@ class InlineKeyboardButton extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class LoginUrl extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3187,14 +2842,9 @@ class LoginUrl extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class SwitchInlineQueryChosenChat extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3238,14 +2888,9 @@ class CallbackQuery extends CustomJsonSerialization
      */
     public ?string $game_short_name = null;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
 
         if (property_exists($init_data, 'from')) {
             $this->from = new User($init_data->from);
@@ -3281,14 +2926,9 @@ class ForceReply extends CustomJsonSerialization
      */
     public bool $selective;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3298,14 +2938,9 @@ class ForceReply extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatPhoto extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3315,14 +2950,9 @@ class ChatPhoto extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatInviteLink extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3332,14 +2962,9 @@ class ChatInviteLink extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatAdministratorRights extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3388,14 +3013,9 @@ class ChatMemberUpdated extends CustomJsonSerialization
      */
     public ?bool $via_chat_folder_invite_link = null;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
 
         if (property_exists($init_data, 'chat')) {
             $this->chat = new Chat($init_data->chat);
@@ -3487,14 +3107,9 @@ class ChatMemberUpdated extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatMemberOwner extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3504,14 +3119,9 @@ class ChatMemberOwner extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatMemberAdministrator extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3521,14 +3131,9 @@ class ChatMemberAdministrator extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatMemberMember extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3538,14 +3143,9 @@ class ChatMemberMember extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatMemberRestricted extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3555,14 +3155,9 @@ class ChatMemberRestricted extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatMemberLeft extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3572,14 +3167,9 @@ class ChatMemberLeft extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatMemberBanned extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3618,14 +3208,9 @@ class ChatJoinRequest extends CustomJsonSerialization
      */
     public ?ChatInviteLink $invite_link = null;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
 
         if (property_exists($init_data, 'chat')) {
             $this->chat = new Chat($init_data->chat);
@@ -3647,14 +3232,9 @@ class ChatJoinRequest extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatPermissions extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3664,14 +3244,9 @@ class ChatPermissions extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Birthdate extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3681,14 +3256,9 @@ class Birthdate extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BusinessIntro extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3698,14 +3268,9 @@ class BusinessIntro extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BusinessLocation extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3715,14 +3280,9 @@ class BusinessLocation extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BusinessOpeningHoursInterval extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3732,14 +3292,9 @@ class BusinessOpeningHoursInterval extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BusinessOpeningHours extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3749,14 +3304,9 @@ class BusinessOpeningHours extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatLocation extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3766,14 +3316,9 @@ class ChatLocation extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ReactionTypeEmoji extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3783,14 +3328,9 @@ class ReactionTypeEmoji extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ReactionTypeCustomEmoji extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3800,14 +3340,9 @@ class ReactionTypeCustomEmoji extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ReactionTypePaid extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3817,14 +3352,9 @@ class ReactionTypePaid extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ReactionCount extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3834,14 +3364,9 @@ class ReactionCount extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class MessageReactionUpdated extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3851,14 +3376,9 @@ class MessageReactionUpdated extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class MessageReactionCountUpdated extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3868,14 +3388,9 @@ class MessageReactionCountUpdated extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ForumTopic extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -3894,14 +3409,9 @@ class BotCommand extends CustomJsonSerialization
      */
     public string $description;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4012,14 +3522,9 @@ class BotName extends CustomJsonSerialization
      */
     public string $name;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4033,14 +3538,9 @@ class BotDescription extends CustomJsonSerialization
      */
     public string $description;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4050,14 +3550,9 @@ class BotDescription extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BotShortDescription extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4067,14 +3562,9 @@ class BotShortDescription extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class MenuButtonCommands extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4084,14 +3574,9 @@ class MenuButtonCommands extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class MenuButtonWebApp extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4101,14 +3586,9 @@ class MenuButtonWebApp extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class MenuButtonDefault extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4118,14 +3598,9 @@ class MenuButtonDefault extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatBoostSourcePremium extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4135,14 +3610,9 @@ class ChatBoostSourcePremium extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatBoostSourceGiftCode extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4152,14 +3622,9 @@ class ChatBoostSourceGiftCode extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatBoostSourceGiveaway extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4169,14 +3634,9 @@ class ChatBoostSourceGiveaway extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatBoost extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4186,14 +3646,9 @@ class ChatBoost extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatBoostUpdated extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4203,14 +3658,9 @@ class ChatBoostUpdated extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatBoostRemoved extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4220,14 +3670,9 @@ class ChatBoostRemoved extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class UserChatBoosts extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4266,14 +3711,9 @@ class BusinessConnection extends CustomJsonSerialization
      */
     public bool $is_enabled;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
 
         if (property_exists($init_data, 'user')) {
             $this->user = new User($init_data->user);
@@ -4302,14 +3742,9 @@ class BusinessMessagesDeleted extends CustomJsonSerialization
      */
     public array $message_ids;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
 
         if (property_exists($init_data, 'chat')) {
             $this->chat = new Chat($init_data->chat);
@@ -4323,14 +3758,9 @@ class BusinessMessagesDeleted extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ResponseParameters extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4340,14 +3770,9 @@ class ResponseParameters extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputMediaPhoto extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4357,14 +3782,9 @@ class InputMediaPhoto extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputMediaVideo extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4374,14 +3794,9 @@ class InputMediaVideo extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputMediaAnimation extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4391,14 +3806,9 @@ class InputMediaAnimation extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputMediaAudio extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4408,14 +3818,9 @@ class InputMediaAudio extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputMediaDocument extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4440,14 +3845,9 @@ class InputFile extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputPaidMediaPhoto extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4457,14 +3857,9 @@ class InputPaidMediaPhoto extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputPaidMediaVideo extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4476,14 +3871,9 @@ class InputPaidMediaVideo extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Sticker extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4493,14 +3883,9 @@ class Sticker extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class StickerSet extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4510,14 +3895,9 @@ class StickerSet extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class MaskPosition extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4527,14 +3907,9 @@ class MaskPosition extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputSticker extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4575,14 +3950,9 @@ class InlineQuery extends CustomJsonSerialization
      */
     public ?Location $location;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
 
         if (property_exists($init_data, 'from')) {
             $this->from = new User($init_data->from);
@@ -4615,14 +3985,9 @@ class InlineQueryResultsButton extends CustomJsonSerialization
      */
     public ?string $start_parameter = null;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
 
         if (property_exists($init_data, 'web_app')) {
             $this->web_app = new WebAppInfo($init_data->web_app);
@@ -4636,14 +4001,9 @@ class InlineQueryResultsButton extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultArticle extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4653,14 +4013,9 @@ class InlineQueryResultArticle extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultPhoto extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4670,14 +4025,9 @@ class InlineQueryResultPhoto extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultGif extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4687,14 +4037,9 @@ class InlineQueryResultGif extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultMpeg4Gif extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4704,14 +4049,9 @@ class InlineQueryResultMpeg4Gif extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultVideo extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4721,14 +4061,9 @@ class InlineQueryResultVideo extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultAudio extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4738,14 +4073,9 @@ class InlineQueryResultAudio extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultVoice extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4755,14 +4085,9 @@ class InlineQueryResultVoice extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultDocument extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4772,14 +4097,9 @@ class InlineQueryResultDocument extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultLocation extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4789,14 +4109,9 @@ class InlineQueryResultLocation extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultVenue extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4806,14 +4121,9 @@ class InlineQueryResultVenue extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultContact extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4823,14 +4133,9 @@ class InlineQueryResultContact extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultGame extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4840,14 +4145,9 @@ class InlineQueryResultGame extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultCachedPhoto extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4857,14 +4157,9 @@ class InlineQueryResultCachedPhoto extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultCachedGif extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4874,14 +4169,9 @@ class InlineQueryResultCachedGif extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultCachedMpeg4Gif extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4891,14 +4181,9 @@ class InlineQueryResultCachedMpeg4Gif extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultCachedSticker extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4908,14 +4193,9 @@ class InlineQueryResultCachedSticker extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultCachedDocument extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4925,14 +4205,9 @@ class InlineQueryResultCachedDocument extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultCachedVideo extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4942,14 +4217,9 @@ class InlineQueryResultCachedVideo extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultCachedVoice extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4959,14 +4229,9 @@ class InlineQueryResultCachedVoice extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultCachedAudio extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4976,14 +4241,9 @@ class InlineQueryResultCachedAudio extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputTextMessageContent extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -4993,14 +4253,9 @@ class InputTextMessageContent extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputLocationMessageContent extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5010,14 +4265,9 @@ class InputLocationMessageContent extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputVenueMessageContent extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5027,14 +4277,9 @@ class InputVenueMessageContent extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputContactMessageContent extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5044,14 +4289,9 @@ class InputContactMessageContent extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputInvoiceMessageContent extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5085,14 +4325,9 @@ class ChosenInlineResult extends CustomJsonSerialization
      */
     public string $query;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
 
         if (property_exists($init_data, 'from')) {
             $this->from = new User($init_data->from);
@@ -5110,14 +4345,9 @@ class ChosenInlineResult extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class SentWebAppMessage extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5129,14 +4359,9 @@ class SentWebAppMessage extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class LabeledPrice extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5146,14 +4371,9 @@ class LabeledPrice extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Invoice extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5163,14 +4383,9 @@ class Invoice extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ShippingAddress extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5180,14 +4395,9 @@ class ShippingAddress extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class OrderInfo extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5197,14 +4407,9 @@ class OrderInfo extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ShippingOption extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5214,14 +4419,9 @@ class ShippingOption extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class SuccessfulPayment extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5231,14 +4431,9 @@ class SuccessfulPayment extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class RefundedPayment extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5267,14 +4462,9 @@ class ShippingQuery extends CustomJsonSerialization
      */
     public ShippingAddress $shipping_address;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
 
         if (property_exists($init_data, 'from')) {
             $this->from = new User($init_data->from);
@@ -5328,14 +4518,9 @@ class PreCheckoutQuery extends CustomJsonSerialization
      */
     public ?OrderInfo $order_info = null;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
 
         if (property_exists($init_data, 'from')) {
             $this->from = new User($init_data->from);
@@ -5362,14 +4547,9 @@ class PaidMediaPurchased extends CustomJsonSerialization
      */
     public string $paid_media_payload;
 
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
 
         if (property_exists($init_data, 'from')) {
             $this->from = new User($init_data->from);
@@ -5383,14 +4563,9 @@ class PaidMediaPurchased extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class RevenueWithdrawalStatePending extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5400,14 +4575,9 @@ class RevenueWithdrawalStatePending extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class RevenueWithdrawalStateSucceeded extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5417,14 +4587,9 @@ class RevenueWithdrawalStateSucceeded extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class RevenueWithdrawalStateFailed extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5434,14 +4599,9 @@ class RevenueWithdrawalStateFailed extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class TransactionPartnerUser extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5451,14 +4611,9 @@ class TransactionPartnerUser extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class TransactionPartnerFragment extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5468,14 +4623,9 @@ class TransactionPartnerFragment extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class TransactionPartnerTelegramAds extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5485,14 +4635,9 @@ class TransactionPartnerTelegramAds extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class TransactionPartnerOther extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5502,14 +4647,9 @@ class TransactionPartnerOther extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class StarTransaction extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5519,14 +4659,9 @@ class StarTransaction extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class StarTransactions extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5538,14 +4673,9 @@ class StarTransactions extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PassportData extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5555,14 +4685,9 @@ class PassportData extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PassportFile extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5572,14 +4697,9 @@ class PassportFile extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class EncryptedPassportElement extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5589,14 +4709,9 @@ class EncryptedPassportElement extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class EncryptedCredentials extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5606,14 +4721,9 @@ class EncryptedCredentials extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PassportElementErrorDataField extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5623,14 +4733,9 @@ class PassportElementErrorDataField extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PassportElementErrorFrontSide extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5640,14 +4745,9 @@ class PassportElementErrorFrontSide extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PassportElementErrorReverseSide extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5657,14 +4757,9 @@ class PassportElementErrorReverseSide extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PassportElementErrorSelfie extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5674,14 +4769,9 @@ class PassportElementErrorSelfie extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PassportElementErrorFile extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5691,14 +4781,9 @@ class PassportElementErrorFile extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PassportElementErrorFiles extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5708,14 +4793,9 @@ class PassportElementErrorFiles extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PassportElementErrorTranslationFile extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5725,14 +4805,9 @@ class PassportElementErrorTranslationFile extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PassportElementErrorTranslationFiles extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5742,14 +4817,9 @@ class PassportElementErrorTranslationFiles extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PassportElementErrorUnspecified extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5761,14 +4831,9 @@ class PassportElementErrorUnspecified extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Game extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5778,14 +4843,9 @@ class Game extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class CallbackGame extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
 
@@ -5795,13 +4855,8 @@ class CallbackGame extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class GameHighScore extends CustomJsonSerialization
 {
-    public function __construct($init_data)
+    public function __construct(object $init_data)
     {
-        $arr = get_object_vars($init_data);
-        foreach ($arr as $key => $value) {
-            if (!($value instanceof \stdClass)) {
-                $this->$key = $init_data->$key;
-            }
-        }
+        parent::__construct($init_data);
     }
 }
