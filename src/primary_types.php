@@ -164,7 +164,6 @@ class Update extends CustomJsonSerialization
 
     public function __construct($init_data)
     {
-        if (is_object($init_data)) {
 
             if (property_exists($init_data, 'message')) {
                 $this->message = new Message($init_data->message);
@@ -290,7 +289,6 @@ class Update extends CustomJsonSerialization
                 $this->removed_chat_boost = new ChatBoostRemoved(
                     $init_data->removed_chat_boost,
                 );
-            }
         }
     }
 }
