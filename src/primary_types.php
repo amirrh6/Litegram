@@ -165,9 +165,6 @@ class Update extends CustomJsonSerialization
     public function __construct($init_data)
     {
         if (is_object($init_data)) {
-            if (property_exists($init_data, 'update_id')) {
-                $this->update_id = $init_data->update_id;
-            }
 
             if (property_exists($init_data, 'message')) {
                 $this->message = new Message($init_data->message);
