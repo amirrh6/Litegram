@@ -162,7 +162,10 @@ class TelegramMethods
             throw new Exception('Could not decode the response!');
         }
 
-        return new WebhookInfo($body_decoded->result);
+        $obj = new WebhookInfo();
+        $obj->__FillPropsFromObject($body_decoded->result);
+
+        return $obj;
     }
 
     // -------------------------------------------------------------------
@@ -183,7 +186,10 @@ class TelegramMethods
             throw new Exception('Could not decode the response!');
         }
 
-        return new User($body_decoded->result);
+        $obj = new User();
+        $obj->__FillPropsFromObject($body_decoded->result);
+
+        return $obj;
     }
 
     /**
@@ -250,7 +256,10 @@ class TelegramMethods
             throw new Exception('Could not decode the response!');
         }
 
-        return new MessageId($body_decoded->result);
+        $obj = new MessageId();
+        $obj->__FillPropsFromObject($body_decoded->result);
+
+        return $obj;
     }
 
     /**
@@ -278,7 +287,10 @@ class TelegramMethods
             throw new Exception('Could not decode the response!');
         }
 
-        return new Message($body_decoded->result);
+        $obj = new Message();
+        $obj->__FillPropsFromObject($body_decoded->result);
+
+        return $obj;
     }
 
     /**
@@ -319,7 +331,10 @@ class TelegramMethods
             throw new Exception('Could not decode the response!');
         }
 
-        return new Message($body_decoded->result);
+        $obj = new Message();
+        $obj->__FillPropsFromObject($body_decoded->result);
+
+        return $obj;
     }
 
     /**
@@ -412,7 +427,10 @@ class TelegramMethods
         if (is_bool($body_decoded->result)) {
             return true;
         } else {
-            return new Message($body_decoded->result);
+            $obj = new Message();
+            $obj->__FillPropsFromObject($body_decoded->result);
+
+            return $obj;
         }
     }
 

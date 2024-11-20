@@ -82,23 +82,12 @@ function runExampleForSendMessage()
         params: new SendMessageParams(
             chat_id: $some_chat_id,
             text: 'Test',
-            reply_markup: InlineKeyboardMarkup::__fromParameters([
+            reply_markup: new InlineKeyboardMarkup([
                 [
-                    InlineKeyboardButton::__fromParameters(
-                        'Hi',
-                        callback_data: 'say_hi',
-                    ),
-                    InlineKeyboardButton::__fromParameters(
-                        'Bye',
-                        callback_data: 'say_bye',
-                    ),
+                    new InlineKeyboardButton('Hi', callback_data: 'say_hi'),
+                    new InlineKeyboardButton('Bye', callback_data: 'say_bye'),
                 ],
-                [
-                    InlineKeyboardButton::__fromParameters(
-                        'Close',
-                        callback_data: 'close',
-                    ),
-                ],
+                [new InlineKeyboardButton('Close', callback_data: 'close')],
             ]),
         ),
         guzzle_options: $guzzle_options,
@@ -115,7 +104,7 @@ function runExampleForSendPhoto()
         token: $token,
         params: new SendPhotoParams(
             chat_id: $some_chat_id,
-            photo: InputFile::__fromParameters('/home/amir/test.jpg'),
+            photo: new InputFile('/home/amir/test.jpg'),
             caption: 'Look at this beautiful landscape!',
             show_caption_above_media: true,
         ),
@@ -138,7 +127,7 @@ function runExampleFor_bulkCopyMessage()
                 from_chat_id: $some_chat_id,
                 message_id: 325,
                 caption: 'Copied the message and changed the caption!',
-                reply_parameters: ReplyParameters::__fromParameters(
+                reply_parameters: new ReplyParameters(
                     message_id: 325,
                     chat_id: $some_chat_id,
                     allow_sending_without_reply: true,
@@ -149,7 +138,7 @@ function runExampleFor_bulkCopyMessage()
                 from_chat_id: $some_chat_id,
                 message_id: 326,
                 caption: 'Copied the message and changed the caption!',
-                reply_parameters: ReplyParameters::__fromParameters(
+                reply_parameters: new ReplyParameters(
                     message_id: 326,
                     chat_id: $some_chat_id,
                     allow_sending_without_reply: true,

@@ -51,23 +51,12 @@ try {
         params: new SendMessageParams(
             chat_id: $some_chat_id,
             text: 'Test',
-            reply_markup: InlineKeyboardMarkup::__fromParameters([
+            reply_markup: new InlineKeyboardMarkup([
                 [
-                    InlineKeyboardButton::__fromParameters(
-                        'Hi',
-                        callback_data: 'say_hi',
-                    ),
-                    InlineKeyboardButton::__fromParameters(
-                        'Bye',
-                        callback_data: 'say_bye',
-                    ),
+                    new InlineKeyboardButton('Hi', callback_data: 'say_hi'),
+                    new InlineKeyboardButton('Bye', callback_data: 'say_bye'),
                 ],
-                [
-                    InlineKeyboardButton::__fromParameters(
-                        'Close',
-                        callback_data: 'close',
-                    ),
-                ],
+                [new InlineKeyboardButton('Close', callback_data: 'close')],
             ]),
         ),
         guzzle_options: $guzzle_options,
@@ -109,8 +98,6 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 
 (34/139 classes implemented + 10 union types)
 
-\* Note that if you want to use these types (such as ReplyParameters) in the methods, you should use static `__fromParameters()` function of these types rather than their constructor.
-
 - [X] [User](https://core.telegram.org/bots/api#user)
 - - `_get_full_name()` helper method is provided by Litegram
 - [X] [Chat](https://core.telegram.org/bots/api#chat)
@@ -123,7 +110,6 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 - [ ] [TextQuote](https://core.telegram.org/bots/api#textquote)
 - [ ] [ExternalReplyInfo](https://core.telegram.org/bots/api#externalreplyinfo)
 - [X] [ReplyParameters](https://core.telegram.org/bots/api#replyparameters)
-- - Use `ReplyParameters::__fromParameters()` to instantiate the class
 - [MessageOrigin](https://core.telegram.org/bots/api##messageorigin)
 - - [ ] [MessageOriginUser](https://core.telegram.org/bots/api#messageoriginuser)
 - - [ ] [MessageOriginHiddenUser](https://core.telegram.org/bots/api#messageoriginhiddenuser)
@@ -187,19 +173,13 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 - [ ] [File](https://core.telegram.org/bots/api#file)
 - [X] [WebAppInfo](https://core.telegram.org/bots/api#webappinfo)
 - [X] [ReplyKeyboardMarkup](https://core.telegram.org/bots/api#replykeyboardmarkup)
-- - Use `ReplyKeyboardMarkup::__fromParameters()` to instantiate the class
 - [X] [KeyboardButton](https://core.telegram.org/bots/api#keyboardbutton)
-- - Use `KeyboardButton::__fromParameters()` to instantiate the class
 - [ ] [KeyboardButtonRequestUsers](https://core.telegram.org/bots/api#keyboardbuttonrequestusers)
 - [X] [KeyboardButtonRequestChat](https://core.telegram.org/bots/api#keyboardbuttonrequestchat)
-- - Use `KeyboardButtonRequestChat::__fromParameters()` to instantiate the class
 - [ ] [KeyboardButtonPollType](https://core.telegram.org/bots/api#keyboardbuttonpolltype)
 - [X] [ReplyKeyboardRemove](https://core.telegram.org/bots/api#replykeyboardremove)
-- - Use `ReplyKeyboardRemove::__fromParameters()` to instantiate the class
 - [X] [InlineKeyboardMarkup](https://core.telegram.org/bots/api#inlinekeyboardmarkup)
-- - Use `InlineKeyboardMarkup::__fromParameters()` to instantiate the class
 - [X] [InlineKeyboardButton](https://core.telegram.org/bots/api#inlinekeyboardbutton)
-- - Use `InlineKeyboardButton::__fromParameters()` to instantiate the class
 - [ ] [LoginUrl](https://core.telegram.org/bots/api#loginurl)
 - [ ] [SwitchInlineQueryChosenChat](https://core.telegram.org/bots/api#switchinlinequerychosenchat)
 - [X] [CallbackQuery](https://core.telegram.org/bots/api#callbackquery)
@@ -265,7 +245,6 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 - - [ ] [InputMediaAudio](https://core.telegram.org/bots/api#inputmediaaudio)
 - - [ ] [InputMediaDocument](https://core.telegram.org/bots/api#inputmediadocument)
 - [X] [InputFile](https://core.telegram.org/bots/api#inputfile)
-- - Use `InputFile::__fromParameters()` to instantiate the class
 - [InputPaidMedia](https://core.telegram.org/bots/api#inputpaidmedia)
 - - [ ] [InputPaidMediaPhoto](https://core.telegram.org/bots/api#inputpaidmediaphoto)
 - - [ ] [InputPaidMediaVideo](https://core.telegram.org/bots/api#inputpaidmediavideo)
@@ -282,7 +261,6 @@ static function sendMessage(
     $guzzle_options = []
 ): Message
 ```
-Unlike ordinary types, Classes such as 'SendMessageParams' which end with 'Params' can be instantiated normally (using new keyword).
 See [here](#usage-and-examples) for usage and examples.
 
 - [X] [getMe](https://core.telegram.org/bots/api#getme)

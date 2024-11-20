@@ -3,7 +3,8 @@
 namespace Litegram;
 
 // TODO: Use constructor property promotion (https://www.php.net/manual/en/language.oop5.decon.php#language.oop5.decon.constructor.promotion)
-// TODO: Consider the need for setting up arrays in the constructors
+// TODO: Consider the need for manually filling array of with objects of the suitable class in __FillPropsFromObject()
+// TODO: Use Constructor Property Promotion
 
 /**
  * This class provided a custom JSON serialization which does not include fields that evaluate to null
@@ -23,7 +24,11 @@ class CustomJsonSerialization implements \JsonSerializable
         return $obj;
     }
 
-    public function __construct(object $init_data)
+    public function __construct()
+    {
+    }
+
+    public function __FillPropsFromObject(object $init_data)
     {
         $arr = get_object_vars($init_data);
         foreach ($arr as $key => $value) {
@@ -164,126 +169,157 @@ class Update extends CustomJsonSerialization
 
     public function __construct(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
 
         // TODO: Think of a better way to automatically initialize these properties
 
         if (property_exists($init_data, 'message')) {
-            $this->message = new Message($init_data->message);
+            $this->message = new Message();
+            $this->message->__FillPropsFromObject($init_data->message);
         }
 
         if (property_exists($init_data, 'edited_message')) {
-            $this->edited_message = new Message($init_data->edited_message);
+            $this->edited_message = new Message();
+            $this->edited_message->__FillPropsFromObject(
+                $init_data->edited_message,
+            );
         }
 
         if (property_exists($init_data, 'channel_post')) {
-            $this->channel_post = new Message($init_data->channel_post);
+            $this->channel_post = new Message();
+            $this->channel_post->__FillPropsFromObject(
+                $init_data->channel_post,
+            );
         }
 
         if (property_exists($init_data, 'edited_channel_post')) {
-            $this->edited_channel_post = new Message(
+            $this->edited_channel_post = new Message();
+            $this->edited_channel_post->__FillPropsFromObject(
                 $init_data->edited_channel_post,
             );
         }
 
         if (property_exists($init_data, 'business_connection')) {
-            $this->business_connection = new BusinessConnection(
+            $this->business_connection = new BusinessConnection();
+            $this->business_connection->__FillPropsFromObject(
                 $init_data->business_connection,
             );
         }
 
         if (property_exists($init_data, 'business_message')) {
-            $this->business_message = new Message($init_data->business_message);
+            $this->business_message = new Message();
+            $this->business_message->__FillPropsFromObject(
+                $init_data->business_message,
+            );
         }
 
         if (property_exists($init_data, 'edited_business_message')) {
-            $this->edited_business_message = new Message(
+            $this->edited_business_message = new Message();
+            $this->edited_business_message->__FillPropsFromObject(
                 $init_data->edited_business_message,
             );
         }
 
         if (property_exists($init_data, 'deleted_business_message')) {
-            $this->deleted_business_message = new BusinessMessagesDeleted(
+            $this->deleted_business_message = new BusinessMessagesDeleted();
+            $this->deleted_business_message->__FillPropsFromObject(
                 $init_data->deleted_business_message,
             );
         }
 
         if (property_exists($init_data, 'message_reaction')) {
-            $this->message_reaction = new MessageReactionUpdated(
+            $this->message_reaction = new MessageReactionUpdated();
+            $this->message_reaction->__FillPropsFromObject(
                 $init_data->message_reaction,
             );
         }
 
         if (property_exists($init_data, 'message_reaction_count')) {
-            $this->message_reaction_count = new MessageReactionCountUpdated(
+            $this->message_reaction_count = new MessageReactionCountUpdated();
+            $this->message_reaction_count->__FillPropsFromObject(
                 $init_data->message_reaction_count,
             );
         }
 
         if (property_exists($init_data, 'inline_query')) {
-            $this->inline_query = new InlineQuery($init_data->inline_query);
+            $this->inline_query = new InlineQuery();
+            $this->inline_query->__FillPropsFromObject(
+                $init_data->inline_query,
+            );
         }
 
         if (property_exists($init_data, 'chosen_inline_result')) {
-            $this->chosen_inline_result = new ChosenInlineResult(
+            $this->chosen_inline_result = new ChosenInlineResult();
+            $this->inline_query->__FillPropsFromObject(
                 $init_data->chosen_inline_result,
             );
         }
 
         if (property_exists($init_data, 'callback_query')) {
-            $this->callback_query = new CallbackQuery(
+            $this->callback_query = new CallbackQuery();
+            $this->callback_query->__FillPropsFromObject(
                 $init_data->callback_query,
             );
         }
 
         if (property_exists($init_data, 'shipping_query')) {
-            $this->shipping_query = new ShippingQuery(
+            $this->shipping_query = new ShippingQuery();
+            $this->shipping_query->__FillPropsFromObject(
                 $init_data->shipping_query,
             );
         }
 
         if (property_exists($init_data, 'pre_checkout_query')) {
-            $this->pre_checkout_query = new PreCheckoutQuery(
+            $this->pre_checkout_query = new PreCheckoutQuery();
+            $this->pre_checkout_query->__FillPropsFromObject(
                 $init_data->pre_checkout_query,
             );
         }
 
         if (property_exists($init_data, 'purchased_paid_media')) {
-            $this->purchased_paid_media = new PaidMediaPurchased(
+            $this->purchased_paid_media = new PaidMediaPurchased();
+            $this->purchased_paid_media->__FillPropsFromObject(
                 $init_data->purchased_paid_media,
             );
         }
 
         if (property_exists($init_data, 'poll')) {
-            $this->poll = new Poll($init_data->poll);
+            $this->poll = new Poll();
+            $this->poll->__FillPropsFromObject($init_data->poll);
         }
 
         if (property_exists($init_data, 'poll_answer')) {
-            $this->poll_answer = new PollAnswer($init_data->poll_answer);
+            $this->poll_answer = new PollAnswer();
+            $this->poll_answer->__FillPropsFromObject($init_data->poll_answer);
         }
 
         if (property_exists($init_data, 'my_chat_member')) {
-            $this->my_chat_member = new ChatMemberUpdated(
+            $this->my_chat_member = new ChatMemberUpdated();
+            $this->my_chat_member->__FillPropsFromObject(
                 $init_data->my_chat_member,
             );
         }
 
         if (property_exists($init_data, 'chat_member')) {
-            $this->chat_member = new ChatMemberUpdated($init_data->chat_member);
+            $this->chat_member = new ChatMemberUpdated();
+            $this->chat_member->__FillPropsFromObject($init_data->chat_member);
         }
 
         if (property_exists($init_data, 'chat_join_request')) {
-            $this->chat_join_request = new ChatJoinRequest(
+            $this->chat_join_request = new ChatJoinRequest();
+            $this->chat_join_request->__FillPropsFromObject(
                 $init_data->chat_join_request,
             );
         }
 
         if (property_exists($init_data, 'chat_boost')) {
-            $this->chat_boost = new ChatBoostUpdated($init_data->chat_boost);
+            $this->chat_boost = new ChatBoostUpdated();
+            $this->chat_boost->__FillPropsFromObject($init_data->chat_boost);
         }
 
         if (property_exists($init_data, 'removed_chat_boost')) {
-            $this->removed_chat_boost = new ChatBoostRemoved(
+            $this->removed_chat_boost = new ChatBoostRemoved();
+            $this->removed_chat_boost->__FillPropsFromObject(
                 $init_data->removed_chat_boost,
             );
         }
@@ -340,9 +376,9 @@ class WebhookInfo extends CustomJsonSerialization
      */
     public ?array $allowed_updates = null;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -418,9 +454,9 @@ class User extends CustomJsonSerialization
      */
     public ?bool $has_main_web_app = null;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 
     public function _get_full_name(): string
@@ -473,9 +509,9 @@ class Chat extends CustomJsonSerialization
      */
     public ?true $is_forum = null;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -709,50 +745,63 @@ class ChatFullInfo extends CustomJsonSerialization
      */
     public ?ChatLocation $location = null;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
 
         if (property_exists($init_data, 'photo')) {
-            $this->photo = new ChatPhoto($init_data->photo);
+            $this->photo = new ChatPhoto();
+            $this->photo->__FillPropsFromObject($init_data->photo);
         }
 
         if (property_exists($init_data, 'birthdate')) {
-            $this->birthdate = new Birthdate($init_data->birthdate);
+            $this->birthdate = new Birthdate();
+            $this->birthdate->__FillPropsFromObject($init_data->birthdate);
         }
 
         if (property_exists($init_data, 'business_intro')) {
-            $this->business_intro = new BusinessIntro(
+            $this->business_intro = new BusinessIntro();
+            $this->business_intro->__FillPropsFromObject(
                 $init_data->business_intro,
             );
         }
 
         if (property_exists($init_data, 'business_location')) {
-            $this->business_location = new BusinessLocation(
+            $this->business_location = new BusinessLocation();
+            $this->business_location->__FillPropsFromObject(
                 $init_data->business_location,
             );
         }
 
         if (property_exists($init_data, 'business_opening_hours')) {
-            $this->business_opening_hours = new BusinessOpeningHours(
+            $this->business_opening_hours = new BusinessOpeningHours();
+            $this->business_opening_hours->__FillPropsFromObject(
                 $init_data->business_opening_hours,
             );
         }
 
         if (property_exists($init_data, 'personal_chat')) {
-            $this->personal_chat = new Chat($init_data->personal_chat);
+            $this->personal_chat = new Chat();
+            $this->personal_chat->__FillPropsFromObject(
+                $init_data->personal_chat,
+            );
         }
 
         if (property_exists($init_data, 'pinned_message')) {
-            $this->pinned_message = new Message($init_data->pinned_message);
+            $this->pinned_message = new Message();
+            $this->pinned_message->__FillPropsFromObject(
+                $init_data->pinned_message,
+            );
         }
 
         if (property_exists($init_data, 'permissions')) {
-            $this->permissions = new ChatPermissions($init_data->permissions);
+            $this->permissions = new ChatPermissions();
+            $this->permissions->__FillPropsFromObject($init_data->permissions);
         }
 
         if (property_exists($init_data, 'location')) {
-            $this->location = new ChatLocation($init_data->location);
+            $this->location = new ChatLocation();
+            $this->location->__FillPropsFromObject($init_data->location);
         }
     }
 }
@@ -1194,297 +1243,361 @@ class Message extends CustomJsonSerialization
      */
     public ?InlineKeyboardMarkup $reply_markup = null;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
 
         if (property_exists($init_data, 'from')) {
-            $this->from = new User($init_data->from);
+            $this->from = new User();
+            $this->from->__FillPropsFromObject($init_data->from);
         }
 
         if (property_exists($init_data, 'sender_chat')) {
-            $this->sender_chat = new Chat($init_data->sender_chat);
+            $this->sender_chat = new Chat();
+            $this->sender_chat->__FillPropsFromObject($init_data->sender_chat);
         }
 
         if (property_exists($init_data, 'sender_business_bot')) {
-            $this->sender_business_bot = new User(
+            $this->sender_business_bot = new User();
+            $this->sender_business_bot->__FillPropsFromObject(
                 $init_data->sender_business_bot,
             );
         }
 
         if (property_exists($init_data, 'chat')) {
-            $this->chat = new Chat($init_data->chat);
+            $this->chat = new Chat();
+            $this->chat->__FillPropsFromObject($init_data->chat);
         }
 
         if (property_exists($init_data, 'forward_origin')) {
             // @phpstan-ignore property.notFound
             switch ($this->forward_origin->type) {
                 case 'user':
-                    $this->forward_origin = new MessageOriginUser(
-                        $init_data->forward_origin,
-                    );
+                    $this->forward_origin = new MessageOriginUser();
                     break;
 
                 case 'hidden_user':
-                    $this->forward_origin = new MessageOriginHiddenUser(
-                        $init_data->forward_origin,
-                    );
+                    $this->forward_origin = new MessageOriginHiddenUser();
                     break;
 
                 case 'chat':
-                    $this->forward_origin = new MessageOriginChat(
-                        $init_data->forward_origin,
-                    );
+                    $this->forward_origin = new MessageOriginChat();
                     break;
 
                 case 'channel':
-                    $this->forward_origin = new MessageOriginChannel(
-                        $init_data->forward_origin,
-                    );
+                    $this->forward_origin = new MessageOriginChannel();
                     break;
             }
+
+            $this->forward_origin->__FillPropsFromObject(
+                $init_data->forward_origin,
+            );
         }
 
         if (property_exists($init_data, 'reply_to_message')) {
-            $this->reply_to_message = new Message($init_data->reply_to_message);
+            $this->reply_to_message = new Message();
+            $this->reply_to_message->__FillPropsFromObject(
+                $init_data->reply_to_message,
+            );
         }
 
         if (property_exists($init_data, 'external_reply')) {
-            $this->external_reply = new ExternalReplyInfo(
+            $this->external_reply = new ExternalReplyInfo();
+            $this->external_reply->__FillPropsFromObject(
                 $init_data->external_reply,
             );
         }
 
         if (property_exists($init_data, 'quote')) {
-            $this->quote = new TextQuote($init_data->quote);
+            $this->quote = new TextQuote();
+            $this->quote->__FillPropsFromObject($init_data->quote);
         }
 
         if (property_exists($init_data, 'reply_to_story')) {
-            $this->reply_to_story = new Story($init_data->reply_to_story);
+            $this->reply_to_story = new Story();
+            $this->reply_to_story->__FillPropsFromObject(
+                $init_data->reply_to_story,
+            );
         }
 
         if (property_exists($init_data, 'via_bot')) {
-            $this->via_bot = new User($init_data->via_bot);
+            $this->via_bot = new User();
+            $this->via_bot->__FillPropsFromObject($init_data->via_bot);
         }
 
         if (property_exists($init_data, 'link_preview_options')) {
-            $this->link_preview_options = new LinkPreviewOptions(
+            $this->link_preview_options = new LinkPreviewOptions();
+            $this->link_preview_options->__FillPropsFromObject(
                 $init_data->link_preview_options,
             );
         }
 
         if (property_exists($init_data, 'animation')) {
-            $this->animation = new Animation($init_data->animation);
+            $this->animation = new Animation();
+            $this->animation->__FillPropsFromObject($init_data->animation);
         }
 
         if (property_exists($init_data, 'audio')) {
-            $this->audio = new Audio($init_data->audio);
+            $this->audio = new Audio();
+            $this->audio->__FillPropsFromObject($init_data->audio);
         }
 
         if (property_exists($init_data, 'document')) {
-            $this->document = new Document($init_data->document);
+            $this->document = new Document();
+            $this->document->__FillPropsFromObject($init_data->document);
         }
 
         if (property_exists($init_data, 'paid_media')) {
-            $this->paid_media = new PaidMediaInfo($init_data->paid_media);
+            $this->paid_media = new PaidMediaInfo();
+            $this->paid_media->__FillPropsFromObject($init_data->paid_media);
         }
 
         if (property_exists($init_data, 'sticker')) {
-            $this->sticker = new Sticker($init_data->sticker);
+            $this->sticker = new Sticker();
+            $this->sticker->__FillPropsFromObject($init_data->sticker);
         }
 
         if (property_exists($init_data, 'story')) {
-            $this->story = new Story($init_data->story);
+            $this->story = new Story();
+            $this->story->__FillPropsFromObject($init_data->story);
         }
 
         if (property_exists($init_data, 'video')) {
-            $this->video = new Video($init_data->video);
+            $this->video = new Video();
+            $this->video->__FillPropsFromObject($init_data->video);
         }
 
         if (property_exists($init_data, 'video_note')) {
-            $this->video_note = new VideoNote($init_data->video_note);
+            $this->video_note = new VideoNote();
+            $this->video_note->__FillPropsFromObject($init_data->video_note);
         }
 
         if (property_exists($init_data, 'voice')) {
-            $this->voice = new Voice($init_data->voice);
+            $this->voice = new Voice();
+            $this->voice->__FillPropsFromObject($init_data->voice);
         }
 
         if (property_exists($init_data, 'contact')) {
-            $this->contact = new Contact($init_data->contact);
+            $this->contact = new Contact();
+            $this->contact->__FillPropsFromObject($init_data->contact);
         }
 
         if (property_exists($init_data, 'dice')) {
-            $this->dice = new Dice($init_data->dice);
+            $this->dice = new Dice();
+            $this->dice->__FillPropsFromObject($init_data->dice);
         }
 
         if (property_exists($init_data, 'game')) {
-            $this->game = new Game($init_data->game);
+            $this->game = new Game();
+            $this->game->__FillPropsFromObject($init_data->game);
         }
 
         if (property_exists($init_data, 'poll')) {
-            $this->poll = new Poll($init_data->poll);
+            $this->poll = new Poll();
+            $this->poll->__FillPropsFromObject($init_data->poll);
         }
 
         if (property_exists($init_data, 'venue')) {
-            $this->venue = new Venue($init_data->venue);
+            $this->venue = new Venue();
+            $this->venue->__FillPropsFromObject($init_data->venue);
         }
 
         if (property_exists($init_data, 'location')) {
-            $this->location = new Location($init_data->location);
+            $this->location = new Location();
+            $this->location->__FillPropsFromObject($init_data->location);
         }
 
         if (property_exists($init_data, 'left_chat_member')) {
-            $this->left_chat_member = new User($init_data->left_chat_member);
+            $this->left_chat_member = new User();
+            $this->left_chat_member->__FillPropsFromObject(
+                $init_data->left_chat_member,
+            );
         }
 
         if (property_exists($init_data, 'message_auto_delete_timer_changed')) {
-            $this->message_auto_delete_timer_changed = new MessageAutoDeleteTimerChanged(
+            $this->message_auto_delete_timer_changed = new MessageAutoDeleteTimerChanged();
+            $this->message_auto_delete_timer_changed->__FillPropsFromObject(
                 $init_data->message_auto_delete_timer_changed,
             );
         }
 
         if (property_exists($init_data, 'pinned_message')) {
-            $this->pinned_message = new Message($init_data->pinned_message);
+            $this->pinned_message = new Message();
+            $this->pinned_message->__FillPropsFromObject(
+                $init_data->pinned_message,
+            );
         }
 
         if (property_exists($init_data, 'invoice')) {
-            $this->invoice = new Invoice($init_data->invoice);
+            $this->invoice = new Invoice();
+            $this->invoice->__FillPropsFromObject($init_data->invoice);
         }
 
         if (property_exists($init_data, 'successful_payment')) {
-            $this->successful_payment = new SuccessfulPayment(
+            $this->successful_payment = new SuccessfulPayment();
+            $this->successful_payment->__FillPropsFromObject(
                 $init_data->successful_payment,
             );
         }
 
         if (property_exists($init_data, 'refunded_payment')) {
-            $this->refunded_payment = new RefundedPayment(
+            $this->refunded_payment = new RefundedPayment();
+            $this->refunded_payment->__FillPropsFromObject(
                 $init_data->refunded_payment,
             );
         }
 
         if (property_exists($init_data, 'users_shared')) {
-            $this->users_shared = new UsersShared($init_data->users_shared);
+            $this->users_shared = new UsersShared();
+            $this->users_shared->__FillPropsFromObject(
+                $init_data->users_shared,
+            );
         }
 
         if (property_exists($init_data, 'chat_shared')) {
-            $this->chat_shared = new ChatShared($init_data->chat_shared);
+            $this->chat_shared = new ChatShared();
+            $this->chat_shared->__FillPropsFromObject($init_data->chat_shared);
         }
 
         if (property_exists($init_data, 'write_access_allowed')) {
-            $this->write_access_allowed = new WriteAccessAllowed(
+            $this->write_access_allowed = new WriteAccessAllowed();
+            $this->write_access_allowed->__FillPropsFromObject(
                 $init_data->write_access_allowed,
             );
         }
 
         if (property_exists($init_data, 'passport_data')) {
-            $this->passport_data = new PassportData($init_data->passport_data);
+            $this->passport_data = new PassportData();
+            $this->passport_data->__FillPropsFromObject(
+                $init_data->passport_data,
+            );
         }
 
         if (property_exists($init_data, 'proximity_alert_triggered')) {
-            $this->proximity_alert_triggered = new ProximityAlertTriggered(
+            $this->proximity_alert_triggered = new ProximityAlertTriggered();
+            $this->proximity_alert_triggered->__FillPropsFromObject(
                 $init_data->proximity_alert_triggered,
             );
         }
 
         if (property_exists($init_data, 'boost_added')) {
-            $this->boost_added = new ChatBoostAdded($init_data->boost_added);
+            $this->boost_added = new ChatBoostAdded();
+            $this->boost_added->__FillPropsFromObject($init_data->boost_added);
         }
 
         if (property_exists($init_data, 'chat_background_set')) {
-            $this->chat_background_set = new ChatBackground(
+            $this->chat_background_set = new ChatBackground();
+            $this->chat_background_set->__FillPropsFromObject(
                 $init_data->chat_background_set,
             );
         }
 
         if (property_exists($init_data, 'forum_topic_created')) {
-            $this->forum_topic_created = new ForumTopicCreated(
+            $this->forum_topic_created = new ForumTopicCreated();
+            $this->forum_topic_created->__FillPropsFromObject(
                 $init_data->forum_topic_created,
             );
         }
 
         if (property_exists($init_data, 'forum_topic_edited')) {
-            $this->forum_topic_edited = new ForumTopicEdited(
+            $this->forum_topic_edited = new ForumTopicEdited();
+            $this->forum_topic_edited->__FillPropsFromObject(
                 $init_data->forum_topic_edited,
             );
         }
 
         if (property_exists($init_data, 'forum_topic_closed')) {
-            $this->forum_topic_closed = new ForumTopicClosed(
+            $this->forum_topic_closed = new ForumTopicClosed();
+            $this->forum_topic_closed->__FillPropsFromObject(
                 $init_data->forum_topic_closed,
             );
         }
 
         if (property_exists($init_data, 'forum_topic_reopened')) {
-            $this->forum_topic_reopened = new ForumTopicReopened(
+            $this->forum_topic_reopened = new ForumTopicReopened();
+            $this->forum_topic_reopened->__FillPropsFromObject(
                 $init_data->forum_topic_reopened,
             );
         }
 
         if (property_exists($init_data, 'general_forum_topic_hidden')) {
-            $this->general_forum_topic_hidden = new GeneralForumTopicHidden(
+            $this->general_forum_topic_hidden = new GeneralForumTopicHidden();
+            $this->general_forum_topic_hidden->__FillPropsFromObject(
                 $init_data->general_forum_topic_hidden,
             );
         }
 
         if (property_exists($init_data, 'general_forum_topic_unhidden')) {
-            $this->general_forum_topic_unhidden = new GeneralForumTopicUnhidden(
+            $this->general_forum_topic_unhidden = new GeneralForumTopicUnhidden();
+            $this->general_forum_topic_unhidden->__FillPropsFromObject(
                 $init_data->general_forum_topic_unhidden,
             );
         }
 
         if (property_exists($init_data, 'giveaway_created')) {
-            $this->giveaway_created = new GiveawayCreated(
+            $this->giveaway_created = new GiveawayCreated();
+            $this->giveaway_created->__FillPropsFromObject(
                 $init_data->giveaway_created,
             );
         }
 
         if (property_exists($init_data, 'giveaway')) {
-            $this->giveaway = new Giveaway($init_data->giveaway);
+            $this->giveaway = new Giveaway();
+            $this->giveaway->__FillPropsFromObject($init_data->giveaway);
         }
 
         if (property_exists($init_data, 'giveaway_winners')) {
-            $this->giveaway_winners = new GiveawayWinners(
+            $this->giveaway_winners = new GiveawayWinners();
+            $this->giveaway_winners->__FillPropsFromObject(
                 $init_data->giveaway_winners,
             );
         }
 
         if (property_exists($init_data, 'giveaway_completed')) {
-            $this->giveaway_completed = new GiveawayCompleted(
+            $this->giveaway_completed = new GiveawayCompleted();
+            $this->giveaway_completed->__FillPropsFromObject(
                 $init_data->giveaway_completed,
             );
         }
 
         if (property_exists($init_data, 'video_chat_scheduled')) {
-            $this->video_chat_scheduled = new VideoChatScheduled(
+            $this->video_chat_scheduled = new VideoChatScheduled();
+            $this->video_chat_scheduled->__FillPropsFromObject(
                 $init_data->video_chat_scheduled,
             );
         }
 
         if (property_exists($init_data, 'video_chat_started')) {
-            $this->video_chat_started = new VideoChatStarted(
+            $this->video_chat_started = new VideoChatStarted();
+            $this->video_chat_started->__FillPropsFromObject(
                 $init_data->video_chat_started,
             );
         }
 
         if (property_exists($init_data, 'video_chat_ended')) {
-            $this->video_chat_ended = new VideoChatEnded(
+            $this->video_chat_ended = new VideoChatEnded();
+            $this->video_chat_ended->__FillPropsFromObject(
                 $init_data->video_chat_ended,
             );
         }
 
         if (property_exists($init_data, 'video_chat_participants_invited')) {
-            $this->video_chat_participants_invited = new VideoChatParticipantsInvited(
+            $this->video_chat_participants_invited = new VideoChatParticipantsInvited();
+            $this->video_chat_participants_invited->__FillPropsFromObject(
                 $init_data->video_chat_participants_invited,
             );
         }
 
         if (property_exists($init_data, 'web_app_data')) {
-            $this->web_app_data = new WebAppData($init_data->web_app_data);
+            $this->web_app_data = new WebAppData();
+            $this->web_app_data->__FillPropsFromObject(
+                $init_data->web_app_data,
+            );
         }
 
         if (property_exists($init_data, 'reply_markup')) {
-            $this->reply_markup = new InlineKeyboardMarkup(
+            $this->reply_markup = new InlineKeyboardMarkup([]);
+            $this->reply_markup->__FillPropsFromObject(
                 $init_data->reply_markup,
             );
         }
@@ -1501,9 +1614,9 @@ class MessageId extends CustomJsonSerialization
      */
     public int $message_id;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -1527,12 +1640,13 @@ class InaccessibleMessage extends CustomJsonSerialization
      */
     public int $date;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
 
         if (property_exists($init_data, 'chat')) {
-            $this->chat = new Chat($init_data->chat);
+            $this->chat = new Chat();
+            $this->chat->__FillPropsFromObject($init_data->chat);
         }
     }
 }
@@ -1544,9 +1658,9 @@ class InaccessibleMessage extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class MessageEntity extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -1556,9 +1670,9 @@ class MessageEntity extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class TextQuote extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -1568,9 +1682,9 @@ class TextQuote extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ExternalReplyInfo extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -1615,9 +1729,9 @@ class ReplyParameters extends CustomJsonSerialization
      */
     public ?int $quote_position = null;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 
     // TODO: Replace statements such as 'int $quote_position = null' with '?int $quote_position' inside function declaration
@@ -1632,7 +1746,7 @@ class ReplyParameters extends CustomJsonSerialization
      * @param ?array<MessageEntity> $quote_entities
      * @param ?int $quote_position
      */
-    public static function __fromParameters(
+    public function __construct(
         int $message_id,
         string|int $chat_id = null,
         bool $allow_sending_without_reply = null,
@@ -1641,18 +1755,13 @@ class ReplyParameters extends CustomJsonSerialization
         array $quote_entities = null,
         int $quote_position = null,
     ) {
-        // @phpstan-ignore new.static
-        $obj = new static(new \stdClass());
-
-        $obj->message_id = $message_id;
-        $obj->chat_id = $chat_id;
-        $obj->allow_sending_without_reply = $allow_sending_without_reply;
-        $obj->quote = $quote;
-        $obj->quote_parse_mode = $quote_parse_mode;
-        $obj->quote_entities = $quote_entities;
-        $obj->quote_position = $quote_position;
-
-        return $obj;
+        $this->message_id = $message_id;
+        $this->chat_id = $chat_id;
+        $this->allow_sending_without_reply = $allow_sending_without_reply;
+        $this->quote = $quote;
+        $this->quote_parse_mode = $quote_parse_mode;
+        $this->quote_entities = $quote_entities;
+        $this->quote_position = $quote_position;
     }
 }
 
@@ -1662,9 +1771,9 @@ class ReplyParameters extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class MessageOriginUser extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -1674,9 +1783,9 @@ class MessageOriginUser extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class MessageOriginHiddenUser extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -1686,9 +1795,9 @@ class MessageOriginHiddenUser extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class MessageOriginChat extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -1698,9 +1807,9 @@ class MessageOriginChat extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class MessageOriginChannel extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -1711,9 +1820,9 @@ class MessageOriginChannel extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PhotoSize extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -1724,9 +1833,9 @@ class PhotoSize extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Animation extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -1737,9 +1846,9 @@ class Animation extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Audio extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -1750,9 +1859,9 @@ class Audio extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Document extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -1762,9 +1871,9 @@ class Document extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Story extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -1775,9 +1884,9 @@ class Story extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Video extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -1788,9 +1897,9 @@ class Video extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class VideoNote extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -1801,9 +1910,9 @@ class VideoNote extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Voice extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -1813,9 +1922,9 @@ class Voice extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PaidMediaInfo extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -1825,9 +1934,9 @@ class PaidMediaInfo extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PaidMediaPreview extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -1837,9 +1946,9 @@ class PaidMediaPreview extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PaidMediaPhoto extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -1849,9 +1958,9 @@ class PaidMediaPhoto extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PaidMediaVideo extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -1861,9 +1970,9 @@ class PaidMediaVideo extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Contact extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -1873,9 +1982,9 @@ class Contact extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Dice extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -1885,9 +1994,9 @@ class Dice extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PollOption extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -1897,9 +2006,9 @@ class PollOption extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputPollOption extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -1929,16 +2038,18 @@ class PollAnswer extends CustomJsonSerialization
      */
     public array $option_ids;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
 
         if (property_exists($init_data, 'voter_chat')) {
-            $this->voter_chat = new Chat($init_data->voter_chat);
+            $this->voter_chat = new Chat();
+            $this->voter_chat->__FillPropsFromObject($init_data->voter_chat);
         }
 
         if (property_exists($init_data, 'user')) {
-            $this->user = new User($init_data->user);
+            $this->user = new User();
+            $this->user->__FillPropsFromObject($init_data->user);
         }
     }
 }
@@ -2021,9 +2132,9 @@ class Poll extends CustomJsonSerialization
      */
     public ?int $close_date = null;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2033,9 +2144,9 @@ class Poll extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Location extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2045,9 +2156,9 @@ class Location extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Venue extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2057,9 +2168,9 @@ class Venue extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class WebAppData extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2069,9 +2180,9 @@ class WebAppData extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ProximityAlertTriggered extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2081,9 +2192,9 @@ class ProximityAlertTriggered extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class MessageAutoDeleteTimerChanged extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2093,9 +2204,9 @@ class MessageAutoDeleteTimerChanged extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatBoostAdded extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2105,9 +2216,9 @@ class ChatBoostAdded extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BackgroundFill extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2117,9 +2228,9 @@ class BackgroundFill extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BackgroundFillSolid extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2129,9 +2240,9 @@ class BackgroundFillSolid extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BackgroundFillGradient extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2141,9 +2252,9 @@ class BackgroundFillGradient extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BackgroundFillFreeformGradient extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2153,9 +2264,9 @@ class BackgroundFillFreeformGradient extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BackgroundType extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2165,9 +2276,9 @@ class BackgroundType extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BackgroundTypeFill extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2177,9 +2288,9 @@ class BackgroundTypeFill extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BackgroundTypeWallpaper extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2189,9 +2300,9 @@ class BackgroundTypeWallpaper extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BackgroundTypePattern extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2201,9 +2312,9 @@ class BackgroundTypePattern extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BackgroundTypeChatTheme extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2213,9 +2324,9 @@ class BackgroundTypeChatTheme extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatBackground extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2225,9 +2336,9 @@ class ChatBackground extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ForumTopicCreated extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2237,9 +2348,9 @@ class ForumTopicCreated extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ForumTopicClosed extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2249,9 +2360,9 @@ class ForumTopicClosed extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ForumTopicEdited extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2261,9 +2372,9 @@ class ForumTopicEdited extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ForumTopicReopened extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2273,9 +2384,9 @@ class ForumTopicReopened extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class GeneralForumTopicHidden extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2285,9 +2396,9 @@ class GeneralForumTopicHidden extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class GeneralForumTopicUnhidden extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2297,9 +2408,9 @@ class GeneralForumTopicUnhidden extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class SharedUser extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2309,9 +2420,9 @@ class SharedUser extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class UsersShared extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2346,9 +2457,9 @@ class ChatShared extends CustomJsonSerialization
      */
     public ?array $photo = null;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2358,9 +2469,9 @@ class ChatShared extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class WriteAccessAllowed extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2370,9 +2481,9 @@ class WriteAccessAllowed extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class VideoChatScheduled extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2382,9 +2493,9 @@ class VideoChatScheduled extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class VideoChatStarted extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2394,9 +2505,9 @@ class VideoChatStarted extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class VideoChatEnded extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2406,9 +2517,9 @@ class VideoChatEnded extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class VideoChatParticipantsInvited extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2418,9 +2529,9 @@ class VideoChatParticipantsInvited extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class GiveawayCreated extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2430,9 +2541,9 @@ class GiveawayCreated extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Giveaway extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2442,9 +2553,9 @@ class Giveaway extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class GiveawayWinners extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2454,9 +2565,9 @@ class GiveawayWinners extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class GiveawayCompleted extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2466,9 +2577,9 @@ class GiveawayCompleted extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class LinkPreviewOptions extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2478,9 +2589,9 @@ class LinkPreviewOptions extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class UserProfilePhotos extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2490,9 +2601,9 @@ class UserProfilePhotos extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class File extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2506,9 +2617,9 @@ class WebAppInfo extends CustomJsonSerialization
      */
     public string $url;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2550,9 +2661,9 @@ class ReplyKeyboardMarkup extends CustomJsonSerialization
      */
     public ?bool $selective;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 
     /**
@@ -2564,7 +2675,7 @@ class ReplyKeyboardMarkup extends CustomJsonSerialization
      * @param ?string $input_field_placeholder
      * @param ?bool $selective
      */
-    public static function __fromParameters(
+    public function __construct(
         array $keyboard,
         bool $is_persistent = null,
         bool $resize_keyboard = null,
@@ -2572,17 +2683,14 @@ class ReplyKeyboardMarkup extends CustomJsonSerialization
         string $input_field_placeholder = null,
         bool $selective = null,
     ) {
-        // @phpstan-ignore new.static
-        $obj = new static(new \stdClass());
+        parent::__construct();
 
-        $obj->keyboard = $keyboard;
-        $obj->is_persistent = $is_persistent;
-        $obj->resize_keyboard = $resize_keyboard;
-        $obj->one_time_keyboard = $one_time_keyboard;
-        $obj->input_field_placeholder = $input_field_placeholder;
-        $obj->selective = $selective;
-
-        return $obj;
+        $this->keyboard = $keyboard;
+        $this->is_persistent = $is_persistent;
+        $this->resize_keyboard = $resize_keyboard;
+        $this->one_time_keyboard = $one_time_keyboard;
+        $this->input_field_placeholder = $input_field_placeholder;
+        $this->selective = $selective;
     }
 }
 
@@ -2626,9 +2734,9 @@ class KeyboardButton extends CustomJsonSerialization
      */
     public ?WebAppInfo $web_app = null;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 
     /**
@@ -2641,7 +2749,7 @@ class KeyboardButton extends CustomJsonSerialization
      * @param ?KeyboardButtonPollType $request_poll
      * @param ?WebAppInfo $web_app
      */
-    public static function __fromParameters(
+    public function __construct(
         string $text,
         KeyboardButtonRequestUsers $request_users = null,
         KeyboardButtonRequestChat $request_chat = null,
@@ -2650,18 +2758,15 @@ class KeyboardButton extends CustomJsonSerialization
         KeyboardButtonPollType $request_poll = null,
         WebAppInfo $web_app = null,
     ) {
-        // @phpstan-ignore new.static
-        $obj = new static(new \stdClass());
+        parent::__construct();
 
-        $obj->text = $text;
-        $obj->request_users = $request_users;
-        $obj->request_chat = $request_chat;
-        $obj->request_contact = $request_contact;
-        $obj->request_location = $request_location;
-        $obj->request_poll = $request_poll;
-        $obj->web_app = $web_app;
-
-        return $obj;
+        $this->text = $text;
+        $this->request_users = $request_users;
+        $this->request_chat = $request_chat;
+        $this->request_contact = $request_contact;
+        $this->request_location = $request_location;
+        $this->request_poll = $request_poll;
+        $this->web_app = $web_app;
     }
 }
 
@@ -2671,9 +2776,9 @@ class KeyboardButton extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class KeyboardButtonRequestUsers extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2714,9 +2819,9 @@ class KeyboardButtonRequestChat extends CustomJsonSerialization
      */
     public ?bool $request_photo = null;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 
     /**
@@ -2728,7 +2833,7 @@ class KeyboardButtonRequestChat extends CustomJsonSerialization
      * @param ?bool $request_username
      * @param ?bool $request_photo
      */
-    public static function __fromParameters(
+    public function __construct(
         int $request_id,
         bool $chat_is_channel = null,
         bool $bot_is_member = null,
@@ -2736,17 +2841,12 @@ class KeyboardButtonRequestChat extends CustomJsonSerialization
         bool $request_username = null,
         bool $request_photo = null,
     ) {
-        // @phpstan-ignore new.static
-        $obj = new static(new \stdClass());
-
-        $obj->request_id = $request_id;
-        $obj->chat_is_channel = $chat_is_channel;
-        $obj->bot_is_member = $bot_is_member;
-        $obj->request_title = $request_title;
-        $obj->request_username = $request_username;
-        $obj->request_photo = $request_photo;
-
-        return $obj;
+        $this->request_id = $request_id;
+        $this->chat_is_channel = $chat_is_channel;
+        $this->bot_is_member = $bot_is_member;
+        $this->request_title = $request_title;
+        $this->request_username = $request_username;
+        $this->request_photo = $request_photo;
     }
 }
 
@@ -2756,9 +2856,9 @@ class KeyboardButtonRequestChat extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class KeyboardButtonPollType extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2778,9 +2878,9 @@ class ReplyKeyboardRemove extends CustomJsonSerialization
      */
     public ?bool $selective = null;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 
     /**
@@ -2788,17 +2888,10 @@ class ReplyKeyboardRemove extends CustomJsonSerialization
      * @param true $remove_keyboard
      * @param ?bool $selective
      */
-    public static function __fromParameters(
-        true $remove_keyboard,
-        bool $selective = null,
-    ) {
-        // @phpstan-ignore new.static
-        $obj = new static(new \stdClass());
-
-        $obj->remove_keyboard = $remove_keyboard;
-        $obj->selective = $selective;
-
-        return $obj;
+    public function __construct(true $remove_keyboard, bool $selective = null)
+    {
+        $this->remove_keyboard = $remove_keyboard;
+        $this->selective = $selective;
     }
 }
 
@@ -2813,22 +2906,17 @@ class InlineKeyboardMarkup extends CustomJsonSerialization
      */
     public array $inline_keyboard;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 
     /**
      * @param array<array<InlineKeyboardButton>> $inline_keyboard Array of button rows, each represented by an Array of InlineKeyboardButton objects
      */
-    public static function __fromParameters(array $inline_keyboard)
+    public function __construct(array $inline_keyboard)
     {
-        // @phpstan-ignore new.static
-        $obj = new static(new \stdClass());
-
-        $obj->inline_keyboard = $inline_keyboard;
-
-        return $obj;
+        $this->inline_keyboard = $inline_keyboard;
     }
 }
 
@@ -2890,9 +2978,9 @@ class InlineKeyboardButton extends CustomJsonSerialization
      */
     public ?bool $pay = null;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 
     /**
@@ -2901,19 +2989,14 @@ class InlineKeyboardButton extends CustomJsonSerialization
      * @param ?string $url
      * @param ?string $callback_data
      */
-    public static function __fromParameters(
+    public function __construct(
         string $text,
         string $url = null,
         string $callback_data = null,
     ) {
-        // @phpstan-ignore new.static
-        $obj = new static(new \stdClass());
-
-        $obj->text = $text;
-        $obj->url = $url;
-        $obj->callback_data = $callback_data;
-
-        return $obj;
+        $this->text = $text;
+        $this->url = $url;
+        $this->callback_data = $callback_data;
     }
 }
 
@@ -2923,9 +3006,9 @@ class InlineKeyboardButton extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class LoginUrl extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2935,9 +3018,9 @@ class LoginUrl extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class SwitchInlineQueryChosenChat extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -2981,20 +3064,22 @@ class CallbackQuery extends CustomJsonSerialization
      */
     public ?string $game_short_name = null;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
 
         if (property_exists($init_data, 'from')) {
-            $this->from = new User($init_data->from);
+            $this->from = new User();
+            $this->from->__FillPropsFromObject($init_data->from);
         }
 
         if (property_exists($init_data, 'message')) {
             if ($init_data->message->date == 0) {
-                $this->message = new InaccessibleMessage($init_data->message);
+                $this->message = new InaccessibleMessage();
             } else {
-                $this->message = new Message($init_data->message);
+                $this->message = new Message();
             }
+            $this->message->__FillPropsFromObject($init_data->message);
         }
     }
 }
@@ -3019,9 +3104,9 @@ class ForceReply extends CustomJsonSerialization
      */
     public bool $selective;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3031,9 +3116,9 @@ class ForceReply extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatPhoto extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3043,9 +3128,9 @@ class ChatPhoto extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatInviteLink extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3055,9 +3140,9 @@ class ChatInviteLink extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatAdministratorRights extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3106,90 +3191,77 @@ class ChatMemberUpdated extends CustomJsonSerialization
      */
     public ?bool $via_chat_folder_invite_link = null;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
 
         if (property_exists($init_data, 'chat')) {
-            $this->chat = new Chat($init_data->chat);
+            $this->chat = new Chat();
+            $this->chat->__FillPropsFromObject($init_data->chat);
         }
 
         if (property_exists($init_data, 'from')) {
-            $this->from = new User($init_data->from);
+            $this->from = new User();
+            $this->from->__FillPropsFromObject($init_data->from);
         }
 
         if (property_exists($init_data, 'old_chat_member')) {
             switch ($init_data->old_chat_member->status) {
                 case 'creator':
-                    $this->old_chat_member = new ChatMemberOwner(
-                        $init_data->old_chat_member,
-                    );
+                    $this->old_chat_member = new ChatMemberOwner();
                     break;
                 case 'administrator':
-                    $this->old_chat_member = new ChatMemberAdministrator(
-                        $init_data->old_chat_member,
-                    );
+                    $this->old_chat_member = new ChatMemberAdministrator();
                     break;
                 case 'member':
-                    $this->old_chat_member = new ChatMemberMember(
-                        $init_data->old_chat_member,
-                    );
+                    $this->old_chat_member = new ChatMemberMember();
                     break;
                 case 'restricted':
-                    $this->old_chat_member = new ChatMemberRestricted(
-                        $init_data->old_chat_member,
-                    );
+                    $this->old_chat_member = new ChatMemberRestricted();
                     break;
                 case 'left':
-                    $this->old_chat_member = new ChatMemberLeft(
-                        $init_data->old_chat_member,
-                    );
+                    $this->old_chat_member = new ChatMemberLeft();
                     break;
                 case 'kicked':
-                    $this->old_chat_member = new ChatMemberBanned(
-                        $init_data->old_chat_member,
-                    );
+                    $this->old_chat_member = new ChatMemberBanned();
                     break;
             }
+
+            $this->old_chat_member->__FillPropsFromObject(
+                $init_data->old_chat_member,
+            );
         }
 
         if (property_exists($init_data, 'new_chat_member')) {
             switch ($init_data->new_chat_member->status) {
                 case 'creator':
-                    $this->new_chat_member = new ChatMemberOwner(
-                        $init_data->new_chat_member,
-                    );
+                    $this->new_chat_member = new ChatMemberOwner();
                     break;
                 case 'administrator':
-                    $this->new_chat_member = new ChatMemberAdministrator(
-                        $init_data->new_chat_member,
-                    );
+                    $this->new_chat_member = new ChatMemberAdministrator();
                     break;
                 case 'member':
-                    $this->new_chat_member = new ChatMemberMember(
-                        $init_data->new_chat_member,
-                    );
+                    $this->new_chat_member = new ChatMemberMember();
                     break;
                 case 'restricted':
-                    $this->new_chat_member = new ChatMemberRestricted(
-                        $init_data->new_chat_member,
-                    );
+                    $this->new_chat_member = new ChatMemberRestricted();
                     break;
                 case 'left':
-                    $this->new_chat_member = new ChatMemberLeft(
-                        $init_data->new_chat_member,
-                    );
+                    $this->new_chat_member = new ChatMemberLeft();
                     break;
                 case 'kicked':
-                    $this->new_chat_member = new ChatMemberBanned(
-                        $init_data->new_chat_member,
-                    );
+                    $this->new_chat_member = new ChatMemberBanned();
                     break;
             }
+
+            $this->new_chat_member->__FillPropsFromObject(
+                $init_data->new_chat_member,
+            );
         }
 
         if (property_exists($init_data, 'invite_link')) {
-            $this->invite_link = new ChatInviteLink($init_data->invite_link);
+            $this->invite_link = new ChatInviteLink();
+            $this->invite_link->__FillPropsFromObject($init_data->invite_link);
         }
     }
 }
@@ -3200,9 +3272,9 @@ class ChatMemberUpdated extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatMemberOwner extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3212,9 +3284,9 @@ class ChatMemberOwner extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatMemberAdministrator extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3224,9 +3296,9 @@ class ChatMemberAdministrator extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatMemberMember extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3236,9 +3308,9 @@ class ChatMemberMember extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatMemberRestricted extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3248,9 +3320,9 @@ class ChatMemberRestricted extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatMemberLeft extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3260,9 +3332,9 @@ class ChatMemberLeft extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatMemberBanned extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3301,20 +3373,23 @@ class ChatJoinRequest extends CustomJsonSerialization
      */
     public ?ChatInviteLink $invite_link = null;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
 
         if (property_exists($init_data, 'chat')) {
-            $this->chat = new Chat($init_data->chat);
+            $this->chat = new Chat();
+            $this->chat->__FillPropsFromObject($init_data->chat);
         }
 
         if (property_exists($init_data, 'from')) {
-            $this->from = new User($init_data->from);
+            $this->from = new User();
+            $this->from->__FillPropsFromObject($init_data->from);
         }
 
         if (property_exists($init_data, 'invite_link')) {
-            $this->invite_link = new ChatInviteLink($init_data->invite_link);
+            $this->invite_link = new ChatInviteLink();
+            $this->invite_link->__FillPropsFromObject($init_data->invite_link);
         }
     }
 }
@@ -3325,9 +3400,9 @@ class ChatJoinRequest extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatPermissions extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3337,9 +3412,9 @@ class ChatPermissions extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Birthdate extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3349,9 +3424,9 @@ class Birthdate extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BusinessIntro extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3361,9 +3436,9 @@ class BusinessIntro extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BusinessLocation extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3373,9 +3448,9 @@ class BusinessLocation extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BusinessOpeningHoursInterval extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3385,9 +3460,9 @@ class BusinessOpeningHoursInterval extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BusinessOpeningHours extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3397,9 +3472,9 @@ class BusinessOpeningHours extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatLocation extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3409,9 +3484,9 @@ class ChatLocation extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ReactionTypeEmoji extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3421,9 +3496,9 @@ class ReactionTypeEmoji extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ReactionTypeCustomEmoji extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3433,9 +3508,9 @@ class ReactionTypeCustomEmoji extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ReactionTypePaid extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3445,9 +3520,9 @@ class ReactionTypePaid extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ReactionCount extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3457,9 +3532,9 @@ class ReactionCount extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class MessageReactionUpdated extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3469,9 +3544,9 @@ class MessageReactionUpdated extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class MessageReactionCountUpdated extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3481,9 +3556,9 @@ class MessageReactionCountUpdated extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ForumTopic extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3502,9 +3577,9 @@ class BotCommand extends CustomJsonSerialization
      */
     public string $description;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3615,9 +3690,9 @@ class BotName extends CustomJsonSerialization
      */
     public string $name;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3631,9 +3706,9 @@ class BotDescription extends CustomJsonSerialization
      */
     public string $description;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3643,9 +3718,9 @@ class BotDescription extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class BotShortDescription extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3655,9 +3730,9 @@ class BotShortDescription extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class MenuButtonCommands extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3667,9 +3742,9 @@ class MenuButtonCommands extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class MenuButtonWebApp extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3679,9 +3754,9 @@ class MenuButtonWebApp extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class MenuButtonDefault extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3691,9 +3766,9 @@ class MenuButtonDefault extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatBoostSourcePremium extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3703,9 +3778,9 @@ class ChatBoostSourcePremium extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatBoostSourceGiftCode extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3715,9 +3790,9 @@ class ChatBoostSourceGiftCode extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatBoostSourceGiveaway extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3727,9 +3802,9 @@ class ChatBoostSourceGiveaway extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatBoost extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3739,9 +3814,9 @@ class ChatBoost extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatBoostUpdated extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3751,9 +3826,9 @@ class ChatBoostUpdated extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ChatBoostRemoved extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3763,9 +3838,9 @@ class ChatBoostRemoved extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class UserChatBoosts extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3804,12 +3879,13 @@ class BusinessConnection extends CustomJsonSerialization
      */
     public bool $is_enabled;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
 
         if (property_exists($init_data, 'user')) {
-            $this->user = new User($init_data->user);
+            $this->user = new User();
+            $this->user->__FillPropsFromObject($init_data->user);
         }
     }
 }
@@ -3835,12 +3911,13 @@ class BusinessMessagesDeleted extends CustomJsonSerialization
      */
     public array $message_ids;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
 
         if (property_exists($init_data, 'chat')) {
-            $this->chat = new Chat($init_data->chat);
+            $this->chat = new Chat();
+            $this->chat->__FillPropsFromObject($init_data->chat);
         }
     }
 }
@@ -3851,9 +3928,9 @@ class BusinessMessagesDeleted extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ResponseParameters extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3863,9 +3940,9 @@ class ResponseParameters extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputMediaPhoto extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3875,9 +3952,9 @@ class InputMediaPhoto extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputMediaVideo extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3887,9 +3964,9 @@ class InputMediaVideo extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputMediaAnimation extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3899,9 +3976,9 @@ class InputMediaAnimation extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputMediaAudio extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3911,9 +3988,9 @@ class InputMediaAudio extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputMediaDocument extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3926,22 +4003,17 @@ class InputFile extends CustomJsonSerialization
 
     public string $_path;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 
     /**
      * @param string $_path Path to the file
      */
-    public static function __fromParameters(string $_path)
+    public function __construct(string $_path)
     {
-        // @phpstan-ignore new.static
-        $obj = new static(new \stdClass());
-
-        $obj->_path = $_path;
-
-        return $obj;
+        $this->_path = $_path;
     }
 }
 
@@ -3951,9 +4023,9 @@ class InputFile extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputPaidMediaPhoto extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3963,9 +4035,9 @@ class InputPaidMediaPhoto extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputPaidMediaVideo extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3977,9 +4049,9 @@ class InputPaidMediaVideo extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Sticker extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -3989,9 +4061,9 @@ class Sticker extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class StickerSet extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4001,9 +4073,9 @@ class StickerSet extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class MaskPosition extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4013,9 +4085,9 @@ class MaskPosition extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputSticker extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4056,16 +4128,18 @@ class InlineQuery extends CustomJsonSerialization
      */
     public ?Location $location;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
 
         if (property_exists($init_data, 'from')) {
-            $this->from = new User($init_data->from);
+            $this->from = new User();
+            $this->from->__FillPropsFromObject($init_data->from);
         }
 
         if (property_exists($init_data, 'location')) {
-            $this->location = new Location($init_data->location);
+            $this->location = new Location();
+            $this->location->__FillPropsFromObject($init_data->location);
         }
     }
 }
@@ -4091,12 +4165,13 @@ class InlineQueryResultsButton extends CustomJsonSerialization
      */
     public ?string $start_parameter = null;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
 
         if (property_exists($init_data, 'web_app')) {
-            $this->web_app = new WebAppInfo($init_data->web_app);
+            $this->web_app = new WebAppInfo();
+            $this->web_app->__FillPropsFromObject($init_data->web_app);
         }
     }
 }
@@ -4107,9 +4182,9 @@ class InlineQueryResultsButton extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultArticle extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4119,9 +4194,9 @@ class InlineQueryResultArticle extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultPhoto extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4131,9 +4206,9 @@ class InlineQueryResultPhoto extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultGif extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4143,9 +4218,9 @@ class InlineQueryResultGif extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultMpeg4Gif extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4155,9 +4230,9 @@ class InlineQueryResultMpeg4Gif extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultVideo extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4167,9 +4242,9 @@ class InlineQueryResultVideo extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultAudio extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4179,9 +4254,9 @@ class InlineQueryResultAudio extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultVoice extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4191,9 +4266,9 @@ class InlineQueryResultVoice extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultDocument extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4203,9 +4278,9 @@ class InlineQueryResultDocument extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultLocation extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4215,9 +4290,9 @@ class InlineQueryResultLocation extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultVenue extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4227,9 +4302,9 @@ class InlineQueryResultVenue extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultContact extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4239,9 +4314,9 @@ class InlineQueryResultContact extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultGame extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4251,9 +4326,9 @@ class InlineQueryResultGame extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultCachedPhoto extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4263,9 +4338,9 @@ class InlineQueryResultCachedPhoto extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultCachedGif extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4275,9 +4350,9 @@ class InlineQueryResultCachedGif extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultCachedMpeg4Gif extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4287,9 +4362,9 @@ class InlineQueryResultCachedMpeg4Gif extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultCachedSticker extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4299,9 +4374,9 @@ class InlineQueryResultCachedSticker extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultCachedDocument extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4311,9 +4386,9 @@ class InlineQueryResultCachedDocument extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultCachedVideo extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4323,9 +4398,9 @@ class InlineQueryResultCachedVideo extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultCachedVoice extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4335,9 +4410,9 @@ class InlineQueryResultCachedVoice extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InlineQueryResultCachedAudio extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4347,9 +4422,9 @@ class InlineQueryResultCachedAudio extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputTextMessageContent extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4359,9 +4434,9 @@ class InputTextMessageContent extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputLocationMessageContent extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4371,9 +4446,9 @@ class InputLocationMessageContent extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputVenueMessageContent extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4383,9 +4458,9 @@ class InputVenueMessageContent extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputContactMessageContent extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4395,9 +4470,9 @@ class InputContactMessageContent extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class InputInvoiceMessageContent extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4431,16 +4506,18 @@ class ChosenInlineResult extends CustomJsonSerialization
      */
     public string $query;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
 
         if (property_exists($init_data, 'from')) {
-            $this->from = new User($init_data->from);
+            $this->from = new User();
+            $this->from->__FillPropsFromObject($init_data->from);
         }
 
         if (property_exists($init_data, 'location')) {
-            $this->location = new Location($init_data->location);
+            $this->location = new Location();
+            $this->location->__FillPropsFromObject($init_data->location);
         }
     }
 }
@@ -4451,9 +4528,9 @@ class ChosenInlineResult extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class SentWebAppMessage extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4465,9 +4542,9 @@ class SentWebAppMessage extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class LabeledPrice extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4477,9 +4554,9 @@ class LabeledPrice extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Invoice extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4489,9 +4566,9 @@ class Invoice extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ShippingAddress extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4501,9 +4578,9 @@ class ShippingAddress extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class OrderInfo extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4513,9 +4590,9 @@ class OrderInfo extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class ShippingOption extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4525,9 +4602,9 @@ class ShippingOption extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class SuccessfulPayment extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4537,9 +4614,9 @@ class SuccessfulPayment extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class RefundedPayment extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4568,16 +4645,18 @@ class ShippingQuery extends CustomJsonSerialization
      */
     public ShippingAddress $shipping_address;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
 
         if (property_exists($init_data, 'from')) {
-            $this->from = new User($init_data->from);
+            $this->from = new User();
+            $this->from->__FillPropsFromObject($init_data->from);
         }
 
         if (property_exists($init_data, 'shipping_address')) {
-            $this->shipping_address = new ShippingAddress(
+            $this->shipping_address = new ShippingAddress();
+            $this->shipping_address->__FillPropsFromObject(
                 $init_data->shipping_address,
             );
         }
@@ -4624,16 +4703,18 @@ class PreCheckoutQuery extends CustomJsonSerialization
      */
     public ?OrderInfo $order_info = null;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
 
         if (property_exists($init_data, 'from')) {
-            $this->from = new User($init_data->from);
+            $this->from = new User();
+            $this->from->__FillPropsFromObject($init_data->from);
         }
 
         if (property_exists($init_data, 'order_info')) {
-            $this->order_info = new OrderInfo($init_data->order_info);
+            $this->order_info = new OrderInfo();
+            $this->order_info->__FillPropsFromObject($init_data->order_info);
         }
     }
 }
@@ -4653,12 +4734,13 @@ class PaidMediaPurchased extends CustomJsonSerialization
      */
     public string $paid_media_payload;
 
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
 
         if (property_exists($init_data, 'from')) {
-            $this->from = new User($init_data->from);
+            $this->from = new User();
+            $this->from->__FillPropsFromObject($init_data->from);
         }
     }
 }
@@ -4669,9 +4751,9 @@ class PaidMediaPurchased extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class RevenueWithdrawalStatePending extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4681,9 +4763,9 @@ class RevenueWithdrawalStatePending extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class RevenueWithdrawalStateSucceeded extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4693,9 +4775,9 @@ class RevenueWithdrawalStateSucceeded extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class RevenueWithdrawalStateFailed extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4705,9 +4787,9 @@ class RevenueWithdrawalStateFailed extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class TransactionPartnerUser extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4717,9 +4799,9 @@ class TransactionPartnerUser extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class TransactionPartnerFragment extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4729,9 +4811,9 @@ class TransactionPartnerFragment extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class TransactionPartnerTelegramAds extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4741,9 +4823,9 @@ class TransactionPartnerTelegramAds extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class TransactionPartnerOther extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4753,9 +4835,9 @@ class TransactionPartnerOther extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class StarTransaction extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4765,9 +4847,9 @@ class StarTransaction extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class StarTransactions extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4779,9 +4861,9 @@ class StarTransactions extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PassportData extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4791,9 +4873,9 @@ class PassportData extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PassportFile extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4803,9 +4885,9 @@ class PassportFile extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class EncryptedPassportElement extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4815,9 +4897,9 @@ class EncryptedPassportElement extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class EncryptedCredentials extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4827,9 +4909,9 @@ class EncryptedCredentials extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PassportElementErrorDataField extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4839,9 +4921,9 @@ class PassportElementErrorDataField extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PassportElementErrorFrontSide extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4851,9 +4933,9 @@ class PassportElementErrorFrontSide extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PassportElementErrorReverseSide extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4863,9 +4945,9 @@ class PassportElementErrorReverseSide extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PassportElementErrorSelfie extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4875,9 +4957,9 @@ class PassportElementErrorSelfie extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PassportElementErrorFile extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4887,9 +4969,9 @@ class PassportElementErrorFile extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PassportElementErrorFiles extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4899,9 +4981,9 @@ class PassportElementErrorFiles extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PassportElementErrorTranslationFile extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4911,9 +4993,9 @@ class PassportElementErrorTranslationFile extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PassportElementErrorTranslationFiles extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4923,9 +5005,9 @@ class PassportElementErrorTranslationFiles extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class PassportElementErrorUnspecified extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4937,9 +5019,9 @@ class PassportElementErrorUnspecified extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class Game extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4949,9 +5031,9 @@ class Game extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class CallbackGame extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
 
@@ -4961,8 +5043,8 @@ class CallbackGame extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class GameHighScore extends CustomJsonSerialization
 {
-    public function __construct(object $init_data)
+    public function __FillPropsFromObject(object $init_data)
     {
-        parent::__construct($init_data);
+        parent::__FillPropsFromObject($init_data);
     }
 }
