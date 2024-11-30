@@ -4,7 +4,6 @@ namespace Litegram;
 
 // TODO: Use constructor property promotion (https://www.php.net/manual/en/language.oop5.decon.php#language.oop5.decon.constructor.promotion)
 // TODO: Consider the need for manually filling array of with objects of the suitable class in __FillPropsFromObject()
-// TODO: Use Constructor Property Promotion
 
 /**
  * This class provided a custom JSON serialization which does not include fields that evaluate to null
@@ -1737,14 +1736,13 @@ class ReplyParameters extends CustomJsonSerialization
     // TODO: Replace statements such as 'int $quote_position = null' with '?int $quote_position' inside function declaration
 
     /**
-     * TODO: Add Docs
-     * @param int $message_id,
-     * @param string|int|null $chat_id
-     * @param ?bool $allow_sending_without_reply
-     * @param ?string $quote
-     * @param ?string $quote_parse_mode
-     * @param ?array<MessageEntity> $quote_entities
-     * @param ?int $quote_position
+     * @param int $message_id Identifier of the message that will be replied to in the current chat, or in the chat chat_id if it is specified
+     * @param string|int|null $chat_id Optional. If the message to be replied to is from a different chat, unique identifier for the chat or username of the channel (in the format @channelusername). Not supported for messages sent on behalf of a business account.
+     * @param ?bool $allow_sending_without_reply Optional. Pass True if the message should be sent even if the specified message to be replied to is not found. Always False for replies in another chat or forum topic. Always True for messages sent on behalf of a business account.
+     * @param ?string $quote Optional. Quoted part of the message to be replied to; 0-1024 characters after entities parsing. The quote must be an exact substring of the message to be replied to, including bold, italic, underline, strikethrough, spoiler, and custom_emoji entities. The message will fail to send if the quote isn't found in the original message.
+     * @param ?string $quote_parse_mode Optional. Mode for parsing entities in the quote. See formatting options for more details.
+     * @param ?array<MessageEntity> $quote_entities Optional. A JSON-serialized list of special entities that appear in the quote. It can be specified instead of quote_parse_mode.
+     * @param ?int $quote_position Optional. Position of the quote in the original message in UTF-16 code units
      */
     public function __construct(
         int $message_id,
@@ -2667,13 +2665,12 @@ class ReplyKeyboardMarkup extends CustomJsonSerialization
     }
 
     /**
-     * TODO: Add Docs
-     * @param array<array<KeyboardButton>> $keyboard
-     * @param ?bool $is_persistent
-     * @param ?bool $resize_keyboard
-     * @param ?bool $one_time_keyboard
-     * @param ?string $input_field_placeholder
-     * @param ?bool $selective
+     * @param array<array<KeyboardButton>> $keyboard Array of button rows, each represented by an Array of KeyboardButton objects
+     * @param ?bool $is_persistent Optional. Requests clients to always show the keyboard when the regular keyboard is hidden. Defaults to false, in which case the custom keyboard can be hidden and opened with a keyboard icon.
+     * @param ?bool $resize_keyboard Optional. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always of the same height as the app's standard keyboard.
+     * @param ?bool $one_time_keyboard Optional. Requests clients to hide the keyboard as soon as it's been used. The keyboard will still be available, but clients will automatically display the usual letter-keyboard in the chat - the user can press a special button in the input field to see the custom keyboard again. Defaults to false.
+     * @param ?string $input_field_placeholder Optional. The placeholder to be shown in the input field when the keyboard is active; 1-64 characters
+     * @param ?bool $selective Optional. Use this parameter if you want to show the keyboard to specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply to a message in the same chat and forum topic, sender of the original message. Example: A user requests to change the bot's language, bot replies to the request with a keyboard to select the new language. Other users in the group don't see the keyboard.
      */
     public function __construct(
         array $keyboard,
@@ -2740,14 +2737,13 @@ class KeyboardButton extends CustomJsonSerialization
     }
 
     /**
-     * TODO: Add Docs
-     * @param string $text
-     * @param ?KeyboardButtonRequestUsers $request_users
-     * @param ?KeyboardButtonRequestChat $request_chat
-     * @param ?bool $request_contact
-     * @param ?bool $request_location
-     * @param ?KeyboardButtonPollType $request_poll
-     * @param ?WebAppInfo $web_app
+     * @param string $text Text of the button. If none of the optional fields are used, it will be sent as a message when the button is pressed
+     * @param ?KeyboardButtonRequestUsers $request_users Optional. If specified, pressing the button will open a list of suitable users. Identifiers of selected users will be sent to the bot in a “users_shared” service message. Available in private chats only.
+     * @param ?KeyboardButtonRequestChat $request_chat Optional. If specified, pressing the button will open a list of suitable chats. Tapping on a chat will send its identifier to the bot in a “chat_shared” service message. Available in private chats only.
+     * @param ?bool $request_contact Optional. If True, the user's phone number will be sent as a contact when the button is pressed. Available in private chats only.
+     * @param ?bool $request_location Optional. If True, the user's current location will be sent when the button is pressed. Available in private chats only.
+     * @param ?KeyboardButtonPollType $request_poll Optional. If specified, the user will be asked to create a poll and send it to the bot when the button is pressed. Available in private chats only.
+     * @param ?WebAppInfo $web_app Optional. If specified, the described Web App will be launched when the button is pressed. The Web App will be able to send a “web_app_data” service message. Available in private chats only.
      */
     public function __construct(
         string $text,
@@ -2936,9 +2932,8 @@ class ReplyKeyboardRemove extends CustomJsonSerialization
     }
 
     /**
-     * TODO: Add Docs
-     * @param true $remove_keyboard
-     * @param ?bool $selective
+     * @param true $remove_keyboard Requests clients to remove the custom keyboard (user will not be able to summon this keyboard; if you want to hide the keyboard from sight but keep it accessible, use one_time_keyboard in ReplyKeyboardMarkup)
+     * @param ?bool $selective Optional. Use this parameter if you want to remove the keyboard for specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply to a message in the same chat and forum topic, sender of the original message. Example: A user votes in a poll, bot returns confirmation message in reply to the vote and removes the keyboard for that user, while still showing the keyboard with poll options to users who haven't voted yet.
      */
     public function __construct(true $remove_keyboard, bool $selective = null)
     {
