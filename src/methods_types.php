@@ -64,6 +64,7 @@ class SendMessageParams extends CustomJsonSerialization
      * @param ?LinkPreviewOptions $link_preview_options Link preview generation options for the message
      * @param ?bool $disable_notifications Sends the message silently. Users will receive a notification with no sound.
      * @param ?bool $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param ?bool $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param ?string $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param ?ReplyParameters $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -78,6 +79,7 @@ class SendMessageParams extends CustomJsonSerialization
         public ?LinkPreviewOptions $link_preview_options = null,
         public ?bool $disable_notifications = null,
         public ?bool $protect_content = null,
+        public ?bool $allow_paid_broadcast = null,
         public ?string $message_effect_id = null,
         public ?ReplyParameters $reply_parameters = null,
         public InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup = null,
@@ -98,6 +100,7 @@ class CopyMessageParams extends CustomJsonSerialization
      * @param ?bool $show_caption_above_media Pass True, if the caption must be shown above the message media. Ignored if a new caption isn't specified.
      * @param ?bool $disable_notifications Sends the message silently. Users will receive a notification with no sound.
      * @param ?bool $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param ?bool $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param ?ReplyParameters $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
      */
@@ -112,6 +115,7 @@ class CopyMessageParams extends CustomJsonSerialization
         public ?bool $show_caption_above_media = null,
         public ?bool $disable_notifications = null,
         public ?bool $protect_content = null,
+        public ?bool $allow_paid_broadcast = null,
         public ?ReplyParameters $reply_parameters = null,
         public InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup = null,
     ) {
@@ -132,6 +136,7 @@ class SendPhotoParams extends CustomJsonSerialization
      * @param ?bool $has_spoiler Pass True if the photo needs to be covered with a spoiler animation
      * @param ?bool $disable_notifications Sends the message silently. Users will receive a notification with no sound.
      * @param ?bool $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param ?bool $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
      * @param ?string $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
      * @param ?ReplyParameters $reply_parameters Description of the message to reply to
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
@@ -148,6 +153,7 @@ class SendPhotoParams extends CustomJsonSerialization
         public ?bool $has_spoiler = null,
         public ?bool $disable_notifications = null,
         public ?bool $protect_content = null,
+        public ?bool $allow_paid_broadcast = null,
         public ?string $message_effect_id = null,
         public ?ReplyParameters $reply_parameters = null,
         public InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup = null,
