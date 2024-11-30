@@ -19,9 +19,9 @@ Litegram is still in early development stages so expect bugs and non-backward co
 
 Use Github Issues for comments, bug reports and questions.
 
-## Installation
+## Installation / Updating
 
-`composer require amirrh6/litegram`
+`composer require amirrh6/litegram ^0.7`
 
 ## Usage and Examples
 
