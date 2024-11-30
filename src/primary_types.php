@@ -2981,6 +2981,31 @@ class InlineKeyboardButton extends CustomJsonSerialization
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);
+
+        if (property_exists($init_data, 'web_app')) {
+            $this->web_app = new WebAppInfo();
+            $this->web_app->__FillPropsFromObject($init_data->web_app);
+        }
+
+        if (property_exists($init_data, 'login_url')) {
+            $this->login_url = new LoginUrl();
+            $this->login_url->__FillPropsFromObject($init_data->login_url);
+        }
+
+        if (property_exists($init_data, 'switch_inline_query_chosen_chat')) {
+            $this->switch_inline_query_chosen_chat = new SwitchInlineQueryChosenChat();
+            $this->switch_inline_query_chosen_chat->__FillPropsFromObject(
+                $init_data->switch_inline_query_chosen_chat,
+            );
+        }
+
+
+        if (property_exists($init_data, 'callback_game')) {
+            $this->callback_game = new CallbackGame();
+            $this->callback_game->__FillPropsFromObject(
+                $init_data->callback_game,
+            );
+        }
     }
 
     /**
