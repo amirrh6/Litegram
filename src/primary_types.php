@@ -2797,7 +2797,30 @@ class KeyboardButtonRequestChat extends CustomJsonSerialization
      */
     public ?bool $chat_is_channel = null;
 
-    // TODO ...
+    /**
+     * Optional. Pass True to request a forum supergroup, pass False to request a non-forum chat. If not specified, no additional restrictions are applied.
+     */
+    public ?bool $chat_is_forum = null;
+
+    /**
+     * Optional. Pass True to request a supergroup or a channel with a username, pass False to request a chat without a username. If not specified, no additional restrictions are applied.
+     */
+    public ?bool $chat_has_username = null;
+
+    /**
+     * Optional. Pass True to request a chat owned by the user. Otherwise, no additional restrictions are applied.
+     */
+    public ?bool $chat_is_created = null;
+
+    /**
+     * Optional. A JSON-serialized object listing the required administrator rights of the user in the chat. The rights must be a superset of bot_administrator_rights. If not specified, no additional restrictions are applied.
+     */
+    public ?ChatAdministratorRights $user_administrator_rights = null;
+
+    /**
+     * Optional. A JSON-serialized object listing the required administrator rights of the bot in the chat. The rights must be a subset of user_administrator_rights. If not specified, no additional restrictions are applied.
+     */
+    public ?ChatAdministratorRights $bot_administrator_rights = null;
 
     /**
      * Optional. Pass True to request a chat with the bot as a member. Otherwise, no additional restrictions are applied.
@@ -2822,6 +2845,20 @@ class KeyboardButtonRequestChat extends CustomJsonSerialization
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);
+
+        if (property_exists($init_data, 'user_administrator_rights')) {
+            $this->user_administrator_rights = new ChatAdministratorRights();
+            $this->user_administrator_rights->__FillPropsFromObject(
+                $init_data->user_administrator_rights,
+            );
+        }
+
+        if (property_exists($init_data, 'bot_administrator_rights')) {
+            $this->bot_administrator_rights = new ChatAdministratorRights();
+            $this->bot_administrator_rights->__FillPropsFromObject(
+                $init_data->bot_administrator_rights,
+            );
+        }
     }
 
     /**
