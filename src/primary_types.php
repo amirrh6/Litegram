@@ -1652,7 +1652,7 @@ class InaccessibleMessage extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  * This object represents one special entity in a text message. For example, hashtags, usernames, URLs, etc.
  */
 #[\AllowDynamicProperties]
@@ -1665,7 +1665,7 @@ class MessageEntity extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class TextQuote extends CustomJsonSerialization
@@ -1677,7 +1677,7 @@ class TextQuote extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ExternalReplyInfo extends CustomJsonSerialization
@@ -1766,7 +1766,7 @@ class ReplyParameters extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class MessageOriginUser extends CustomJsonSerialization
@@ -1778,7 +1778,7 @@ class MessageOriginUser extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class MessageOriginHiddenUser extends CustomJsonSerialization
@@ -1790,7 +1790,7 @@ class MessageOriginHiddenUser extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class MessageOriginChat extends CustomJsonSerialization
@@ -1802,7 +1802,7 @@ class MessageOriginChat extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class MessageOriginChannel extends CustomJsonSerialization
@@ -1814,7 +1814,7 @@ class MessageOriginChannel extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  * This object represents one size of a photo or a file / sticker thumbnail.
  */
 #[\AllowDynamicProperties]
@@ -1827,7 +1827,7 @@ class PhotoSize extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  * This object represents an animation file (GIF or H.264/MPEG-4 AVC video without sound).
  */
 #[\AllowDynamicProperties]
@@ -1840,7 +1840,7 @@ class Animation extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  * This object represents an audio file to be treated as music by the Telegram clients.
  */
 #[\AllowDynamicProperties]
@@ -1853,7 +1853,7 @@ class Audio extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  * This object represents a general file (as opposed to photos, voice messages and audio files).
  */
 #[\AllowDynamicProperties]
@@ -1866,7 +1866,7 @@ class Document extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class Story extends CustomJsonSerialization
@@ -1878,7 +1878,7 @@ class Story extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  * This object represents a video file.
  */
 #[\AllowDynamicProperties]
@@ -1891,7 +1891,7 @@ class Video extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  * This object represents a video message (available in Telegram apps as of v.4.0).
  */
 #[\AllowDynamicProperties]
@@ -1904,7 +1904,7 @@ class VideoNote extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  * This object represents a voice note.
  */
 #[\AllowDynamicProperties]
@@ -1917,7 +1917,7 @@ class Voice extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class PaidMediaInfo extends CustomJsonSerialization
@@ -1929,7 +1929,7 @@ class PaidMediaInfo extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class PaidMediaPreview extends CustomJsonSerialization
@@ -1941,7 +1941,7 @@ class PaidMediaPreview extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class PaidMediaPhoto extends CustomJsonSerialization
@@ -1953,7 +1953,7 @@ class PaidMediaPhoto extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class PaidMediaVideo extends CustomJsonSerialization
@@ -1965,7 +1965,7 @@ class PaidMediaVideo extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class Contact extends CustomJsonSerialization
@@ -1977,7 +1977,7 @@ class Contact extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class Dice extends CustomJsonSerialization
@@ -1989,7 +1989,7 @@ class Dice extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class PollOption extends CustomJsonSerialization
@@ -2001,7 +2001,7 @@ class PollOption extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InputPollOption extends CustomJsonSerialization
@@ -2139,7 +2139,7 @@ class Poll extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class Location extends CustomJsonSerialization
@@ -2151,7 +2151,7 @@ class Location extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class Venue extends CustomJsonSerialization
@@ -2163,7 +2163,7 @@ class Venue extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class WebAppData extends CustomJsonSerialization
@@ -2175,7 +2175,7 @@ class WebAppData extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ProximityAlertTriggered extends CustomJsonSerialization
@@ -2187,7 +2187,7 @@ class ProximityAlertTriggered extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class MessageAutoDeleteTimerChanged extends CustomJsonSerialization
@@ -2199,7 +2199,7 @@ class MessageAutoDeleteTimerChanged extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ChatBoostAdded extends CustomJsonSerialization
@@ -2211,7 +2211,7 @@ class ChatBoostAdded extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class BackgroundFill extends CustomJsonSerialization
@@ -2223,7 +2223,7 @@ class BackgroundFill extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class BackgroundFillSolid extends CustomJsonSerialization
@@ -2235,7 +2235,7 @@ class BackgroundFillSolid extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class BackgroundFillGradient extends CustomJsonSerialization
@@ -2247,7 +2247,7 @@ class BackgroundFillGradient extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class BackgroundFillFreeformGradient extends CustomJsonSerialization
@@ -2259,7 +2259,7 @@ class BackgroundFillFreeformGradient extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class BackgroundType extends CustomJsonSerialization
@@ -2271,7 +2271,7 @@ class BackgroundType extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class BackgroundTypeFill extends CustomJsonSerialization
@@ -2283,7 +2283,7 @@ class BackgroundTypeFill extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class BackgroundTypeWallpaper extends CustomJsonSerialization
@@ -2295,7 +2295,7 @@ class BackgroundTypeWallpaper extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class BackgroundTypePattern extends CustomJsonSerialization
@@ -2307,7 +2307,7 @@ class BackgroundTypePattern extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class BackgroundTypeChatTheme extends CustomJsonSerialization
@@ -2319,7 +2319,7 @@ class BackgroundTypeChatTheme extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ChatBackground extends CustomJsonSerialization
@@ -2331,7 +2331,7 @@ class ChatBackground extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ForumTopicCreated extends CustomJsonSerialization
@@ -2343,7 +2343,7 @@ class ForumTopicCreated extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ForumTopicClosed extends CustomJsonSerialization
@@ -2355,7 +2355,7 @@ class ForumTopicClosed extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ForumTopicEdited extends CustomJsonSerialization
@@ -2367,7 +2367,7 @@ class ForumTopicEdited extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ForumTopicReopened extends CustomJsonSerialization
@@ -2379,7 +2379,7 @@ class ForumTopicReopened extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class GeneralForumTopicHidden extends CustomJsonSerialization
@@ -2391,7 +2391,7 @@ class GeneralForumTopicHidden extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class GeneralForumTopicUnhidden extends CustomJsonSerialization
@@ -2403,7 +2403,7 @@ class GeneralForumTopicUnhidden extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class SharedUser extends CustomJsonSerialization
@@ -2415,7 +2415,7 @@ class SharedUser extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class UsersShared extends CustomJsonSerialization
@@ -2464,7 +2464,7 @@ class ChatShared extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class WriteAccessAllowed extends CustomJsonSerialization
@@ -2476,7 +2476,7 @@ class WriteAccessAllowed extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class VideoChatScheduled extends CustomJsonSerialization
@@ -2488,7 +2488,7 @@ class VideoChatScheduled extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class VideoChatStarted extends CustomJsonSerialization
@@ -2500,7 +2500,7 @@ class VideoChatStarted extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class VideoChatEnded extends CustomJsonSerialization
@@ -2512,7 +2512,7 @@ class VideoChatEnded extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class VideoChatParticipantsInvited extends CustomJsonSerialization
@@ -2524,7 +2524,7 @@ class VideoChatParticipantsInvited extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class GiveawayCreated extends CustomJsonSerialization
@@ -2536,7 +2536,7 @@ class GiveawayCreated extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class Giveaway extends CustomJsonSerialization
@@ -2548,7 +2548,7 @@ class Giveaway extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class GiveawayWinners extends CustomJsonSerialization
@@ -2560,7 +2560,7 @@ class GiveawayWinners extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class GiveawayCompleted extends CustomJsonSerialization
@@ -2572,7 +2572,7 @@ class GiveawayCompleted extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class LinkPreviewOptions extends CustomJsonSerialization
@@ -2584,7 +2584,7 @@ class LinkPreviewOptions extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class UserProfilePhotos extends CustomJsonSerialization
@@ -2596,7 +2596,7 @@ class UserProfilePhotos extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class File extends CustomJsonSerialization
@@ -2771,7 +2771,7 @@ class KeyboardButton extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class KeyboardButtonRequestUsers extends CustomJsonSerialization
@@ -2851,7 +2851,7 @@ class KeyboardButtonRequestChat extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class KeyboardButtonPollType extends CustomJsonSerialization
@@ -3035,7 +3035,7 @@ class InlineKeyboardButton extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class LoginUrl extends CustomJsonSerialization
@@ -3047,7 +3047,7 @@ class LoginUrl extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class SwitchInlineQueryChosenChat extends CustomJsonSerialization
@@ -3161,7 +3161,7 @@ class ForceReply extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ChatPhoto extends CustomJsonSerialization
@@ -3173,7 +3173,7 @@ class ChatPhoto extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ChatInviteLink extends CustomJsonSerialization
@@ -3185,7 +3185,7 @@ class ChatInviteLink extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ChatAdministratorRights extends CustomJsonSerialization
@@ -3317,7 +3317,7 @@ class ChatMemberUpdated extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ChatMemberOwner extends CustomJsonSerialization
@@ -3329,7 +3329,7 @@ class ChatMemberOwner extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ChatMemberAdministrator extends CustomJsonSerialization
@@ -3341,7 +3341,7 @@ class ChatMemberAdministrator extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ChatMemberMember extends CustomJsonSerialization
@@ -3353,7 +3353,7 @@ class ChatMemberMember extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ChatMemberRestricted extends CustomJsonSerialization
@@ -3365,7 +3365,7 @@ class ChatMemberRestricted extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ChatMemberLeft extends CustomJsonSerialization
@@ -3377,7 +3377,7 @@ class ChatMemberLeft extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ChatMemberBanned extends CustomJsonSerialization
@@ -3445,7 +3445,7 @@ class ChatJoinRequest extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ChatPermissions extends CustomJsonSerialization
@@ -3457,7 +3457,7 @@ class ChatPermissions extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class Birthdate extends CustomJsonSerialization
@@ -3469,7 +3469,7 @@ class Birthdate extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class BusinessIntro extends CustomJsonSerialization
@@ -3481,7 +3481,7 @@ class BusinessIntro extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class BusinessLocation extends CustomJsonSerialization
@@ -3493,7 +3493,7 @@ class BusinessLocation extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class BusinessOpeningHoursInterval extends CustomJsonSerialization
@@ -3505,7 +3505,7 @@ class BusinessOpeningHoursInterval extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class BusinessOpeningHours extends CustomJsonSerialization
@@ -3517,7 +3517,7 @@ class BusinessOpeningHours extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ChatLocation extends CustomJsonSerialization
@@ -3529,7 +3529,7 @@ class ChatLocation extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ReactionTypeEmoji extends CustomJsonSerialization
@@ -3541,7 +3541,7 @@ class ReactionTypeEmoji extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ReactionTypeCustomEmoji extends CustomJsonSerialization
@@ -3553,7 +3553,7 @@ class ReactionTypeCustomEmoji extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ReactionTypePaid extends CustomJsonSerialization
@@ -3565,7 +3565,7 @@ class ReactionTypePaid extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ReactionCount extends CustomJsonSerialization
@@ -3577,7 +3577,7 @@ class ReactionCount extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class MessageReactionUpdated extends CustomJsonSerialization
@@ -3589,7 +3589,7 @@ class MessageReactionUpdated extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class MessageReactionCountUpdated extends CustomJsonSerialization
@@ -3601,7 +3601,7 @@ class MessageReactionCountUpdated extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ForumTopic extends CustomJsonSerialization
@@ -3763,7 +3763,7 @@ class BotDescription extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class BotShortDescription extends CustomJsonSerialization
@@ -3775,7 +3775,7 @@ class BotShortDescription extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class MenuButtonCommands extends CustomJsonSerialization
@@ -3787,7 +3787,7 @@ class MenuButtonCommands extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class MenuButtonWebApp extends CustomJsonSerialization
@@ -3799,7 +3799,7 @@ class MenuButtonWebApp extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class MenuButtonDefault extends CustomJsonSerialization
@@ -3811,7 +3811,7 @@ class MenuButtonDefault extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ChatBoostSourcePremium extends CustomJsonSerialization
@@ -3823,7 +3823,7 @@ class ChatBoostSourcePremium extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ChatBoostSourceGiftCode extends CustomJsonSerialization
@@ -3835,7 +3835,7 @@ class ChatBoostSourceGiftCode extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ChatBoostSourceGiveaway extends CustomJsonSerialization
@@ -3847,7 +3847,7 @@ class ChatBoostSourceGiveaway extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ChatBoost extends CustomJsonSerialization
@@ -3859,7 +3859,7 @@ class ChatBoost extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ChatBoostUpdated extends CustomJsonSerialization
@@ -3871,7 +3871,7 @@ class ChatBoostUpdated extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ChatBoostRemoved extends CustomJsonSerialization
@@ -3883,7 +3883,7 @@ class ChatBoostRemoved extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class UserChatBoosts extends CustomJsonSerialization
@@ -3973,7 +3973,7 @@ class BusinessMessagesDeleted extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ResponseParameters extends CustomJsonSerialization
@@ -3985,7 +3985,7 @@ class ResponseParameters extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InputMediaPhoto extends CustomJsonSerialization
@@ -3997,7 +3997,7 @@ class InputMediaPhoto extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InputMediaVideo extends CustomJsonSerialization
@@ -4009,7 +4009,7 @@ class InputMediaVideo extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InputMediaAnimation extends CustomJsonSerialization
@@ -4021,7 +4021,7 @@ class InputMediaAnimation extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InputMediaAudio extends CustomJsonSerialization
@@ -4033,7 +4033,7 @@ class InputMediaAudio extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InputMediaDocument extends CustomJsonSerialization
@@ -4068,7 +4068,7 @@ class InputFile extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InputPaidMediaPhoto extends CustomJsonSerialization
@@ -4080,7 +4080,7 @@ class InputPaidMediaPhoto extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InputPaidMediaVideo extends CustomJsonSerialization
@@ -4094,7 +4094,7 @@ class InputPaidMediaVideo extends CustomJsonSerialization
 // -------------------------------------------------------------------
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class Sticker extends CustomJsonSerialization
@@ -4106,7 +4106,7 @@ class Sticker extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class StickerSet extends CustomJsonSerialization
@@ -4118,7 +4118,7 @@ class StickerSet extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class MaskPosition extends CustomJsonSerialization
@@ -4130,7 +4130,7 @@ class MaskPosition extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InputSticker extends CustomJsonSerialization
@@ -4227,7 +4227,7 @@ class InlineQueryResultsButton extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InlineQueryResultArticle extends CustomJsonSerialization
@@ -4239,7 +4239,7 @@ class InlineQueryResultArticle extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InlineQueryResultPhoto extends CustomJsonSerialization
@@ -4251,7 +4251,7 @@ class InlineQueryResultPhoto extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InlineQueryResultGif extends CustomJsonSerialization
@@ -4263,7 +4263,7 @@ class InlineQueryResultGif extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InlineQueryResultMpeg4Gif extends CustomJsonSerialization
@@ -4275,7 +4275,7 @@ class InlineQueryResultMpeg4Gif extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InlineQueryResultVideo extends CustomJsonSerialization
@@ -4287,7 +4287,7 @@ class InlineQueryResultVideo extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InlineQueryResultAudio extends CustomJsonSerialization
@@ -4299,7 +4299,7 @@ class InlineQueryResultAudio extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InlineQueryResultVoice extends CustomJsonSerialization
@@ -4311,7 +4311,7 @@ class InlineQueryResultVoice extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InlineQueryResultDocument extends CustomJsonSerialization
@@ -4323,7 +4323,7 @@ class InlineQueryResultDocument extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InlineQueryResultLocation extends CustomJsonSerialization
@@ -4335,7 +4335,7 @@ class InlineQueryResultLocation extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InlineQueryResultVenue extends CustomJsonSerialization
@@ -4347,7 +4347,7 @@ class InlineQueryResultVenue extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InlineQueryResultContact extends CustomJsonSerialization
@@ -4359,7 +4359,7 @@ class InlineQueryResultContact extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InlineQueryResultGame extends CustomJsonSerialization
@@ -4371,7 +4371,7 @@ class InlineQueryResultGame extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InlineQueryResultCachedPhoto extends CustomJsonSerialization
@@ -4383,7 +4383,7 @@ class InlineQueryResultCachedPhoto extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InlineQueryResultCachedGif extends CustomJsonSerialization
@@ -4395,7 +4395,7 @@ class InlineQueryResultCachedGif extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InlineQueryResultCachedMpeg4Gif extends CustomJsonSerialization
@@ -4407,7 +4407,7 @@ class InlineQueryResultCachedMpeg4Gif extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InlineQueryResultCachedSticker extends CustomJsonSerialization
@@ -4419,7 +4419,7 @@ class InlineQueryResultCachedSticker extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InlineQueryResultCachedDocument extends CustomJsonSerialization
@@ -4431,7 +4431,7 @@ class InlineQueryResultCachedDocument extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InlineQueryResultCachedVideo extends CustomJsonSerialization
@@ -4443,7 +4443,7 @@ class InlineQueryResultCachedVideo extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InlineQueryResultCachedVoice extends CustomJsonSerialization
@@ -4455,7 +4455,7 @@ class InlineQueryResultCachedVoice extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InlineQueryResultCachedAudio extends CustomJsonSerialization
@@ -4467,7 +4467,7 @@ class InlineQueryResultCachedAudio extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InputTextMessageContent extends CustomJsonSerialization
@@ -4479,7 +4479,7 @@ class InputTextMessageContent extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InputLocationMessageContent extends CustomJsonSerialization
@@ -4491,7 +4491,7 @@ class InputLocationMessageContent extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InputVenueMessageContent extends CustomJsonSerialization
@@ -4503,7 +4503,7 @@ class InputVenueMessageContent extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InputContactMessageContent extends CustomJsonSerialization
@@ -4515,7 +4515,7 @@ class InputContactMessageContent extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class InputInvoiceMessageContent extends CustomJsonSerialization
@@ -4573,7 +4573,7 @@ class ChosenInlineResult extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class SentWebAppMessage extends CustomJsonSerialization
@@ -4587,7 +4587,7 @@ class SentWebAppMessage extends CustomJsonSerialization
 // -------------------------------------------------------------------
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class LabeledPrice extends CustomJsonSerialization
@@ -4599,7 +4599,7 @@ class LabeledPrice extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class Invoice extends CustomJsonSerialization
@@ -4611,7 +4611,7 @@ class Invoice extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ShippingAddress extends CustomJsonSerialization
@@ -4623,7 +4623,7 @@ class ShippingAddress extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class OrderInfo extends CustomJsonSerialization
@@ -4635,7 +4635,7 @@ class OrderInfo extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class ShippingOption extends CustomJsonSerialization
@@ -4647,7 +4647,7 @@ class ShippingOption extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class SuccessfulPayment extends CustomJsonSerialization
@@ -4659,7 +4659,7 @@ class SuccessfulPayment extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class RefundedPayment extends CustomJsonSerialization
@@ -4796,7 +4796,7 @@ class PaidMediaPurchased extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class RevenueWithdrawalStatePending extends CustomJsonSerialization
@@ -4808,7 +4808,7 @@ class RevenueWithdrawalStatePending extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class RevenueWithdrawalStateSucceeded extends CustomJsonSerialization
@@ -4820,7 +4820,7 @@ class RevenueWithdrawalStateSucceeded extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class RevenueWithdrawalStateFailed extends CustomJsonSerialization
@@ -4832,7 +4832,7 @@ class RevenueWithdrawalStateFailed extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class TransactionPartnerUser extends CustomJsonSerialization
@@ -4844,7 +4844,7 @@ class TransactionPartnerUser extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class TransactionPartnerFragment extends CustomJsonSerialization
@@ -4856,7 +4856,7 @@ class TransactionPartnerFragment extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class TransactionPartnerTelegramAds extends CustomJsonSerialization
@@ -4868,7 +4868,7 @@ class TransactionPartnerTelegramAds extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class TransactionPartnerTelegramApi extends CustomJsonSerialization
@@ -4880,7 +4880,7 @@ class TransactionPartnerTelegramApi extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class TransactionPartnerOther extends CustomJsonSerialization
@@ -4892,7 +4892,7 @@ class TransactionPartnerOther extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class StarTransaction extends CustomJsonSerialization
@@ -4904,7 +4904,7 @@ class StarTransaction extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
  */
 #[\AllowDynamicProperties]
 class StarTransactions extends CustomJsonSerialization
@@ -4918,7 +4918,8 @@ class StarTransactions extends CustomJsonSerialization
 // -------------------------------------------------------------------
 
 /**
- * TODO:
+ * TODO: Implement
+ * Describes Telegram Passport data shared with the bot by the user.
  */
 #[\AllowDynamicProperties]
 class PassportData extends CustomJsonSerialization
@@ -4930,7 +4931,8 @@ class PassportData extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
+ * This object represents a file uploaded to Telegram Passport. Currently all Telegram Passport files are in JPEG format when decrypted and don't exceed 10MB.
  */
 #[\AllowDynamicProperties]
 class PassportFile extends CustomJsonSerialization
@@ -4942,7 +4944,8 @@ class PassportFile extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
+ * Describes documents or other Telegram Passport elements shared with the bot by the user.
  */
 #[\AllowDynamicProperties]
 class EncryptedPassportElement extends CustomJsonSerialization
@@ -4954,7 +4957,8 @@ class EncryptedPassportElement extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
+ * Describes data required for decrypting and authenticating EncryptedPassportElement. See the Telegram Passport Documentation for a complete description of the data decryption and authentication processes.
  */
 #[\AllowDynamicProperties]
 class EncryptedCredentials extends CustomJsonSerialization
@@ -4966,7 +4970,8 @@ class EncryptedCredentials extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
+ * Represents an issue in one of the data fields that was provided by the user. The error is considered resolved when the field's value changes.
  */
 #[\AllowDynamicProperties]
 class PassportElementErrorDataField extends CustomJsonSerialization
@@ -4978,7 +4983,8 @@ class PassportElementErrorDataField extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
+ * Represents an issue with the front side of a document. The error is considered resolved when the file with the front side of the document changes.
  */
 #[\AllowDynamicProperties]
 class PassportElementErrorFrontSide extends CustomJsonSerialization
@@ -4990,7 +4996,8 @@ class PassportElementErrorFrontSide extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
+ * Represents an issue with the reverse side of a document. The error is considered resolved when the file with reverse side of the document changes.
  */
 #[\AllowDynamicProperties]
 class PassportElementErrorReverseSide extends CustomJsonSerialization
@@ -5002,7 +5009,8 @@ class PassportElementErrorReverseSide extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
+ * Represents an issue with the selfie with a document. The error is considered resolved when the file with the selfie changes.
  */
 #[\AllowDynamicProperties]
 class PassportElementErrorSelfie extends CustomJsonSerialization
@@ -5014,7 +5022,8 @@ class PassportElementErrorSelfie extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
+ * Represents an issue with a document scan. The error is considered resolved when the file with the document scan changes.
  */
 #[\AllowDynamicProperties]
 class PassportElementErrorFile extends CustomJsonSerialization
@@ -5026,7 +5035,8 @@ class PassportElementErrorFile extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
+ * Represents an issue with a list of scans. The error is considered resolved when the list of files containing the scans changes.
  */
 #[\AllowDynamicProperties]
 class PassportElementErrorFiles extends CustomJsonSerialization
@@ -5038,7 +5048,8 @@ class PassportElementErrorFiles extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
+ * Represents an issue with one of the files that constitute the translation of a document. The error is considered resolved when the file changes.
  */
 #[\AllowDynamicProperties]
 class PassportElementErrorTranslationFile extends CustomJsonSerialization
@@ -5050,7 +5061,8 @@ class PassportElementErrorTranslationFile extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
+ * Represents an issue with the translated version of a document. The error is considered resolved when a file with the document translation change.
  */
 #[\AllowDynamicProperties]
 class PassportElementErrorTranslationFiles extends CustomJsonSerialization
@@ -5062,7 +5074,8 @@ class PassportElementErrorTranslationFiles extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
+ * Represents an issue in an unspecified place. The error is considered resolved when new data is added.
  */
 #[\AllowDynamicProperties]
 class PassportElementErrorUnspecified extends CustomJsonSerialization
@@ -5076,7 +5089,8 @@ class PassportElementErrorUnspecified extends CustomJsonSerialization
 // -------------------------------------------------------------------
 
 /**
- * TODO:
+ * TODO: Implement
+ * This object represents a game. Use BotFather to create and edit games, their short names will act as unique identifiers.
  */
 #[\AllowDynamicProperties]
 class Game extends CustomJsonSerialization
@@ -5088,7 +5102,8 @@ class Game extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
+ * A placeholder, currently holds no information. Use BotFather to set up your game.
  */
 #[\AllowDynamicProperties]
 class CallbackGame extends CustomJsonSerialization
@@ -5100,7 +5115,8 @@ class CallbackGame extends CustomJsonSerialization
 }
 
 /**
- * TODO:
+ * TODO: Implement
+ * This object represents one row of the high scores table for a game.
  */
 #[\AllowDynamicProperties]
 class GameHighScore extends CustomJsonSerialization
