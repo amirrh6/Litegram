@@ -2,7 +2,7 @@
 
 Lightweight PHP wrapper library for Telegram Bot API
 
-Bot API version: [v7.10 (September 6, 2024)](https://core.telegram.org/bots/api#september-6-2024) - [Snapshot Link](https://web.archive.org/web/20241009125109/https://core.telegram.org/bots/api)
+Bot API version: [v7.11 (October 31, 2024)](https://core.telegram.org/bots/api#october-31-2024) - [Snapshot Link](https://web.archive.org/web/20241101091608/https://core.telegram.org/bots/api)
 
 * Minimal, Doesn't get in your way
 * Fully documented, Employs identical names for methods and classes as those found in the official API
@@ -96,7 +96,7 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 
 ### Available types
 
-(34/139 classes implemented + 10 union types)
+(35/140 classes implemented + 10 union types)
 
 - [X] [User](https://core.telegram.org/bots/api#user)
 - - `_get_full_name()` helper method is provided by Litegram
@@ -182,6 +182,7 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 - [X] [InlineKeyboardButton](https://core.telegram.org/bots/api#inlinekeyboardbutton)
 - [ ] [LoginUrl](https://core.telegram.org/bots/api#loginurl)
 - [ ] [SwitchInlineQueryChosenChat](https://core.telegram.org/bots/api#switchinlinequerychosenchat)
+- [X] [CopyTextButton](https://core.telegram.org/bots/api#copytextbutton)
 - [X] [CallbackQuery](https://core.telegram.org/bots/api#callbackquery)
 - [X] [ForceReply](https://core.telegram.org/bots/api#forcereply)
 - [ ] [ChatPhoto](https://core.telegram.org/bots/api#chatphoto)
@@ -456,6 +457,7 @@ See [here](#usage-and-examples) for usage and examples.
 - - [ ] [TransactionPartnerUser](https://core.telegram.org/bots/api#transactionpartneruser)
 - - [ ] [TransactionPartnerFragment](https://core.telegram.org/bots/api#transactionpartnerfragment)
 - - [ ] [TransactionPartnerTelegramAds](https://core.telegram.org/bots/api#transactionpartnertelegramads)
+- - [ ] [TransactionPartnerTelegramApi](https://core.telegram.org/bots/api#transactionpartnertelegramapi)
 - - [ ] [TransactionPartnerOther](https://core.telegram.org/bots/api#transactionpartnerother)
 - [ ] [StarTransaction](https://core.telegram.org/bots/api#startransaction)
 - [ ] [StarTransactions](https://core.telegram.org/bots/api#startransactions)
