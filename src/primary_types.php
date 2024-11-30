@@ -2967,6 +2967,11 @@ class InlineKeyboardButton extends CustomJsonSerialization
     public ?SwitchInlineQueryChosenChat $switch_inline_query_chosen_chat = null;
 
     /**
+     * Optional. Description of the button that copies the specified text to the clipboard.
+     */
+    public ?CopyTextButton $copy_text = null;
+
+    /**
      * Optional. Description of the game that will be launched when the user presses the button.
      * NOTE: This type of button must always be the first button in the first row.
      */
@@ -2999,6 +3004,10 @@ class InlineKeyboardButton extends CustomJsonSerialization
             );
         }
 
+        if (property_exists($init_data, 'copy_text')) {
+            $this->copy_text = new CopyTextButton();
+            $this->copy_text->__FillPropsFromObject($init_data->copy_text);
+        }
 
         if (property_exists($init_data, 'callback_game')) {
             $this->callback_game = new CallbackGame();
@@ -3043,6 +3052,22 @@ class LoginUrl extends CustomJsonSerialization
 #[\AllowDynamicProperties]
 class SwitchInlineQueryChosenChat extends CustomJsonSerialization
 {
+    public function __FillPropsFromObject(object $init_data)
+    {
+        parent::__FillPropsFromObject($init_data);
+    }
+}
+
+/**
+ * This object represents an inline keyboard button that copies specified text to the clipboard.
+ */
+class CopyTextButton extends CustomJsonSerialization
+{
+    /**
+     * The text to be copied to the clipboard; 1-256 characters
+     */
+    public string $text;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);
