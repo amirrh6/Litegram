@@ -2865,6 +2865,11 @@ class KeyboardButtonRequestChat extends CustomJsonSerialization
      * TODO: Add Docs
      * @param int $request_id
      * @param ?bool $chat_is_channel
+     * @param ?bool $chat_is_forum
+     * @param ?bool $chat_has_username
+     * @param ?bool $chat_is_created
+     * @param ?ChatAdministratorRights $user_administrator_rights
+     * @param ?ChatAdministratorRights $bot_administrator_rights
      * @param ?bool $bot_is_member
      * @param ?bool $request_title
      * @param ?bool $request_username
@@ -2873,6 +2878,11 @@ class KeyboardButtonRequestChat extends CustomJsonSerialization
     public function __construct(
         int $request_id,
         bool $chat_is_channel = null,
+        bool $chat_is_forum = null,
+        bool $chat_has_username = null,
+        bool $chat_is_created = null,
+        ChatAdministratorRights $user_administrator_rights = null,
+        ChatAdministratorRights $bot_administrator_rights = null,
         bool $bot_is_member = null,
         bool $request_title = null,
         bool $request_username = null,
@@ -2880,6 +2890,11 @@ class KeyboardButtonRequestChat extends CustomJsonSerialization
     ) {
         $this->request_id = $request_id;
         $this->chat_is_channel = $chat_is_channel;
+        $this->chat_is_forum = $chat_is_forum;
+        $this->chat_has_username = $chat_has_username;
+        $this->chat_is_created = $chat_is_created;
+        $this->user_administrator_rights = $user_administrator_rights;
+        $this->bot_administrator_rights = $bot_administrator_rights;
         $this->bot_is_member = $bot_is_member;
         $this->request_title = $request_title;
         $this->request_username = $request_username;
@@ -3059,15 +3074,36 @@ class InlineKeyboardButton extends CustomJsonSerialization
      * @param string $text
      * @param ?string $url
      * @param ?string $callback_data
+     * @param WebAppInfo $web_app
+     * @param LoginUrl $login_url
+     * @param ?string $switch_inline_query
+     * @param ?string $switch_inline_query_current_chat
+     * @param SwitchInlineQueryChosenChat $switch_inline_query_chosen_chat
+     * @param CopyTextButton $copy_text
+     * @param CallbackGame $callback_game
      */
     public function __construct(
         string $text,
         string $url = null,
         string $callback_data = null,
+        WebAppInfo $web_app = null,
+        LoginUrl $login_url = null,
+        string $switch_inline_query = null,
+        string $switch_inline_query_current_chat = null,
+        SwitchInlineQueryChosenChat $switch_inline_query_chosen_chat = null,
+        CopyTextButton $copy_text = null,
+        CallbackGame $callback_game = null,
     ) {
         $this->text = $text;
         $this->url = $url;
         $this->callback_data = $callback_data;
+        $this->web_app = $web_app;
+        $this->login_url = $login_url;
+        $this->switch_inline_query = $switch_inline_query;
+        $this->switch_inline_query_current_chat = $switch_inline_query_current_chat;
+        $this->switch_inline_query_chosen_chat = $switch_inline_query_chosen_chat;
+        $this->copy_text = $copy_text;
+        $this->callback_game = $callback_game;
     }
 }
 
