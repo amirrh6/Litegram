@@ -4871,6 +4871,18 @@ class TransactionPartnerTelegramAds extends CustomJsonSerialization
  * TODO:
  */
 #[\AllowDynamicProperties]
+class TransactionPartnerTelegramApi extends CustomJsonSerialization
+{
+    public function __FillPropsFromObject(object $init_data)
+    {
+        parent::__FillPropsFromObject($init_data);
+    }
+}
+
+/**
+ * TODO:
+ */
+#[\AllowDynamicProperties]
 class TransactionPartnerOther extends CustomJsonSerialization
 {
     public function __FillPropsFromObject(object $init_data)
