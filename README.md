@@ -4,6 +4,8 @@ Lightweight PHP wrapper library for Telegram Bot API
 
 Bot API version: [v7.11 (October 31, 2024)](https://core.telegram.org/bots/api#october-31-2024) - [Snapshot Link](https://web.archive.org/web/20241101091608/https://core.telegram.org/bots/api)
 
+PHP version: 8.3 - Unknown compatibility with earlier (8+) or later versions.
+
 * Minimal, Doesn't get in your way
 * Fully documented, Employs identical names for methods and classes as those found in the official API
 * Uses Guzzle as the HTTP client
