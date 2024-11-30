@@ -33,11 +33,11 @@ try {
 
     runExampleForGetMe();
 
-    runExampleForSendMessage();
+    $sentMessage1Id = runExampleForSendMessage();
 
-    runExampleForSendPhoto();
+    $sentMessage2Id = runExampleForSendPhoto();
 
-    runExampleFor_bulkCopyMessage();
+    runExampleFor_bulkCopyMessage($sentMessage1Id, $sentMessage2Id);
 } catch (\Throwable $th) {
     dump('Exception:', $th);
 }
@@ -69,7 +69,7 @@ function runExampleForGetMe()
         token: $token,
         guzzle_options: $guzzle_options,
     );
-    dump('Result:', $res);
+    dump($res);
 }
 
 function runExampleForSendMessage()
@@ -92,7 +92,9 @@ function runExampleForSendMessage()
         ),
         guzzle_options: $guzzle_options,
     );
-    dump('Result:', $res);
+    dump($res);
+
+    return $res->message_id;
 }
 
 function runExampleForSendPhoto()
@@ -110,10 +112,12 @@ function runExampleForSendPhoto()
         ),
         guzzle_options: $guzzle_options,
     );
-    dump('Result:', $res);
+    dump($res);
+
+    return $res->message_id;
 }
 
-function runExampleFor_bulkCopyMessage()
+function runExampleFor_bulkCopyMessage(int $message1Id, int $message2Id)
 {
     global $token, $some_chat_id, $guzzle_options;
 
@@ -125,10 +129,10 @@ function runExampleFor_bulkCopyMessage()
             new CopyMessageParams(
                 chat_id: $some_chat_id,
                 from_chat_id: $some_chat_id,
-                message_id: 325,
+                message_id: $message1Id,
                 caption: 'Copied the message and changed the caption!',
                 reply_parameters: new ReplyParameters(
-                    message_id: 325,
+                    message_id: $message1Id,
                     chat_id: $some_chat_id,
                     allow_sending_without_reply: true,
                 ),
@@ -136,10 +140,10 @@ function runExampleFor_bulkCopyMessage()
             new CopyMessageParams(
                 chat_id: $some_chat_id,
                 from_chat_id: $some_chat_id,
-                message_id: 326,
+                message_id: $message2Id,
                 caption: 'Copied the message and changed the caption!',
                 reply_parameters: new ReplyParameters(
-                    message_id: 326,
+                    message_id: $message2Id,
                     chat_id: $some_chat_id,
                     allow_sending_without_reply: true,
                 ),
@@ -147,5 +151,5 @@ function runExampleFor_bulkCopyMessage()
         ],
         guzzle_options: $guzzle_options,
     );
-    dump('Result:', $promise->wait());
+    dump($promise->wait());
 }

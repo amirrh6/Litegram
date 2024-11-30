@@ -12,7 +12,7 @@ class TelegramMethods
 {
     static string $telegramApiUrl = 'https://api.telegram.org/bot';
 
-    private static function jsonEncodeNonPrimaryFields(object $params)
+    private static function _jsonEncodeNonPrimaryFields(object $params)
     {
         $result = [];
 
@@ -51,6 +51,30 @@ class TelegramMethods
         return $result;
     }
 
+    private static function _sendRequest(
+        string $token,
+        string $methodUrl,
+        array $options,
+        array $guzzle_options,
+    ) {
+        $client = new Client(['base_uri' => '', ...$guzzle_options]);
+
+        $response = $client->post(
+            static::$telegramApiUrl . $token . "/$methodUrl",
+            $options,
+        );
+
+        $body = (string) $response->getBody();
+        $body_decoded = json_decode($body);
+
+        return $body_decoded;
+    }
+
+    private static function _getMethodName(string $classMethodName)
+    {
+        return substr($classMethodName, strrpos($classMethodName, '::') + 2);
+    }
+
     // -------------------------------------------------------------------
 
     /**
@@ -62,28 +86,23 @@ class TelegramMethods
         GetUpdatesParams $params,
         $guzzle_options = [],
     ): array {
-        $client = new Client(['base_uri' => '', ...$guzzle_options]);
-
-        $response = $client->post(
-            static::$telegramApiUrl . $token . '/getUpdates',
+        $body_decoded = TelegramMethods::_sendRequest(
+            $token,
+            TelegramMethods::_getMethodName(__METHOD__),
             [
                 'json' => $params,
             ],
+            $guzzle_options,
         );
-
-        $body = (string) $response->getBody();
-        $body_decoded = json_decode($body);
 
         if (!is_object($body_decoded)) {
             throw new Exception('Could not decode the response!');
         }
 
         $updates = [];
-
         foreach ($body_decoded->result as $update) {
             $updates[] = new Update($update);
         }
-
         return $updates;
     }
 
@@ -96,17 +115,14 @@ class TelegramMethods
         SetWebhookParams $params,
         $guzzle_options = [],
     ): true {
-        $client = new Client(['base_uri' => '', ...$guzzle_options]);
-
-        $response = $client->post(
-            static::$telegramApiUrl . $token . '/setWebhook',
+        $body_decoded = TelegramMethods::_sendRequest(
+            $token,
+            TelegramMethods::_getMethodName(__METHOD__),
             [
                 'json' => $params,
             ],
+            $guzzle_options,
         );
-
-        $body = (string) $response->getBody();
-        $body_decoded = json_decode($body);
 
         if (!is_object($body_decoded)) {
             throw new Exception('Could not decode the response!');
@@ -123,17 +139,14 @@ class TelegramMethods
         DeleteWebhookParams $params,
         $guzzle_options = [],
     ): true {
-        $client = new Client(['base_uri' => '', ...$guzzle_options]);
-
-        $response = $client->post(
-            static::$telegramApiUrl . $token . '/deleteWebhook',
+        $body_decoded = TelegramMethods::_sendRequest(
+            $token,
+            TelegramMethods::_getMethodName(__METHOD__),
             [
                 'json' => $params,
             ],
+            $guzzle_options,
         );
-
-        $body = (string) $response->getBody();
-        $body_decoded = json_decode($body);
 
         if (!is_object($body_decoded)) {
             throw new Exception('Could not decode the response!');
@@ -149,14 +162,12 @@ class TelegramMethods
         string $token,
         $guzzle_options = [],
     ): WebhookInfo {
-        $client = new Client(['base_uri' => '', ...$guzzle_options]);
-
-        $response = $client->post(
-            static::$telegramApiUrl . $token . '/getWebhookInfo',
+        $body_decoded = TelegramMethods::_sendRequest(
+            $token,
+            TelegramMethods::_getMethodName(__METHOD__),
+            [],
+            $guzzle_options,
         );
-
-        $body = (string) $response->getBody();
-        $body_decoded = json_decode($body);
 
         if (!is_object($body_decoded)) {
             throw new Exception('Could not decode the response!');
@@ -175,12 +186,12 @@ class TelegramMethods
      */
     static function getMe(string $token, $guzzle_options = []): User
     {
-        $client = new Client(['base_uri' => '', ...$guzzle_options]);
-
-        $response = $client->post(static::$telegramApiUrl . $token . '/getMe');
-
-        $body = (string) $response->getBody();
-        $body_decoded = json_decode($body);
+        $body_decoded = TelegramMethods::_sendRequest(
+            $token,
+            TelegramMethods::_getMethodName(__METHOD__),
+            [],
+            $guzzle_options,
+        );
 
         if (!is_object($body_decoded)) {
             throw new Exception('Could not decode the response!');
@@ -197,12 +208,12 @@ class TelegramMethods
      */
     static function logOut(string $token, $guzzle_options = []): true
     {
-        $client = new Client(['base_uri' => '', ...$guzzle_options]);
-
-        $response = $client->post(static::$telegramApiUrl . $token . '/logOut');
-
-        $body = (string) $response->getBody();
-        $body_decoded = json_decode($body);
+        $body_decoded = TelegramMethods::_sendRequest(
+            $token,
+            TelegramMethods::_getMethodName(__METHOD__),
+            [],
+            $guzzle_options,
+        );
 
         if (!is_object($body_decoded)) {
             throw new Exception('Could not decode the response!');
@@ -217,12 +228,12 @@ class TelegramMethods
      */
     static function close(string $token, $guzzle_options = []): true
     {
-        $client = new Client(['base_uri' => '', ...$guzzle_options]);
-
-        $response = $client->post(static::$telegramApiUrl . $token . '/close');
-
-        $body = (string) $response->getBody();
-        $body_decoded = json_decode($body);
+        $body_decoded = TelegramMethods::_sendRequest(
+            $token,
+            TelegramMethods::_getMethodName(__METHOD__),
+            [],
+            $guzzle_options,
+        );
 
         if (!is_object($body_decoded)) {
             throw new Exception('Could not decode the response!');
@@ -241,17 +252,14 @@ class TelegramMethods
         SendMessageParams $params,
         $guzzle_options = [],
     ): Message {
-        $client = new Client(['base_uri' => '', ...$guzzle_options]);
-
-        $response = $client->post(
-            static::$telegramApiUrl . $token . '/sendMessage',
+        $body_decoded = TelegramMethods::_sendRequest(
+            $token,
+            TelegramMethods::_getMethodName(__METHOD__),
             [
                 'json' => $params,
             ],
+            $guzzle_options,
         );
-
-        $body = (string) $response->getBody();
-        $body_decoded = json_decode($body);
 
         if (!is_object($body_decoded)) {
             throw new Exception('Could not decode the response!');
@@ -268,17 +276,14 @@ class TelegramMethods
         ForwardMessageParams $params,
         $guzzle_options = [],
     ): Message {
-        $client = new Client(['base_uri' => '', ...$guzzle_options]);
-
-        $response = $client->post(
-            static::$telegramApiUrl . $token . '/forwardMessage',
+        $body_decoded = TelegramMethods::_sendRequest(
+            $token,
+            TelegramMethods::_getMethodName(__METHOD__),
             [
                 'json' => $params,
             ],
+            $guzzle_options,
         );
-
-        $body = (string) $response->getBody();
-        $body_decoded = json_decode($body);
 
         if (!is_object($body_decoded)) {
             throw new Exception('Could not decode the response!');
@@ -299,17 +304,14 @@ class TelegramMethods
         CopyMessageParams $params,
         $guzzle_options = [],
     ): MessageId {
-        $client = new Client(['base_uri' => '', ...$guzzle_options]);
-
-        $response = $client->post(
-            static::$telegramApiUrl . $token . '/copyMessage',
+        $body_decoded = TelegramMethods::_sendRequest(
+            $token,
+            TelegramMethods::_getMethodName(__METHOD__),
             [
                 'json' => $params,
             ],
+            $guzzle_options,
         );
-
-        $body = (string) $response->getBody();
-        $body_decoded = json_decode($body);
 
         if (!is_object($body_decoded)) {
             throw new Exception('Could not decode the response!');
@@ -330,30 +332,24 @@ class TelegramMethods
         SendPhotoParams $params,
         $guzzle_options = [],
     ): Message {
-        $client = new Client(['base_uri' => '', ...$guzzle_options]);
-
         if ($params->photo instanceof InputFile) {
-            $multipart = [
-                ...TelegramMethods::jsonEncodeNonPrimaryFields($params),
+            $options = [
+                'multipart' => [
+                    ...TelegramMethods::_jsonEncodeNonPrimaryFields($params),
+                ],
             ];
-
-            $response = $client->post(
-                static::$telegramApiUrl . $token . '/sendPhoto',
-                [
-                    'multipart' => $multipart,
-                ],
-            );
         } else {
-            $response = $client->post(
-                static::$telegramApiUrl . $token . '/sendPhoto',
-                [
-                    'json' => $params,
-                ],
-            );
+            $options = [
+                'json' => $params,
+            ];
         }
 
-        $body = (string) $response->getBody();
-        $body_decoded = json_decode($body);
+        $body_decoded = TelegramMethods::_sendRequest(
+            $token,
+            TelegramMethods::_getMethodName(__METHOD__),
+            $options,
+            $guzzle_options,
+        );
 
         if (!is_object($body_decoded)) {
             throw new Exception('Could not decode the response!');
@@ -375,17 +371,14 @@ class TelegramMethods
         AnswerCallbackQueryParams $params,
         $guzzle_options = [],
     ): true {
-        $client = new Client(['base_uri' => '', ...$guzzle_options]);
-
-        $response = $client->post(
-            static::$telegramApiUrl . $token . '/answerCallbackQuery',
+        $body_decoded = TelegramMethods::_sendRequest(
+            $token,
+            TelegramMethods::_getMethodName(__METHOD__),
             [
                 'json' => $params,
             ],
+            $guzzle_options,
         );
-
-        $body = (string) $response->getBody();
-        $body_decoded = json_decode($body);
 
         if (!is_object($body_decoded)) {
             throw new Exception('Could not decode the response!');
@@ -408,6 +401,8 @@ class TelegramMethods
         $client = new Client(['base_uri' => '', ...$guzzle_options]);
 
         $promises = [];
+
+        // TODO: Adapt the code style of the ordinary functions
 
         foreach ($array_of_params as $copyMessageParamsObject) {
             array_push(
@@ -436,17 +431,14 @@ class TelegramMethods
         EditMessageTextParams $params,
         $guzzle_options = [],
     ): Message|true {
-        $client = new Client(['base_uri' => '', ...$guzzle_options]);
-
-        $response = $client->post(
-            static::$telegramApiUrl . $token . '/editMessageText',
+        $body_decoded = TelegramMethods::_sendRequest(
+            $token,
+            TelegramMethods::_getMethodName(__METHOD__),
             [
                 'json' => $params,
             ],
+            $guzzle_options,
         );
-
-        $body = (string) $response->getBody();
-        $body_decoded = json_decode($body);
 
         if (!is_object($body_decoded)) {
             throw new Exception('Could not decode the response!');
