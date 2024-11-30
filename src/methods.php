@@ -263,6 +263,33 @@ class TelegramMethods
         return $obj;
     }
 
+    static function forwardMessage(
+        string $token,
+        ForwardMessageParams $params,
+        $guzzle_options = [],
+    ): Message {
+        $client = new Client(['base_uri' => '', ...$guzzle_options]);
+
+        $response = $client->post(
+            static::$telegramApiUrl . $token . '/forwardMessage',
+            [
+                'json' => $params,
+            ],
+        );
+
+        $body = (string) $response->getBody();
+        $body_decoded = json_decode($body);
+
+        if (!is_object($body_decoded)) {
+            throw new Exception('Could not decode the response!');
+        }
+
+        $obj = new Message();
+        $obj->__FillPropsFromObject($body_decoded->result);
+
+        return $obj;
+    }
+
     /**
      * Use this method to copy messages of any kind. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
      * @throws ClientException

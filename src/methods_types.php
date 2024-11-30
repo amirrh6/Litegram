@@ -87,6 +87,27 @@ class SendMessageParams extends CustomJsonSerialization
     }
 }
 
+class ForwardMessageParams extends CustomJsonSerialization
+{
+    /**
+     * @param string|int $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param string|int $from_chat_id Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
+     * @param int $message_id Message identifier in the chat specified in from_chat_id
+     * @param ?int $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param ?bool $disable_notifications Sends the message silently. Users will receive a notification with no sound.
+     * @param ?bool $protect_content Protects the contents of the sent message from forwarding and saving
+     */
+    public function __construct(
+        public string|int $chat_id,
+        public string|int $from_chat_id,
+        public int $message_id,
+        public ?int $message_thread_id = null,
+        public ?bool $disable_notifications = null,
+        public ?bool $protect_content = null,
+    ) {
+    }
+}
+
 class CopyMessageParams extends CustomJsonSerialization
 {
     /**
