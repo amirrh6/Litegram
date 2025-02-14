@@ -5,6 +5,14 @@ namespace Litegram;
 // TODO: Use constructor property promotion (https://www.php.net/manual/en/language.oop5.decon.php#language.oop5.decon.constructor.promotion)
 // TODO: Consider the need for manually filling array of with objects of the suitable class in __FillPropsFromObject()
 
+function property_exists_and_is_object(
+    object|string $object_or_class,
+    string $property,
+): bool {
+    return property_exists($object_or_class, $property) &&
+        is_object($object_or_class->$property);
+}
+
 /**
  * This class provided a custom JSON serialization which does not include fields that evaluate to null
  */
@@ -182,151 +190,160 @@ class Update extends CustomJsonSerialization
 
         // TODO: Think of a better way to automatically initialize these properties
 
-        if (property_exists($init_data, 'message')) {
+        if (property_exists_and_is_object($init_data, 'message')) {
             $this->message = new Message();
             $this->message->__FillPropsFromObject($init_data->message);
         }
 
-        if (property_exists($init_data, 'edited_message')) {
+        if (property_exists_and_is_object($init_data, 'edited_message')) {
             $this->edited_message = new Message();
             $this->edited_message->__FillPropsFromObject(
                 $init_data->edited_message,
             );
         }
 
-        if (property_exists($init_data, 'channel_post')) {
+        if (property_exists_and_is_object($init_data, 'channel_post')) {
             $this->channel_post = new Message();
             $this->channel_post->__FillPropsFromObject(
                 $init_data->channel_post,
             );
         }
 
-        if (property_exists($init_data, 'edited_channel_post')) {
+        if (property_exists_and_is_object($init_data, 'edited_channel_post')) {
             $this->edited_channel_post = new Message();
             $this->edited_channel_post->__FillPropsFromObject(
                 $init_data->edited_channel_post,
             );
         }
 
-        if (property_exists($init_data, 'business_connection')) {
+        if (property_exists_and_is_object($init_data, 'business_connection')) {
             $this->business_connection = new BusinessConnection();
             $this->business_connection->__FillPropsFromObject(
                 $init_data->business_connection,
             );
         }
 
-        if (property_exists($init_data, 'business_message')) {
+        if (property_exists_and_is_object($init_data, 'business_message')) {
             $this->business_message = new Message();
             $this->business_message->__FillPropsFromObject(
                 $init_data->business_message,
             );
         }
 
-        if (property_exists($init_data, 'edited_business_message')) {
+        if (
+            property_exists_and_is_object($init_data, 'edited_business_message')
+        ) {
             $this->edited_business_message = new Message();
             $this->edited_business_message->__FillPropsFromObject(
                 $init_data->edited_business_message,
             );
         }
 
-        if (property_exists($init_data, 'deleted_business_message')) {
+        if (
+            property_exists_and_is_object(
+                $init_data,
+                'deleted_business_message',
+            )
+        ) {
             $this->deleted_business_message = new BusinessMessagesDeleted();
             $this->deleted_business_message->__FillPropsFromObject(
                 $init_data->deleted_business_message,
             );
         }
 
-        if (property_exists($init_data, 'message_reaction')) {
+        if (property_exists_and_is_object($init_data, 'message_reaction')) {
             $this->message_reaction = new MessageReactionUpdated();
             $this->message_reaction->__FillPropsFromObject(
                 $init_data->message_reaction,
             );
         }
 
-        if (property_exists($init_data, 'message_reaction_count')) {
+        if (
+            property_exists_and_is_object($init_data, 'message_reaction_count')
+        ) {
             $this->message_reaction_count = new MessageReactionCountUpdated();
             $this->message_reaction_count->__FillPropsFromObject(
                 $init_data->message_reaction_count,
             );
         }
 
-        if (property_exists($init_data, 'inline_query')) {
+        if (property_exists_and_is_object($init_data, 'inline_query')) {
             $this->inline_query = new InlineQuery();
             $this->inline_query->__FillPropsFromObject(
                 $init_data->inline_query,
             );
         }
 
-        if (property_exists($init_data, 'chosen_inline_result')) {
+        if (property_exists_and_is_object($init_data, 'chosen_inline_result')) {
             $this->chosen_inline_result = new ChosenInlineResult();
             $this->inline_query->__FillPropsFromObject(
                 $init_data->chosen_inline_result,
             );
         }
 
-        if (property_exists($init_data, 'callback_query')) {
+        if (property_exists_and_is_object($init_data, 'callback_query')) {
             $this->callback_query = new CallbackQuery();
             $this->callback_query->__FillPropsFromObject(
                 $init_data->callback_query,
             );
         }
 
-        if (property_exists($init_data, 'shipping_query')) {
+        if (property_exists_and_is_object($init_data, 'shipping_query')) {
             $this->shipping_query = new ShippingQuery();
             $this->shipping_query->__FillPropsFromObject(
                 $init_data->shipping_query,
             );
         }
 
-        if (property_exists($init_data, 'pre_checkout_query')) {
+        if (property_exists_and_is_object($init_data, 'pre_checkout_query')) {
             $this->pre_checkout_query = new PreCheckoutQuery();
             $this->pre_checkout_query->__FillPropsFromObject(
                 $init_data->pre_checkout_query,
             );
         }
 
-        if (property_exists($init_data, 'purchased_paid_media')) {
+        if (property_exists_and_is_object($init_data, 'purchased_paid_media')) {
             $this->purchased_paid_media = new PaidMediaPurchased();
             $this->purchased_paid_media->__FillPropsFromObject(
                 $init_data->purchased_paid_media,
             );
         }
 
-        if (property_exists($init_data, 'poll')) {
+        if (property_exists_and_is_object($init_data, 'poll')) {
             $this->poll = new Poll();
             $this->poll->__FillPropsFromObject($init_data->poll);
         }
 
-        if (property_exists($init_data, 'poll_answer')) {
+        if (property_exists_and_is_object($init_data, 'poll_answer')) {
             $this->poll_answer = new PollAnswer();
             $this->poll_answer->__FillPropsFromObject($init_data->poll_answer);
         }
 
-        if (property_exists($init_data, 'my_chat_member')) {
+        if (property_exists_and_is_object($init_data, 'my_chat_member')) {
             $this->my_chat_member = new ChatMemberUpdated();
             $this->my_chat_member->__FillPropsFromObject(
                 $init_data->my_chat_member,
             );
         }
 
-        if (property_exists($init_data, 'chat_member')) {
+        if (property_exists_and_is_object($init_data, 'chat_member')) {
             $this->chat_member = new ChatMemberUpdated();
             $this->chat_member->__FillPropsFromObject($init_data->chat_member);
         }
 
-        if (property_exists($init_data, 'chat_join_request')) {
+        if (property_exists_and_is_object($init_data, 'chat_join_request')) {
             $this->chat_join_request = new ChatJoinRequest();
             $this->chat_join_request->__FillPropsFromObject(
                 $init_data->chat_join_request,
             );
         }
 
-        if (property_exists($init_data, 'chat_boost')) {
+        if (property_exists_and_is_object($init_data, 'chat_boost')) {
             $this->chat_boost = new ChatBoostUpdated();
             $this->chat_boost->__FillPropsFromObject($init_data->chat_boost);
         }
 
-        if (property_exists($init_data, 'removed_chat_boost')) {
+        if (property_exists_and_is_object($init_data, 'removed_chat_boost')) {
             $this->removed_chat_boost = new ChatBoostRemoved();
             $this->removed_chat_boost->__FillPropsFromObject(
                 $init_data->removed_chat_boost,
@@ -758,57 +775,59 @@ class ChatFullInfo extends CustomJsonSerialization
     {
         parent::__FillPropsFromObject($init_data);
 
-        if (property_exists($init_data, 'photo')) {
+        if (property_exists_and_is_object($init_data, 'photo')) {
             $this->photo = new ChatPhoto();
             $this->photo->__FillPropsFromObject($init_data->photo);
         }
 
-        if (property_exists($init_data, 'birthdate')) {
+        if (property_exists_and_is_object($init_data, 'birthdate')) {
             $this->birthdate = new Birthdate();
             $this->birthdate->__FillPropsFromObject($init_data->birthdate);
         }
 
-        if (property_exists($init_data, 'business_intro')) {
+        if (property_exists_and_is_object($init_data, 'business_intro')) {
             $this->business_intro = new BusinessIntro();
             $this->business_intro->__FillPropsFromObject(
                 $init_data->business_intro,
             );
         }
 
-        if (property_exists($init_data, 'business_location')) {
+        if (property_exists_and_is_object($init_data, 'business_location')) {
             $this->business_location = new BusinessLocation();
             $this->business_location->__FillPropsFromObject(
                 $init_data->business_location,
             );
         }
 
-        if (property_exists($init_data, 'business_opening_hours')) {
+        if (
+            property_exists_and_is_object($init_data, 'business_opening_hours')
+        ) {
             $this->business_opening_hours = new BusinessOpeningHours();
             $this->business_opening_hours->__FillPropsFromObject(
                 $init_data->business_opening_hours,
             );
         }
 
-        if (property_exists($init_data, 'personal_chat')) {
+        if (property_exists_and_is_object($init_data, 'personal_chat')) {
             $this->personal_chat = new Chat();
             $this->personal_chat->__FillPropsFromObject(
                 $init_data->personal_chat,
             );
         }
 
-        if (property_exists($init_data, 'pinned_message')) {
+        if (property_exists_and_is_object($init_data, 'pinned_message')) {
             $this->pinned_message = new Message();
             $this->pinned_message->__FillPropsFromObject(
                 $init_data->pinned_message,
             );
         }
 
-        if (property_exists($init_data, 'permissions')) {
+        if (property_exists_and_is_object($init_data, 'permissions')) {
             $this->permissions = new ChatPermissions();
             $this->permissions->__FillPropsFromObject($init_data->permissions);
         }
 
-        if (property_exists($init_data, 'location')) {
+        if (property_exists_and_is_object($init_data, 'location')) {
             $this->location = new ChatLocation();
             $this->location->__FillPropsFromObject($init_data->location);
         }
@@ -1256,29 +1275,29 @@ class Message extends CustomJsonSerialization
     {
         parent::__FillPropsFromObject($init_data);
 
-        if (property_exists($init_data, 'from')) {
+        if (property_exists_and_is_object($init_data, 'from')) {
             $this->from = new User();
             $this->from->__FillPropsFromObject($init_data->from);
         }
 
-        if (property_exists($init_data, 'sender_chat')) {
+        if (property_exists_and_is_object($init_data, 'sender_chat')) {
             $this->sender_chat = new Chat();
             $this->sender_chat->__FillPropsFromObject($init_data->sender_chat);
         }
 
-        if (property_exists($init_data, 'sender_business_bot')) {
+        if (property_exists_and_is_object($init_data, 'sender_business_bot')) {
             $this->sender_business_bot = new User();
             $this->sender_business_bot->__FillPropsFromObject(
                 $init_data->sender_business_bot,
             );
         }
 
-        if (property_exists($init_data, 'chat')) {
+        if (property_exists_and_is_object($init_data, 'chat')) {
             $this->chat = new Chat();
             $this->chat->__FillPropsFromObject($init_data->chat);
         }
 
-        if (property_exists($init_data, 'forward_origin')) {
+        if (property_exists_and_is_object($init_data, 'forward_origin')) {
             // @phpstan-ignore property.notFound
             switch ($this->forward_origin->type) {
                 case 'user':
@@ -1303,308 +1322,333 @@ class Message extends CustomJsonSerialization
             );
         }
 
-        if (property_exists($init_data, 'reply_to_message')) {
+        if (property_exists_and_is_object($init_data, 'reply_to_message')) {
             $this->reply_to_message = new Message();
             $this->reply_to_message->__FillPropsFromObject(
                 $init_data->reply_to_message,
             );
         }
 
-        if (property_exists($init_data, 'external_reply')) {
+        if (property_exists_and_is_object($init_data, 'external_reply')) {
             $this->external_reply = new ExternalReplyInfo();
             $this->external_reply->__FillPropsFromObject(
                 $init_data->external_reply,
             );
         }
 
-        if (property_exists($init_data, 'quote')) {
+        if (property_exists_and_is_object($init_data, 'quote')) {
             $this->quote = new TextQuote();
             $this->quote->__FillPropsFromObject($init_data->quote);
         }
 
-        if (property_exists($init_data, 'reply_to_story')) {
+        if (property_exists_and_is_object($init_data, 'reply_to_story')) {
             $this->reply_to_story = new Story();
             $this->reply_to_story->__FillPropsFromObject(
                 $init_data->reply_to_story,
             );
         }
 
-        if (property_exists($init_data, 'via_bot')) {
+        if (property_exists_and_is_object($init_data, 'via_bot')) {
             $this->via_bot = new User();
             $this->via_bot->__FillPropsFromObject($init_data->via_bot);
         }
 
-        if (property_exists($init_data, 'link_preview_options')) {
+        if (property_exists_and_is_object($init_data, 'link_preview_options')) {
             $this->link_preview_options = new LinkPreviewOptions();
             $this->link_preview_options->__FillPropsFromObject(
                 $init_data->link_preview_options,
             );
         }
 
-        if (property_exists($init_data, 'animation')) {
+        if (property_exists_and_is_object($init_data, 'animation')) {
             $this->animation = new Animation();
             $this->animation->__FillPropsFromObject($init_data->animation);
         }
 
-        if (property_exists($init_data, 'audio')) {
+        if (property_exists_and_is_object($init_data, 'audio')) {
             $this->audio = new Audio();
             $this->audio->__FillPropsFromObject($init_data->audio);
         }
 
-        if (property_exists($init_data, 'document')) {
+        if (property_exists_and_is_object($init_data, 'document')) {
             $this->document = new Document();
             $this->document->__FillPropsFromObject($init_data->document);
         }
 
-        if (property_exists($init_data, 'paid_media')) {
+        if (property_exists_and_is_object($init_data, 'paid_media')) {
             $this->paid_media = new PaidMediaInfo();
             $this->paid_media->__FillPropsFromObject($init_data->paid_media);
         }
 
-        if (property_exists($init_data, 'sticker')) {
+        if (property_exists_and_is_object($init_data, 'sticker')) {
             $this->sticker = new Sticker();
             $this->sticker->__FillPropsFromObject($init_data->sticker);
         }
 
-        if (property_exists($init_data, 'story')) {
+        if (property_exists_and_is_object($init_data, 'story')) {
             $this->story = new Story();
             $this->story->__FillPropsFromObject($init_data->story);
         }
 
-        if (property_exists($init_data, 'video')) {
+        if (property_exists_and_is_object($init_data, 'video')) {
             $this->video = new Video();
             $this->video->__FillPropsFromObject($init_data->video);
         }
 
-        if (property_exists($init_data, 'video_note')) {
+        if (property_exists_and_is_object($init_data, 'video_note')) {
             $this->video_note = new VideoNote();
             $this->video_note->__FillPropsFromObject($init_data->video_note);
         }
 
-        if (property_exists($init_data, 'voice')) {
+        if (property_exists_and_is_object($init_data, 'voice')) {
             $this->voice = new Voice();
             $this->voice->__FillPropsFromObject($init_data->voice);
         }
 
-        if (property_exists($init_data, 'contact')) {
+        if (property_exists_and_is_object($init_data, 'contact')) {
             $this->contact = new Contact();
             $this->contact->__FillPropsFromObject($init_data->contact);
         }
 
-        if (property_exists($init_data, 'dice')) {
+        if (property_exists_and_is_object($init_data, 'dice')) {
             $this->dice = new Dice();
             $this->dice->__FillPropsFromObject($init_data->dice);
         }
 
-        if (property_exists($init_data, 'game')) {
+        if (property_exists_and_is_object($init_data, 'game')) {
             $this->game = new Game();
             $this->game->__FillPropsFromObject($init_data->game);
         }
 
-        if (property_exists($init_data, 'poll')) {
+        if (property_exists_and_is_object($init_data, 'poll')) {
             $this->poll = new Poll();
             $this->poll->__FillPropsFromObject($init_data->poll);
         }
 
-        if (property_exists($init_data, 'venue')) {
+        if (property_exists_and_is_object($init_data, 'venue')) {
             $this->venue = new Venue();
             $this->venue->__FillPropsFromObject($init_data->venue);
         }
 
-        if (property_exists($init_data, 'location')) {
+        if (property_exists_and_is_object($init_data, 'location')) {
             $this->location = new Location();
             $this->location->__FillPropsFromObject($init_data->location);
         }
 
-        if (property_exists($init_data, 'left_chat_member')) {
+        if (property_exists_and_is_object($init_data, 'left_chat_member')) {
             $this->left_chat_member = new User();
             $this->left_chat_member->__FillPropsFromObject(
                 $init_data->left_chat_member,
             );
         }
 
-        if (property_exists($init_data, 'message_auto_delete_timer_changed')) {
+        if (
+            property_exists_and_is_object(
+                $init_data,
+                'message_auto_delete_timer_changed',
+            )
+        ) {
             $this->message_auto_delete_timer_changed = new MessageAutoDeleteTimerChanged();
             $this->message_auto_delete_timer_changed->__FillPropsFromObject(
                 $init_data->message_auto_delete_timer_changed,
             );
         }
 
-        if (property_exists($init_data, 'pinned_message')) {
+        if (property_exists_and_is_object($init_data, 'pinned_message')) {
             $this->pinned_message = new Message();
             $this->pinned_message->__FillPropsFromObject(
                 $init_data->pinned_message,
             );
         }
 
-        if (property_exists($init_data, 'invoice')) {
+        if (property_exists_and_is_object($init_data, 'invoice')) {
             $this->invoice = new Invoice();
             $this->invoice->__FillPropsFromObject($init_data->invoice);
         }
 
-        if (property_exists($init_data, 'successful_payment')) {
+        if (property_exists_and_is_object($init_data, 'successful_payment')) {
             $this->successful_payment = new SuccessfulPayment();
             $this->successful_payment->__FillPropsFromObject(
                 $init_data->successful_payment,
             );
         }
 
-        if (property_exists($init_data, 'refunded_payment')) {
+        if (property_exists_and_is_object($init_data, 'refunded_payment')) {
             $this->refunded_payment = new RefundedPayment();
             $this->refunded_payment->__FillPropsFromObject(
                 $init_data->refunded_payment,
             );
         }
 
-        if (property_exists($init_data, 'users_shared')) {
+        if (property_exists_and_is_object($init_data, 'users_shared')) {
             $this->users_shared = new UsersShared();
             $this->users_shared->__FillPropsFromObject(
                 $init_data->users_shared,
             );
         }
 
-        if (property_exists($init_data, 'chat_shared')) {
+        if (property_exists_and_is_object($init_data, 'chat_shared')) {
             $this->chat_shared = new ChatShared();
             $this->chat_shared->__FillPropsFromObject($init_data->chat_shared);
         }
 
-        if (property_exists($init_data, 'write_access_allowed')) {
+        if (property_exists_and_is_object($init_data, 'write_access_allowed')) {
             $this->write_access_allowed = new WriteAccessAllowed();
             $this->write_access_allowed->__FillPropsFromObject(
                 $init_data->write_access_allowed,
             );
         }
 
-        if (property_exists($init_data, 'passport_data')) {
+        if (property_exists_and_is_object($init_data, 'passport_data')) {
             $this->passport_data = new PassportData();
             $this->passport_data->__FillPropsFromObject(
                 $init_data->passport_data,
             );
         }
 
-        if (property_exists($init_data, 'proximity_alert_triggered')) {
+        if (
+            property_exists_and_is_object(
+                $init_data,
+                'proximity_alert_triggered',
+            )
+        ) {
             $this->proximity_alert_triggered = new ProximityAlertTriggered();
             $this->proximity_alert_triggered->__FillPropsFromObject(
                 $init_data->proximity_alert_triggered,
             );
         }
 
-        if (property_exists($init_data, 'boost_added')) {
+        if (property_exists_and_is_object($init_data, 'boost_added')) {
             $this->boost_added = new ChatBoostAdded();
             $this->boost_added->__FillPropsFromObject($init_data->boost_added);
         }
 
-        if (property_exists($init_data, 'chat_background_set')) {
+        if (property_exists_and_is_object($init_data, 'chat_background_set')) {
             $this->chat_background_set = new ChatBackground();
             $this->chat_background_set->__FillPropsFromObject(
                 $init_data->chat_background_set,
             );
         }
 
-        if (property_exists($init_data, 'forum_topic_created')) {
+        if (property_exists_and_is_object($init_data, 'forum_topic_created')) {
             $this->forum_topic_created = new ForumTopicCreated();
             $this->forum_topic_created->__FillPropsFromObject(
                 $init_data->forum_topic_created,
             );
         }
 
-        if (property_exists($init_data, 'forum_topic_edited')) {
+        if (property_exists_and_is_object($init_data, 'forum_topic_edited')) {
             $this->forum_topic_edited = new ForumTopicEdited();
             $this->forum_topic_edited->__FillPropsFromObject(
                 $init_data->forum_topic_edited,
             );
         }
 
-        if (property_exists($init_data, 'forum_topic_closed')) {
+        if (property_exists_and_is_object($init_data, 'forum_topic_closed')) {
             $this->forum_topic_closed = new ForumTopicClosed();
             $this->forum_topic_closed->__FillPropsFromObject(
                 $init_data->forum_topic_closed,
             );
         }
 
-        if (property_exists($init_data, 'forum_topic_reopened')) {
+        if (property_exists_and_is_object($init_data, 'forum_topic_reopened')) {
             $this->forum_topic_reopened = new ForumTopicReopened();
             $this->forum_topic_reopened->__FillPropsFromObject(
                 $init_data->forum_topic_reopened,
             );
         }
 
-        if (property_exists($init_data, 'general_forum_topic_hidden')) {
+        if (
+            property_exists_and_is_object(
+                $init_data,
+                'general_forum_topic_hidden',
+            )
+        ) {
             $this->general_forum_topic_hidden = new GeneralForumTopicHidden();
             $this->general_forum_topic_hidden->__FillPropsFromObject(
                 $init_data->general_forum_topic_hidden,
             );
         }
 
-        if (property_exists($init_data, 'general_forum_topic_unhidden')) {
+        if (
+            property_exists_and_is_object(
+                $init_data,
+                'general_forum_topic_unhidden',
+            )
+        ) {
             $this->general_forum_topic_unhidden = new GeneralForumTopicUnhidden();
             $this->general_forum_topic_unhidden->__FillPropsFromObject(
                 $init_data->general_forum_topic_unhidden,
             );
         }
 
-        if (property_exists($init_data, 'giveaway_created')) {
+        if (property_exists_and_is_object($init_data, 'giveaway_created')) {
             $this->giveaway_created = new GiveawayCreated();
             $this->giveaway_created->__FillPropsFromObject(
                 $init_data->giveaway_created,
             );
         }
 
-        if (property_exists($init_data, 'giveaway')) {
+        if (property_exists_and_is_object($init_data, 'giveaway')) {
             $this->giveaway = new Giveaway();
             $this->giveaway->__FillPropsFromObject($init_data->giveaway);
         }
 
-        if (property_exists($init_data, 'giveaway_winners')) {
+        if (property_exists_and_is_object($init_data, 'giveaway_winners')) {
             $this->giveaway_winners = new GiveawayWinners();
             $this->giveaway_winners->__FillPropsFromObject(
                 $init_data->giveaway_winners,
             );
         }
 
-        if (property_exists($init_data, 'giveaway_completed')) {
+        if (property_exists_and_is_object($init_data, 'giveaway_completed')) {
             $this->giveaway_completed = new GiveawayCompleted();
             $this->giveaway_completed->__FillPropsFromObject(
                 $init_data->giveaway_completed,
             );
         }
 
-        if (property_exists($init_data, 'video_chat_scheduled')) {
+        if (property_exists_and_is_object($init_data, 'video_chat_scheduled')) {
             $this->video_chat_scheduled = new VideoChatScheduled();
             $this->video_chat_scheduled->__FillPropsFromObject(
                 $init_data->video_chat_scheduled,
             );
         }
 
-        if (property_exists($init_data, 'video_chat_started')) {
+        if (property_exists_and_is_object($init_data, 'video_chat_started')) {
             $this->video_chat_started = new VideoChatStarted();
             $this->video_chat_started->__FillPropsFromObject(
                 $init_data->video_chat_started,
             );
         }
 
-        if (property_exists($init_data, 'video_chat_ended')) {
+        if (property_exists_and_is_object($init_data, 'video_chat_ended')) {
             $this->video_chat_ended = new VideoChatEnded();
             $this->video_chat_ended->__FillPropsFromObject(
                 $init_data->video_chat_ended,
             );
         }
 
-        if (property_exists($init_data, 'video_chat_participants_invited')) {
+        if (
+            property_exists_and_is_object(
+                $init_data,
+                'video_chat_participants_invited',
+            )
+        ) {
             $this->video_chat_participants_invited = new VideoChatParticipantsInvited();
             $this->video_chat_participants_invited->__FillPropsFromObject(
                 $init_data->video_chat_participants_invited,
             );
         }
 
-        if (property_exists($init_data, 'web_app_data')) {
+        if (property_exists_and_is_object($init_data, 'web_app_data')) {
             $this->web_app_data = new WebAppData();
             $this->web_app_data->__FillPropsFromObject(
                 $init_data->web_app_data,
             );
         }
 
-        if (property_exists($init_data, 'reply_markup')) {
+        if (property_exists_and_is_object($init_data, 'reply_markup')) {
             $this->reply_markup = new InlineKeyboardMarkup([]);
             $this->reply_markup->__FillPropsFromObject(
                 $init_data->reply_markup,
@@ -1653,7 +1697,7 @@ class InaccessibleMessage extends CustomJsonSerialization
     {
         parent::__FillPropsFromObject($init_data);
 
-        if (property_exists($init_data, 'chat')) {
+        if (property_exists_and_is_object($init_data, 'chat')) {
             $this->chat = new Chat();
             $this->chat->__FillPropsFromObject($init_data->chat);
         }
@@ -2050,12 +2094,12 @@ class PollAnswer extends CustomJsonSerialization
     {
         parent::__FillPropsFromObject($init_data);
 
-        if (property_exists($init_data, 'voter_chat')) {
+        if (property_exists_and_is_object($init_data, 'voter_chat')) {
             $this->voter_chat = new Chat();
             $this->voter_chat->__FillPropsFromObject($init_data->voter_chat);
         }
 
-        if (property_exists($init_data, 'user')) {
+        if (property_exists_and_is_object($init_data, 'user')) {
             $this->user = new User();
             $this->user->__FillPropsFromObject($init_data->user);
         }
@@ -2852,14 +2896,24 @@ class KeyboardButtonRequestChat extends CustomJsonSerialization
     {
         parent::__FillPropsFromObject($init_data);
 
-        if (property_exists($init_data, 'user_administrator_rights')) {
+        if (
+            property_exists_and_is_object(
+                $init_data,
+                'user_administrator_rights',
+            )
+        ) {
             $this->user_administrator_rights = new ChatAdministratorRights();
             $this->user_administrator_rights->__FillPropsFromObject(
                 $init_data->user_administrator_rights,
             );
         }
 
-        if (property_exists($init_data, 'bot_administrator_rights')) {
+        if (
+            property_exists_and_is_object(
+                $init_data,
+                'bot_administrator_rights',
+            )
+        ) {
             $this->bot_administrator_rights = new ChatAdministratorRights();
             $this->bot_administrator_rights->__FillPropsFromObject(
                 $init_data->bot_administrator_rights,
@@ -3044,29 +3098,34 @@ class InlineKeyboardButton extends CustomJsonSerialization
     {
         parent::__FillPropsFromObject($init_data);
 
-        if (property_exists($init_data, 'web_app')) {
+        if (property_exists_and_is_object($init_data, 'web_app')) {
             $this->web_app = new WebAppInfo();
             $this->web_app->__FillPropsFromObject($init_data->web_app);
         }
 
-        if (property_exists($init_data, 'login_url')) {
+        if (property_exists_and_is_object($init_data, 'login_url')) {
             $this->login_url = new LoginUrl();
             $this->login_url->__FillPropsFromObject($init_data->login_url);
         }
 
-        if (property_exists($init_data, 'switch_inline_query_chosen_chat')) {
+        if (
+            property_exists_and_is_object(
+                $init_data,
+                'switch_inline_query_chosen_chat',
+            )
+        ) {
             $this->switch_inline_query_chosen_chat = new SwitchInlineQueryChosenChat();
             $this->switch_inline_query_chosen_chat->__FillPropsFromObject(
                 $init_data->switch_inline_query_chosen_chat,
             );
         }
 
-        if (property_exists($init_data, 'copy_text')) {
+        if (property_exists_and_is_object($init_data, 'copy_text')) {
             $this->copy_text = new CopyTextButton();
             $this->copy_text->__FillPropsFromObject($init_data->copy_text);
         }
 
-        if (property_exists($init_data, 'callback_game')) {
+        if (property_exists_and_is_object($init_data, 'callback_game')) {
             $this->callback_game = new CallbackGame();
             $this->callback_game->__FillPropsFromObject(
                 $init_data->callback_game,
@@ -3196,12 +3255,12 @@ class CallbackQuery extends CustomJsonSerialization
     {
         parent::__FillPropsFromObject($init_data);
 
-        if (property_exists($init_data, 'from')) {
+        if (property_exists_and_is_object($init_data, 'from')) {
             $this->from = new User();
             $this->from->__FillPropsFromObject($init_data->from);
         }
 
-        if (property_exists($init_data, 'message')) {
+        if (property_exists_and_is_object($init_data, 'message')) {
             if ($init_data->message->date == 0) {
                 $this->message = new InaccessibleMessage();
             } else {
@@ -3323,17 +3382,17 @@ class ChatMemberUpdated extends CustomJsonSerialization
     {
         parent::__FillPropsFromObject($init_data);
 
-        if (property_exists($init_data, 'chat')) {
+        if (property_exists_and_is_object($init_data, 'chat')) {
             $this->chat = new Chat();
             $this->chat->__FillPropsFromObject($init_data->chat);
         }
 
-        if (property_exists($init_data, 'from')) {
+        if (property_exists_and_is_object($init_data, 'from')) {
             $this->from = new User();
             $this->from->__FillPropsFromObject($init_data->from);
         }
 
-        if (property_exists($init_data, 'old_chat_member')) {
+        if (property_exists_and_is_object($init_data, 'old_chat_member')) {
             switch ($init_data->old_chat_member->status) {
                 case 'creator':
                     $this->old_chat_member = new ChatMemberOwner();
@@ -3360,7 +3419,7 @@ class ChatMemberUpdated extends CustomJsonSerialization
             );
         }
 
-        if (property_exists($init_data, 'new_chat_member')) {
+        if (property_exists_and_is_object($init_data, 'new_chat_member')) {
             switch ($init_data->new_chat_member->status) {
                 case 'creator':
                     $this->new_chat_member = new ChatMemberOwner();
@@ -3387,7 +3446,7 @@ class ChatMemberUpdated extends CustomJsonSerialization
             );
         }
 
-        if (property_exists($init_data, 'invite_link')) {
+        if (property_exists_and_is_object($init_data, 'invite_link')) {
             $this->invite_link = new ChatInviteLink();
             $this->invite_link->__FillPropsFromObject($init_data->invite_link);
         }
@@ -3505,17 +3564,17 @@ class ChatJoinRequest extends CustomJsonSerialization
     {
         parent::__FillPropsFromObject($init_data);
 
-        if (property_exists($init_data, 'chat')) {
+        if (property_exists_and_is_object($init_data, 'chat')) {
             $this->chat = new Chat();
             $this->chat->__FillPropsFromObject($init_data->chat);
         }
 
-        if (property_exists($init_data, 'from')) {
+        if (property_exists_and_is_object($init_data, 'from')) {
             $this->from = new User();
             $this->from->__FillPropsFromObject($init_data->from);
         }
 
-        if (property_exists($init_data, 'invite_link')) {
+        if (property_exists_and_is_object($init_data, 'invite_link')) {
             $this->invite_link = new ChatInviteLink();
             $this->invite_link->__FillPropsFromObject($init_data->invite_link);
         }
@@ -4011,7 +4070,7 @@ class BusinessConnection extends CustomJsonSerialization
     {
         parent::__FillPropsFromObject($init_data);
 
-        if (property_exists($init_data, 'user')) {
+        if (property_exists_and_is_object($init_data, 'user')) {
             $this->user = new User();
             $this->user->__FillPropsFromObject($init_data->user);
         }
@@ -4043,7 +4102,7 @@ class BusinessMessagesDeleted extends CustomJsonSerialization
     {
         parent::__FillPropsFromObject($init_data);
 
-        if (property_exists($init_data, 'chat')) {
+        if (property_exists_and_is_object($init_data, 'chat')) {
             $this->chat = new Chat();
             $this->chat->__FillPropsFromObject($init_data->chat);
         }
@@ -4260,12 +4319,12 @@ class InlineQuery extends CustomJsonSerialization
     {
         parent::__FillPropsFromObject($init_data);
 
-        if (property_exists($init_data, 'from')) {
+        if (property_exists_and_is_object($init_data, 'from')) {
             $this->from = new User();
             $this->from->__FillPropsFromObject($init_data->from);
         }
 
-        if (property_exists($init_data, 'location')) {
+        if (property_exists_and_is_object($init_data, 'location')) {
             $this->location = new Location();
             $this->location->__FillPropsFromObject($init_data->location);
         }
@@ -4297,7 +4356,7 @@ class InlineQueryResultsButton extends CustomJsonSerialization
     {
         parent::__FillPropsFromObject($init_data);
 
-        if (property_exists($init_data, 'web_app')) {
+        if (property_exists_and_is_object($init_data, 'web_app')) {
             $this->web_app = new WebAppInfo();
             $this->web_app->__FillPropsFromObject($init_data->web_app);
         }
@@ -4638,12 +4697,12 @@ class ChosenInlineResult extends CustomJsonSerialization
     {
         parent::__FillPropsFromObject($init_data);
 
-        if (property_exists($init_data, 'from')) {
+        if (property_exists_and_is_object($init_data, 'from')) {
             $this->from = new User();
             $this->from->__FillPropsFromObject($init_data->from);
         }
 
-        if (property_exists($init_data, 'location')) {
+        if (property_exists_and_is_object($init_data, 'location')) {
             $this->location = new Location();
             $this->location->__FillPropsFromObject($init_data->location);
         }
@@ -4777,12 +4836,12 @@ class ShippingQuery extends CustomJsonSerialization
     {
         parent::__FillPropsFromObject($init_data);
 
-        if (property_exists($init_data, 'from')) {
+        if (property_exists_and_is_object($init_data, 'from')) {
             $this->from = new User();
             $this->from->__FillPropsFromObject($init_data->from);
         }
 
-        if (property_exists($init_data, 'shipping_address')) {
+        if (property_exists_and_is_object($init_data, 'shipping_address')) {
             $this->shipping_address = new ShippingAddress();
             $this->shipping_address->__FillPropsFromObject(
                 $init_data->shipping_address,
@@ -4835,12 +4894,12 @@ class PreCheckoutQuery extends CustomJsonSerialization
     {
         parent::__FillPropsFromObject($init_data);
 
-        if (property_exists($init_data, 'from')) {
+        if (property_exists_and_is_object($init_data, 'from')) {
             $this->from = new User();
             $this->from->__FillPropsFromObject($init_data->from);
         }
 
-        if (property_exists($init_data, 'order_info')) {
+        if (property_exists_and_is_object($init_data, 'order_info')) {
             $this->order_info = new OrderInfo();
             $this->order_info->__FillPropsFromObject($init_data->order_info);
         }
@@ -4866,7 +4925,7 @@ class PaidMediaPurchased extends CustomJsonSerialization
     {
         parent::__FillPropsFromObject($init_data);
 
-        if (property_exists($init_data, 'from')) {
+        if (property_exists_and_is_object($init_data, 'from')) {
             $this->from = new User();
             $this->from->__FillPropsFromObject($init_data->from);
         }
