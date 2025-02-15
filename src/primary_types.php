@@ -3992,11 +3992,15 @@ class BotDescription extends CustomJsonSerialization
 }
 
 /**
- * TODO: Implement
+ * This object represents the bot's short description.
  */
-#[\AllowDynamicProperties]
 class BotShortDescription extends CustomJsonSerialization
 {
+    /**
+     * The bot's short description
+     */
+    public ?string $short_description;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);

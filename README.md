@@ -103,7 +103,7 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 
 ### Available types
 
-(38/140 classes implemented + 10 union types)
+(39/140 classes implemented + 10 union types)
 
 - [X] [User](https://core.telegram.org/bots/api#user)
 - - `_get_full_name()` helper method is provided by Litegram
@@ -230,7 +230,7 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 - - [X] [BotCommandScopeChatMember](https://core.telegram.org/bots/api#botcommandscopechatmember)
 - [X] [BotName](https://core.telegram.org/bots/api#botname)
 - [X] [BotDescription](https://core.telegram.org/bots/api#botdescription)
-- [ ] [BotShortDescription](https://core.telegram.org/bots/api#botshortdescription)
+- [X] [BotShortDescription](https://core.telegram.org/bots/api#botshortdescription)
 - [MenuButton](https://core.telegram.org/bots/api#menubutton)
 - - [ ] [MenuButtonCommands](https://core.telegram.org/bots/api#menubuttoncommands)
 - - [ ] [MenuButtonWebApp](https://core.telegram.org/bots/api#menubuttonwebapp)
