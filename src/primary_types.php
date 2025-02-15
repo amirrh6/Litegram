@@ -1716,7 +1716,6 @@ class MessageId extends CustomJsonSerialization
 }
 
 /**
- * TODO: Implement
  * Union type
  * This object describes a message that can be inaccessible to the bot. It can be one of Message | InaccessibleMessage
  */
@@ -2157,7 +2156,6 @@ class ReplyParameters extends CustomJsonSerialization
 }
 
 /**
- * TODO: Implement
  * Union type
  * This object describes the origin of a message. It can be one of MessageOriginUser | MessageOriginHiddenUser | MessageOriginChat | MessageOriginChannel
  */
@@ -2331,7 +2329,6 @@ class PaidMediaInfo extends CustomJsonSerialization
 }
 
 /**
- * TODO: Implement
  * Union type
  * This object describes paid media. Currently, it can be one of PaidMediaPreview | PaidMediaPhoto | PaidMediaVideo
  */
@@ -3813,7 +3810,6 @@ class ChatMemberUpdated extends CustomJsonSerialization
 }
 
 /**
- * TODO: Implement
  * Union type
  * This object contains information about one member of a chat. Currently, the following 6 types of chat members are supported: ChatMemberOwner | ChatMemberAdministrator | ChatMemberMember | ChatMemberRestricted | ChatMemberLeft | ChatMemberBanned
  */
@@ -4035,12 +4031,18 @@ class ChatLocation extends CustomJsonSerialization
 }
 
 /**
- * TODO: Implement
  * Union type
  * This object describes the type of a reaction. Currently, it can be one of ReactionTypeEmoji | ReactionTypeCustomEmoji | ReactionTypePaid
  */
+interface ReactionType
+{
+}
+
+/**
+ * TODO: Implement
+ */
 #[\AllowDynamicProperties]
-class ReactionType extends CustomJsonSerialization
+class ReactionTypeEmoji extends CustomJsonSerialization implements ReactionType
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -4052,7 +4054,8 @@ class ReactionType extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class ReactionTypeEmoji extends ReactionType
+class ReactionTypeCustomEmoji extends CustomJsonSerialization implements
+    ReactionType
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -4064,19 +4067,7 @@ class ReactionTypeEmoji extends ReactionType
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class ReactionTypeCustomEmoji extends ReactionType
-{
-    public function __FillPropsFromObject(object $init_data)
-    {
-        parent::__FillPropsFromObject($init_data);
-    }
-}
-
-/**
- * TODO: Implement
- */
-#[\AllowDynamicProperties]
-class ReactionTypePaid extends ReactionType
+class ReactionTypePaid extends CustomJsonSerialization implements ReactionType
 {
     public function __FillPropsFromObject(object $init_data)
     {
