@@ -4352,12 +4352,19 @@ class MenuButtonDefault extends CustomJsonSerialization implements MenuButton
 }
 
 /**
- * TODO: Implement
  * Union type
  * This object describes the source of a chat boost. It can be one of ChatBoostSourcePremium | ChatBoostSourceGiftCode | ChatBoostSourceGiveaway
  */
+interface ChatBoostSource
+{
+}
+
+/**
+ * TODO: Implement
+ */
 #[\AllowDynamicProperties]
-class ChatBoostSource extends CustomJsonSerialization
+class ChatBoostSourcePremium extends CustomJsonSerialization implements
+    ChatBoostSource
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -4369,7 +4376,8 @@ class ChatBoostSource extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class ChatBoostSourcePremium extends ChatBoostSource
+class ChatBoostSourceGiftCode extends CustomJsonSerialization implements
+    ChatBoostSource
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -4381,19 +4389,8 @@ class ChatBoostSourcePremium extends ChatBoostSource
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class ChatBoostSourceGiftCode extends ChatBoostSource
-{
-    public function __FillPropsFromObject(object $init_data)
-    {
-        parent::__FillPropsFromObject($init_data);
-    }
-}
-
-/**
- * TODO: Implement
- */
-#[\AllowDynamicProperties]
-class ChatBoostSourceGiveaway extends ChatBoostSource
+class ChatBoostSourceGiveaway extends CustomJsonSerialization implements
+    ChatBoostSource
 {
     public function __FillPropsFromObject(object $init_data)
     {
