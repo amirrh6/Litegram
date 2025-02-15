@@ -629,7 +629,7 @@ class ChatFullInfo extends CustomJsonSerialization
 
     /**
      * Optional. List of available reactions allowed in the chat. If omitted, then all emoji reactions are allowed.
-     * @var array<ReactionTypeEmoji|ReactionTypeCustomEmoji|ReactionTypePaid>
+     * @var array<ReactionType>
      */
     public ?array $available_reactions = null;
 
@@ -839,7 +839,7 @@ class ChatFullInfo extends CustomJsonSerialization
  */
 // Needed because sometimes Telegram adds some properties in order to ensure backward compatibility
 #[\AllowDynamicProperties]
-class Message extends CustomJsonSerialization
+class Message extends MaybeInaccessibleMessage
 {
     /**
      * Unique message identifier inside this chat
@@ -889,7 +889,7 @@ class Message extends CustomJsonSerialization
     /**
      * Optional. Information about the original message for forwarded messages
      */
-    public MessageOriginUser|MessageOriginHiddenUser|MessageOriginChat|MessageOriginChannel|null $forward_origin = null;
+    public ?MessageOrigin $forward_origin = null;
 
     /**
      * Optional. True, if the message is sent to a forum topic
@@ -1674,9 +1674,23 @@ class MessageId extends CustomJsonSerialization
 }
 
 /**
+ * TODO: Implement
+ * Union type
+ * This object describes a message that can be inaccessible to the bot. It can be one of Message | InaccessibleMessage
+ */
+#[\AllowDynamicProperties]
+class MaybeInaccessibleMessage extends CustomJsonSerialization
+{
+    public function __FillPropsFromObject(object $init_data)
+    {
+        parent::__FillPropsFromObject($init_data);
+    }
+}
+
+/**
  * This object describes a message that was deleted or is otherwise inaccessible to the bot.
  */
-class InaccessibleMessage extends CustomJsonSerialization
+class InaccessibleMessage extends MaybeInaccessibleMessage
 {
     /**
      * Chat the message belonged to
@@ -1877,9 +1891,11 @@ class ReplyParameters extends CustomJsonSerialization
 
 /**
  * TODO: Implement
+ * Union type
+ * This object describes the origin of a message. It can be one of MessageOriginUser | MessageOriginHiddenUser | MessageOriginChat | MessageOriginChannel
  */
 #[\AllowDynamicProperties]
-class MessageOriginUser extends CustomJsonSerialization
+class MessageOrigin extends CustomJsonSerialization
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -1891,7 +1907,7 @@ class MessageOriginUser extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class MessageOriginHiddenUser extends CustomJsonSerialization
+class MessageOriginUser extends MessageOrigin
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -1903,7 +1919,7 @@ class MessageOriginHiddenUser extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class MessageOriginChat extends CustomJsonSerialization
+class MessageOriginHiddenUser extends MessageOrigin
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -1915,7 +1931,19 @@ class MessageOriginChat extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class MessageOriginChannel extends CustomJsonSerialization
+class MessageOriginChat extends MessageOrigin
+{
+    public function __FillPropsFromObject(object $init_data)
+    {
+        parent::__FillPropsFromObject($init_data);
+    }
+}
+
+/**
+ * TODO: Implement
+ */
+#[\AllowDynamicProperties]
+class MessageOriginChannel extends MessageOrigin
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -2040,9 +2068,11 @@ class PaidMediaInfo extends CustomJsonSerialization
 
 /**
  * TODO: Implement
+ * Union type
+ * This object describes paid media. Currently, it can be one of PaidMediaPreview | PaidMediaPhoto | PaidMediaVideo
  */
 #[\AllowDynamicProperties]
-class PaidMediaPreview extends CustomJsonSerialization
+class PaidMedia extends CustomJsonSerialization
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -2054,7 +2084,7 @@ class PaidMediaPreview extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class PaidMediaPhoto extends CustomJsonSerialization
+class PaidMediaPreview extends PaidMedia
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -2066,7 +2096,19 @@ class PaidMediaPhoto extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class PaidMediaVideo extends CustomJsonSerialization
+class PaidMediaPhoto extends PaidMedia
+{
+    public function __FillPropsFromObject(object $init_data)
+    {
+        parent::__FillPropsFromObject($init_data);
+    }
+}
+
+/**
+ * TODO: Implement
+ */
+#[\AllowDynamicProperties]
+class PaidMediaVideo extends PaidMedia
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -3321,7 +3363,7 @@ class CallbackQuery extends CustomJsonSerialization
     /**
      * Optional. Message with the callback button that originated the query. Note that message content and message date will not be available if the message is too old
      */
-    public Message|InaccessibleMessage|null $message = null; // Actually of type MaybeInaccessibleMessage
+    public ?MaybeInaccessibleMessage $message = null;
 
     /**
      * Optional. Identifier of the message sent via the bot in inline mode, that originated the query.
@@ -3448,12 +3490,12 @@ class ChatMemberUpdated extends CustomJsonSerialization
     /**
      * Previous information about the chat member
      */
-    public ChatMemberOwner|ChatMemberAdministrator|ChatMemberMember|ChatMemberRestricted|ChatMemberLeft|ChatMemberBanned $old_chat_member;
+    public ChatMember $old_chat_member;
 
     /**
      * New information about the chat member
      */
-    public ChatMemberOwner|ChatMemberAdministrator|ChatMemberMember|ChatMemberRestricted|ChatMemberLeft|ChatMemberBanned $new_chat_member;
+    public ChatMember $new_chat_member;
 
     /**
      * Optional. Chat invite link, which was used by the user to join the chat for joining by invite link events only.
@@ -3547,9 +3589,11 @@ class ChatMemberUpdated extends CustomJsonSerialization
 
 /**
  * TODO: Implement
+ * Union type
+ * This object contains information about one member of a chat. Currently, the following 6 types of chat members are supported: ChatMemberOwner | ChatMemberAdministrator | ChatMemberMember | ChatMemberRestricted | ChatMemberLeft | ChatMemberBanned
  */
 #[\AllowDynamicProperties]
-class ChatMemberOwner extends CustomJsonSerialization
+class ChatMember extends CustomJsonSerialization
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -3561,7 +3605,7 @@ class ChatMemberOwner extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class ChatMemberAdministrator extends CustomJsonSerialization
+class ChatMemberOwner extends ChatMember
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -3573,7 +3617,7 @@ class ChatMemberAdministrator extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class ChatMemberMember extends CustomJsonSerialization
+class ChatMemberAdministrator extends ChatMember
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -3585,7 +3629,7 @@ class ChatMemberMember extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class ChatMemberRestricted extends CustomJsonSerialization
+class ChatMemberMember extends ChatMember
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -3597,7 +3641,7 @@ class ChatMemberRestricted extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class ChatMemberLeft extends CustomJsonSerialization
+class ChatMemberRestricted extends ChatMember
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -3609,7 +3653,19 @@ class ChatMemberLeft extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class ChatMemberBanned extends CustomJsonSerialization
+class ChatMemberLeft extends ChatMember
+{
+    public function __FillPropsFromObject(object $init_data)
+    {
+        parent::__FillPropsFromObject($init_data);
+    }
+}
+
+/**
+ * TODO: Implement
+ */
+#[\AllowDynamicProperties]
+class ChatMemberBanned extends ChatMember
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -3759,9 +3815,11 @@ class ChatLocation extends CustomJsonSerialization
 
 /**
  * TODO: Implement
+ * Union type
+ * This object describes the type of a reaction. Currently, it can be one of ReactionTypeEmoji | ReactionTypeCustomEmoji | ReactionTypePaid
  */
 #[\AllowDynamicProperties]
-class ReactionTypeEmoji extends CustomJsonSerialization
+class ReactionType extends CustomJsonSerialization
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -3773,7 +3831,7 @@ class ReactionTypeEmoji extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class ReactionTypeCustomEmoji extends CustomJsonSerialization
+class ReactionTypeEmoji extends ReactionType
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -3785,7 +3843,19 @@ class ReactionTypeCustomEmoji extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class ReactionTypePaid extends CustomJsonSerialization
+class ReactionTypeCustomEmoji extends ReactionType
+{
+    public function __FillPropsFromObject(object $init_data)
+    {
+        parent::__FillPropsFromObject($init_data);
+    }
+}
+
+/**
+ * TODO: Implement
+ */
+#[\AllowDynamicProperties]
+class ReactionTypePaid extends ReactionType
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -3863,9 +3933,23 @@ class BotCommand extends CustomJsonSerialization
 }
 
 /**
+ * TODO: Implement
+ * Union type
+ * This object represents the scope to which bot commands are applied. Currently, the following 7 scopes are supported: BotCommandScopeDefault | BotCommandScopeAllPrivateChats | BotCommandScopeAllGroupChats | BotCommandScopeAllChatAdministrators | BotCommandScopeChat | BotCommandScopeChatAdministrators | BotCommandScopeChatMember
+ */
+#[\AllowDynamicProperties]
+class BotCommandScope extends CustomJsonSerialization
+{
+    /**
+     * Scope type, must be default
+     */
+    public string $type = 'default';
+}
+
+/**
  * Represents the default scope of bot commands. Default commands are used if no commands with a narrower scope are specified for the user.
  */
-class BotCommandScopeDefault extends CustomJsonSerialization
+class BotCommandScopeDefault extends BotCommandScope
 {
     /**
      * Scope type, must be default
@@ -3876,7 +3960,7 @@ class BotCommandScopeDefault extends CustomJsonSerialization
 /**
  * Represents the scope of bot commands, covering all private chats.
  */
-class BotCommandScopeAllPrivateChats extends CustomJsonSerialization
+class BotCommandScopeAllPrivateChats extends BotCommandScope
 {
     /**
      * Scope type, must be all_private_chats
@@ -3887,7 +3971,7 @@ class BotCommandScopeAllPrivateChats extends CustomJsonSerialization
 /**
  * Represents the scope of bot commands, covering all group and supergroup chats.
  */
-class BotCommandScopeAllGroupChats extends CustomJsonSerialization
+class BotCommandScopeAllGroupChats extends BotCommandScope
 {
     /**
      * Scope type, must be all_group_chats
@@ -3898,7 +3982,7 @@ class BotCommandScopeAllGroupChats extends CustomJsonSerialization
 /**
  * Represents the scope of bot commands, covering all group and supergroup chat administrators.
  */
-class BotCommandScopeAllChatAdministrators extends CustomJsonSerialization
+class BotCommandScopeAllChatAdministrators extends BotCommandScope
 {
     /**
      * Scope type, must be all_chat_administrators
@@ -3909,7 +3993,7 @@ class BotCommandScopeAllChatAdministrators extends CustomJsonSerialization
 /**
  * Represents the scope of bot commands, covering a specific chat.
  */
-class BotCommandScopeChat extends CustomJsonSerialization
+class BotCommandScopeChat extends BotCommandScope
 {
     /**
      * Scope type, must be chat
@@ -3925,7 +4009,7 @@ class BotCommandScopeChat extends CustomJsonSerialization
 /**
  * Represents the scope of bot commands, covering all administrators of a specific group or supergroup chat.
  */
-class BotCommandScopeChatAdministrators extends CustomJsonSerialization
+class BotCommandScopeChatAdministrators extends BotCommandScope
 {
     /**
      * Scope type, must be chat_administrators
@@ -3941,7 +4025,7 @@ class BotCommandScopeChatAdministrators extends CustomJsonSerialization
 /**
  * Represents the scope of bot commands, covering a specific member of a group or supergroup chat.
  */
-class BotCommandScopeChatMember extends CustomJsonSerialization
+class BotCommandScopeChatMember extends BotCommandScope
 {
     /**
      * Scope type, must be chat_member
@@ -4009,9 +4093,12 @@ class BotShortDescription extends CustomJsonSerialization
 
 /**
  * TODO: Implement
+ * Union type
+ * This object describes the bot's menu button in a private chat. It should be one of MenuButtonCommands | MenuButtonWebApp | MenuButtonDefault
+ * If a menu button other than MenuButtonDefault is set for a private chat, then it is applied in the chat. Otherwise the default menu button is applied. By default, the menu button opens the list of bot commands.
  */
 #[\AllowDynamicProperties]
-class MenuButtonCommands extends CustomJsonSerialization
+class MenuButton extends CustomJsonSerialization
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -4023,7 +4110,7 @@ class MenuButtonCommands extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class MenuButtonWebApp extends CustomJsonSerialization
+class MenuButtonCommands extends MenuButton
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -4035,7 +4122,7 @@ class MenuButtonWebApp extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class MenuButtonDefault extends CustomJsonSerialization
+class MenuButtonWebApp extends MenuButton
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -4047,7 +4134,21 @@ class MenuButtonDefault extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class ChatBoostSourcePremium extends CustomJsonSerialization
+class MenuButtonDefault extends MenuButton
+{
+    public function __FillPropsFromObject(object $init_data)
+    {
+        parent::__FillPropsFromObject($init_data);
+    }
+}
+
+/**
+ * TODO: Implement
+ * Union type
+ * This object describes the source of a chat boost. It can be one of ChatBoostSourcePremium | ChatBoostSourceGiftCode | ChatBoostSourceGiveaway
+ */
+#[\AllowDynamicProperties]
+class ChatBoostSource extends CustomJsonSerialization
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -4059,7 +4160,7 @@ class ChatBoostSourcePremium extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class ChatBoostSourceGiftCode extends CustomJsonSerialization
+class ChatBoostSourcePremium extends ChatBoostSource
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -4071,7 +4172,19 @@ class ChatBoostSourceGiftCode extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class ChatBoostSourceGiveaway extends CustomJsonSerialization
+class ChatBoostSourceGiftCode extends ChatBoostSource
+{
+    public function __FillPropsFromObject(object $init_data)
+    {
+        parent::__FillPropsFromObject($init_data);
+    }
+}
+
+/**
+ * TODO: Implement
+ */
+#[\AllowDynamicProperties]
+class ChatBoostSourceGiveaway extends ChatBoostSource
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -4219,9 +4332,11 @@ class ResponseParameters extends CustomJsonSerialization
 
 /**
  * TODO: Implement
+ * Union type
+ * This object represents the content of a media message to be sent. It should be one of InputMediaAnimation | InputMediaDocument | InputMediaAudio | InputMediaPhoto | InputMediaVideo
  */
 #[\AllowDynamicProperties]
-class InputMediaPhoto extends CustomJsonSerialization
+class InputMedia extends CustomJsonSerialization
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -4233,7 +4348,7 @@ class InputMediaPhoto extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class InputMediaVideo extends CustomJsonSerialization
+class InputMediaPhoto extends InputMedia
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -4245,7 +4360,7 @@ class InputMediaVideo extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class InputMediaAnimation extends CustomJsonSerialization
+class InputMediaVideo extends InputMedia
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -4257,7 +4372,7 @@ class InputMediaAnimation extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class InputMediaAudio extends CustomJsonSerialization
+class InputMediaAnimation extends InputMedia
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -4269,7 +4384,19 @@ class InputMediaAudio extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class InputMediaDocument extends CustomJsonSerialization
+class InputMediaAudio extends InputMedia
+{
+    public function __FillPropsFromObject(object $init_data)
+    {
+        parent::__FillPropsFromObject($init_data);
+    }
+}
+
+/**
+ * TODO: Implement
+ */
+#[\AllowDynamicProperties]
+class InputMediaDocument extends InputMedia
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -4302,9 +4429,11 @@ class InputFile extends CustomJsonSerialization
 
 /**
  * TODO: Implement
+ * Union type
+ * This object describes the paid media to be sent. Currently, it can be one of InputPaidMediaPhoto | InputPaidMediaVideo
  */
 #[\AllowDynamicProperties]
-class InputPaidMediaPhoto extends CustomJsonSerialization
+class InputPaidMedia extends CustomJsonSerialization
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -4316,7 +4445,19 @@ class InputPaidMediaPhoto extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class InputPaidMediaVideo extends CustomJsonSerialization
+class InputPaidMediaPhoto extends InputPaidMedia
+{
+    public function __FillPropsFromObject(object $init_data)
+    {
+        parent::__FillPropsFromObject($init_data);
+    }
+}
+
+/**
+ * TODO: Implement
+ */
+#[\AllowDynamicProperties]
+class InputPaidMediaVideo extends InputPaidMedia
 {
     public function __FillPropsFromObject(object $init_data)
     {
