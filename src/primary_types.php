@@ -4537,12 +4537,18 @@ class ResponseParameters extends CustomJsonSerialization
 }
 
 /**
- * TODO: Implement
  * Union type
  * This object represents the content of a media message to be sent. It should be one of InputMediaAnimation | InputMediaDocument | InputMediaAudio | InputMediaPhoto | InputMediaVideo
  */
+interface InputMedia
+{
+}
+
+/**
+ * TODO: Implement
+ */
 #[\AllowDynamicProperties]
-class InputMedia extends CustomJsonSerialization
+class InputMediaPhoto extends CustomJsonSerialization implements InputMedia
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -4554,7 +4560,7 @@ class InputMedia extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class InputMediaPhoto extends InputMedia
+class InputMediaVideo extends CustomJsonSerialization implements InputMedia
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -4566,7 +4572,7 @@ class InputMediaPhoto extends InputMedia
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class InputMediaVideo extends InputMedia
+class InputMediaAnimation extends CustomJsonSerialization implements InputMedia
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -4578,7 +4584,7 @@ class InputMediaVideo extends InputMedia
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class InputMediaAnimation extends InputMedia
+class InputMediaAudio extends CustomJsonSerialization implements InputMedia
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -4590,19 +4596,7 @@ class InputMediaAnimation extends InputMedia
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class InputMediaAudio extends InputMedia
-{
-    public function __FillPropsFromObject(object $init_data)
-    {
-        parent::__FillPropsFromObject($init_data);
-    }
-}
-
-/**
- * TODO: Implement
- */
-#[\AllowDynamicProperties]
-class InputMediaDocument extends InputMedia
+class InputMediaDocument extends CustomJsonSerialization implements InputMedia
 {
     public function __FillPropsFromObject(object $init_data)
     {
