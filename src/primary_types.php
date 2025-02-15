@@ -4145,23 +4145,18 @@ class BotCommand extends CustomJsonSerialization
 }
 
 /**
- * TODO: Implement
  * Union type
  * This object represents the scope to which bot commands are applied. Currently, the following 7 scopes are supported: BotCommandScopeDefault | BotCommandScopeAllPrivateChats | BotCommandScopeAllGroupChats | BotCommandScopeAllChatAdministrators | BotCommandScopeChat | BotCommandScopeChatAdministrators | BotCommandScopeChatMember
  */
-#[\AllowDynamicProperties]
-class BotCommandScope extends CustomJsonSerialization
+interface BotCommandScope
 {
-    /**
-     * Scope type, must be default
-     */
-    public string $type = 'default';
 }
 
 /**
  * Represents the default scope of bot commands. Default commands are used if no commands with a narrower scope are specified for the user.
  */
-class BotCommandScopeDefault extends BotCommandScope
+class BotCommandScopeDefault extends CustomJsonSerialization implements
+    BotCommandScope
 {
     /**
      * Scope type, must be default
@@ -4172,7 +4167,8 @@ class BotCommandScopeDefault extends BotCommandScope
 /**
  * Represents the scope of bot commands, covering all private chats.
  */
-class BotCommandScopeAllPrivateChats extends BotCommandScope
+class BotCommandScopeAllPrivateChats extends CustomJsonSerialization implements
+    BotCommandScope
 {
     /**
      * Scope type, must be all_private_chats
@@ -4183,7 +4179,8 @@ class BotCommandScopeAllPrivateChats extends BotCommandScope
 /**
  * Represents the scope of bot commands, covering all group and supergroup chats.
  */
-class BotCommandScopeAllGroupChats extends BotCommandScope
+class BotCommandScopeAllGroupChats extends CustomJsonSerialization implements
+    BotCommandScope
 {
     /**
      * Scope type, must be all_group_chats
@@ -4194,7 +4191,9 @@ class BotCommandScopeAllGroupChats extends BotCommandScope
 /**
  * Represents the scope of bot commands, covering all group and supergroup chat administrators.
  */
-class BotCommandScopeAllChatAdministrators extends BotCommandScope
+class BotCommandScopeAllChatAdministrators
+    extends CustomJsonSerialization
+    implements BotCommandScope
 {
     /**
      * Scope type, must be all_chat_administrators
@@ -4205,7 +4204,8 @@ class BotCommandScopeAllChatAdministrators extends BotCommandScope
 /**
  * Represents the scope of bot commands, covering a specific chat.
  */
-class BotCommandScopeChat extends BotCommandScope
+class BotCommandScopeChat extends CustomJsonSerialization implements
+    BotCommandScope
 {
     /**
      * Scope type, must be chat
@@ -4221,7 +4221,9 @@ class BotCommandScopeChat extends BotCommandScope
 /**
  * Represents the scope of bot commands, covering all administrators of a specific group or supergroup chat.
  */
-class BotCommandScopeChatAdministrators extends BotCommandScope
+class BotCommandScopeChatAdministrators
+    extends CustomJsonSerialization
+    implements BotCommandScope
 {
     /**
      * Scope type, must be chat_administrators
@@ -4237,7 +4239,8 @@ class BotCommandScopeChatAdministrators extends BotCommandScope
 /**
  * Represents the scope of bot commands, covering a specific member of a group or supergroup chat.
  */
-class BotCommandScopeChatMember extends BotCommandScope
+class BotCommandScopeChatMember extends CustomJsonSerialization implements
+    BotCommandScope
 {
     /**
      * Scope type, must be chat_member
