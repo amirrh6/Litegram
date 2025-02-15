@@ -2,6 +2,8 @@
 
 namespace Litegram;
 
+use Exception;
+
 // TODO: Use constructor property promotion (https://www.php.net/manual/en/language.oop5.decon.php#language.oop5.decon.constructor.promotion)
 // TODO: Consider the need for manually filling array of with objects of the suitable class in __FillPropsFromObject()
 // TODO: Consider if classes of union types should be converted to an abstract class or perhaps an interface
@@ -12,6 +14,22 @@ function property_exists_and_is_object(
 ): bool {
     return property_exists($object_or_class, $property) &&
         is_object($object_or_class->$property);
+}
+
+function choose_message_origin_subclass(object $init_data_origin)
+{
+    switch ($init_data_origin->type) {
+        case 'user':
+            return new MessageOriginUser();
+        case 'hidden_user':
+            return new MessageOriginHiddenUser();
+        case 'chat':
+            return new MessageOriginChat();
+        case 'channel':
+            return new MessageOriginChannel();
+        default:
+            throw new Exception('Unexpected type: ' . $init_data_origin->type);
+    }
 }
 
 /**
@@ -889,9 +907,9 @@ class Message extends CustomJsonSerialization implements
     public Chat $chat;
 
     /**
-     * Optional. Information about the original message for forwarded messages
+     * (MessageOrigin) Optional. Information about the original message for forwarded messages
      */
-    public ?MessageOrigin $forward_origin = null;
+    public MessageOriginUser|MessageOriginHiddenUser|MessageOriginChat|MessageOriginChannel|null $forward_origin = null;
 
     /**
      * Optional. True, if the message is sent to a forum topic
@@ -1805,9 +1823,9 @@ class TextQuote extends CustomJsonSerialization
 class ExternalReplyInfo extends CustomJsonSerialization
 {
     /**
-     * Origin of the message replied to by the given message
+     * (MessageOrigin) Origin of the message replied to by the given message
      */
-    public MessageOrigin $origin;
+    public MessageOriginUser|MessageOriginHiddenUser|MessageOriginChat|MessageOriginChannel $origin;
 
     /**
      * Optional. Chat the original message belongs to. Available only if the chat is a supergroup or a channel.
@@ -1930,7 +1948,7 @@ class ExternalReplyInfo extends CustomJsonSerialization
         parent::__FillPropsFromObject($init_data);
 
         if (property_exists_and_is_object($init_data, 'origin')) {
-            $this->origin = new MessageOrigin();
+            $this->origin = choose_message_origin_subclass($init_data->origin);
             $this->origin->__FillPropsFromObject($init_data->origin);
         }
 
@@ -2121,8 +2139,15 @@ class ReplyParameters extends CustomJsonSerialization
  * Union type
  * This object describes the origin of a message. It can be one of MessageOriginUser | MessageOriginHiddenUser | MessageOriginChat | MessageOriginChannel
  */
+interface MessageOrigin
+{
+}
+
+/**
+ * TODO: Implement
+ */
 #[\AllowDynamicProperties]
-class MessageOrigin extends CustomJsonSerialization
+class MessageOriginUser extends CustomJsonSerialization implements MessageOrigin
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -2134,7 +2159,8 @@ class MessageOrigin extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class MessageOriginUser extends MessageOrigin
+class MessageOriginHiddenUser extends CustomJsonSerialization implements
+    MessageOrigin
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -2146,7 +2172,7 @@ class MessageOriginUser extends MessageOrigin
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class MessageOriginHiddenUser extends MessageOrigin
+class MessageOriginChat extends CustomJsonSerialization implements MessageOrigin
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -2158,19 +2184,8 @@ class MessageOriginHiddenUser extends MessageOrigin
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class MessageOriginChat extends MessageOrigin
-{
-    public function __FillPropsFromObject(object $init_data)
-    {
-        parent::__FillPropsFromObject($init_data);
-    }
-}
-
-/**
- * TODO: Implement
- */
-#[\AllowDynamicProperties]
-class MessageOriginChannel extends MessageOrigin
+class MessageOriginChannel extends CustomJsonSerialization implements
+    MessageOrigin
 {
     public function __FillPropsFromObject(object $init_data)
     {
