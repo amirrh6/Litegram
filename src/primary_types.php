@@ -840,7 +840,8 @@ class ChatFullInfo extends CustomJsonSerialization
  */
 // Needed because sometimes Telegram adds some properties in order to ensure backward compatibility
 #[\AllowDynamicProperties]
-class Message extends MaybeInaccessibleMessage
+class Message extends CustomJsonSerialization implements
+    MaybeInaccessibleMessage
 {
     /**
      * Unique message identifier inside this chat
@@ -1133,9 +1134,9 @@ class Message extends MaybeInaccessibleMessage
     public ?int $migrate_from_chat_id = null;
 
     /**
-     * Optional. Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply.
+     * (MaybeInaccessibleMessage) Optional. Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply.
      */
-    public ?MaybeInaccessibleMessage $pinned_message = null;
+    public Message|InaccessibleMessage|null $pinned_message = null;
 
     /**
      * Optional. Message is an invoice for a payment, information about the invoice. More about payments »
@@ -1679,19 +1680,15 @@ class MessageId extends CustomJsonSerialization
  * Union type
  * This object describes a message that can be inaccessible to the bot. It can be one of Message | InaccessibleMessage
  */
-#[\AllowDynamicProperties]
-class MaybeInaccessibleMessage extends CustomJsonSerialization
+interface MaybeInaccessibleMessage
 {
-    public function __FillPropsFromObject(object $init_data)
-    {
-        parent::__FillPropsFromObject($init_data);
-    }
 }
 
 /**
  * This object describes a message that was deleted or is otherwise inaccessible to the bot.
  */
-class InaccessibleMessage extends MaybeInaccessibleMessage
+class InaccessibleMessage extends CustomJsonSerialization implements
+    MaybeInaccessibleMessage
 {
     /**
      * Chat the message belonged to
@@ -3591,9 +3588,9 @@ class CallbackQuery extends CustomJsonSerialization
     public User $from;
 
     /**
-     * Optional. Message with the callback button that originated the query. Note that message content and message date will not be available if the message is too old
+     * (MaybeInaccessibleMessage) Optional. Message with the callback button that originated the query. Note that message content and message date will not be available if the message is too old
      */
-    public ?MaybeInaccessibleMessage $message = null;
+    public Message|InaccessibleMessage|null $message = null;
 
     /**
      * Optional. Identifier of the message sent via the bot in inline mode, that originated the query.
