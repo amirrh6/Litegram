@@ -103,7 +103,7 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 
 ### Available types
 
-(35/140 classes implemented + 10 union types)
+(38/140 classes implemented + 10 union types)
 
 - [X] [User](https://core.telegram.org/bots/api#user)
 - - `_get_full_name()` helper method is provided by Litegram
@@ -113,8 +113,8 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 - [X] [MessageId](https://core.telegram.org/bots/api#messageid)
 - [X] [InaccessibleMessage](https://core.telegram.org/bots/api#inaccessiblemessage)
 - [MaybeInaccessibleMessage](https://core.telegram.org/bots/api#maybeinaccessiblemessage) : InaccessibleMessage | Message
-- [ ] [MessageEntity](https://core.telegram.org/bots/api#messageentity)
-- [ ] [TextQuote](https://core.telegram.org/bots/api#textquote)
+- [X] [MessageEntity](https://core.telegram.org/bots/api#messageentity)
+- [X] [TextQuote](https://core.telegram.org/bots/api#textquote)
 - [ ] [ExternalReplyInfo](https://core.telegram.org/bots/api#externalreplyinfo)
 - [X] [ReplyParameters](https://core.telegram.org/bots/api#replyparameters)
 - [MessageOrigin](https://core.telegram.org/bots/api##messageorigin)
@@ -181,7 +181,7 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 - [X] [WebAppInfo](https://core.telegram.org/bots/api#webappinfo)
 - [X] [ReplyKeyboardMarkup](https://core.telegram.org/bots/api#replykeyboardmarkup)
 - [X] [KeyboardButton](https://core.telegram.org/bots/api#keyboardbutton)
-- [ ] [KeyboardButtonRequestUsers](https://core.telegram.org/bots/api#keyboardbuttonrequestusers)
+- [X] [KeyboardButtonRequestUsers](https://core.telegram.org/bots/api#keyboardbuttonrequestusers)
 - [X] [KeyboardButtonRequestChat](https://core.telegram.org/bots/api#keyboardbuttonrequestchat)
 - [ ] [KeyboardButtonPollType](https://core.telegram.org/bots/api#keyboardbuttonpolltype)
 - [X] [ReplyKeyboardRemove](https://core.telegram.org/bots/api#replykeyboardremove)

@@ -1705,24 +1705,82 @@ class InaccessibleMessage extends CustomJsonSerialization
 }
 
 /**
- * TODO: Implement
  * This object represents one special entity in a text message. For example, hashtags, usernames, URLs, etc.
  */
-#[\AllowDynamicProperties]
 class MessageEntity extends CustomJsonSerialization
 {
+    /**
+     * Type of the entity. Currently, can be “mention” (@username), “hashtag” (#hashtag or #hashtag@chatusername), “cashtag” ($USD or $USD@chatusername), “bot_command” (/start@jobs_bot), “url” (https://telegram.org), “email” (do-not-reply@telegram.org), “phone_number” (+1-212-555-0123), “bold” (bold text), “italic” (italic text), “underline” (underlined text), “strikethrough” (strikethrough text), “spoiler” (spoiler message), “blockquote” (block quotation), “expandable_blockquote” (collapsed-by-default block quotation), “code” (monowidth string), “pre” (monowidth block), “text_link” (for clickable text URLs), “text_mention” (for users without usernames), “custom_emoji” (for inline custom emoji stickers)
+     */
+    public string $type;
+
+    /**
+     * Offset in UTF-16 code units to the start of the entity
+     */
+    public int $offset;
+
+    /**
+     * Length of the entity in UTF-16 code units
+     */
+    public int $length;
+
+    /**
+     * Optional. For “text_link” only, URL that will be opened after user taps on the text
+     */
+    public ?string $url;
+
+    /**
+     * Optional. For “text_mention” only, the mentioned user
+     */
+    public ?User $user;
+
+    /**
+     * Optional. For “pre” only, the programming language of the entity text
+     */
+    public ?string $language;
+
+    /**
+     * Optional. For “custom_emoji” only, unique identifier of the custom emoji. Use getCustomEmojiStickers to get full information about the sticker
+     */
+    public ?string $custom_emoji_id;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);
+
+        if (property_exists_and_is_object($init_data, 'user')) {
+            $this->user = new User();
+            $this->user->__FillPropsFromObject($init_data->user);
+        }
     }
 }
 
 /**
- * TODO: Implement
+ * This object contains information about the quoted part of a message that is replied to by the given message.
  */
-#[\AllowDynamicProperties]
 class TextQuote extends CustomJsonSerialization
 {
+    /**
+     * Text of the quoted part of a message that is replied to by the given message
+     */
+    public string $text;
+
+    /**
+     * Optional. Special entities that appear in the quote. Currently, only bold, italic, underline, strikethrough, spoiler, and custom_emoji entities are kept in quotes.
+     * @var array<MessageEntity>
+     */
+    public ?array $entities;
+
+    /**
+     * Approximate quote position in the original message in UTF-16 code units as specified by the sender
+     */
+    public int $position;
+
+    /**
+     * Optional. True, if the quote was chosen manually by the message sender. Otherwise, the quote was added automatically by the server.
+     */
+    public ?True $is_manual = true;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);
@@ -2821,11 +2879,45 @@ class KeyboardButton extends CustomJsonSerialization
 }
 
 /**
- * TODO: Implement
+ * This object defines the criteria used to request suitable users. Information about the selected users will be shared with the bot when the corresponding button is pressed. More about requesting users »
  */
-#[\AllowDynamicProperties]
 class KeyboardButtonRequestUsers extends CustomJsonSerialization
 {
+    /**
+     * Signed 32-bit identifier of the request that will be received back in the UsersShared object. Must be unique within the message
+     */
+    public int $request_id;
+
+    /**
+     * Optional. Pass True to request bots, pass False to request regular users. If not specified, no additional restrictions are applied.
+     */
+    public ?bool $user_is_bot;
+
+    /**
+     * Optional. Pass True to request premium users, pass False to request non-premium users. If not specified, no additional restrictions are applied.
+     */
+    public ?bool $user_is_premium;
+
+    /**
+     * Optional. The maximum number of users to be selected; 1-10. Defaults to 1.
+     */
+    public ?int $max_quantity;
+
+    /**
+     * Optional. Pass True to request the users' first and last names
+     */
+    public ?bool $request_name;
+
+    /**
+     * Optional. Pass True to request the users' usernames
+     */
+    public ?bool $request_username;
+
+    /**
+     * Optional. Pass True to request the users' photos
+     */
+    public ?bool $request_photo;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);
