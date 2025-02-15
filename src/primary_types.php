@@ -4628,12 +4628,19 @@ class InputFile extends CustomJsonSerialization
 }
 
 /**
- * TODO: Implement
  * Union type
  * This object describes the paid media to be sent. Currently, it can be one of InputPaidMediaPhoto | InputPaidMediaVideo
  */
+interface InputPaidMedia
+{
+}
+
+/**
+ * TODO: Implement
+ */
 #[\AllowDynamicProperties]
-class InputPaidMedia extends CustomJsonSerialization
+class InputPaidMediaPhoto extends CustomJsonSerialization implements
+    InputPaidMedia
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -4645,19 +4652,8 @@ class InputPaidMedia extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class InputPaidMediaPhoto extends InputPaidMedia
-{
-    public function __FillPropsFromObject(object $init_data)
-    {
-        parent::__FillPropsFromObject($init_data);
-    }
-}
-
-/**
- * TODO: Implement
- */
-#[\AllowDynamicProperties]
-class InputPaidMediaVideo extends InputPaidMedia
+class InputPaidMediaVideo extends CustomJsonSerialization implements
+    InputPaidMedia
 {
     public function __FillPropsFromObject(object $init_data)
     {
