@@ -4,6 +4,7 @@ namespace Litegram;
 
 // TODO: Use constructor property promotion (https://www.php.net/manual/en/language.oop5.decon.php#language.oop5.decon.constructor.promotion)
 // TODO: Consider the need for manually filling array of with objects of the suitable class in __FillPropsFromObject()
+// TODO: Consider if classes of union types should be converted to an abstract class or perhaps an interface
 
 function property_exists_and_is_object(
     object|string $object_or_class,
@@ -1134,7 +1135,7 @@ class Message extends MaybeInaccessibleMessage
     /**
      * Optional. Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply.
      */
-    public ?Message $pinned_message = null;
+    public ?MaybeInaccessibleMessage $pinned_message = null;
 
     /**
      * Optional. Message is an invoice for a payment, information about the invoice. More about payments »
@@ -1298,24 +1299,24 @@ class Message extends MaybeInaccessibleMessage
         }
 
         if (property_exists_and_is_object($init_data, 'forward_origin')) {
-            // @phpstan-ignore property.notFound
-            switch ($this->forward_origin->type) {
-                case 'user':
-                    $this->forward_origin = new MessageOriginUser();
-                    break;
+            // TODO: Consider if it's suitable
+            // switch ($this->forward_origin->type) {
+            //     case 'user':
+            //         $this->forward_origin = new MessageOriginUser();
+            //         break;
 
-                case 'hidden_user':
-                    $this->forward_origin = new MessageOriginHiddenUser();
-                    break;
+            //     case 'hidden_user':
+            //         $this->forward_origin = new MessageOriginHiddenUser();
+            //         break;
 
-                case 'chat':
-                    $this->forward_origin = new MessageOriginChat();
-                    break;
+            //     case 'chat':
+            //         $this->forward_origin = new MessageOriginChat();
+            //         break;
 
-                case 'channel':
-                    $this->forward_origin = new MessageOriginChannel();
-                    break;
-            }
+            //     case 'channel':
+            //         $this->forward_origin = new MessageOriginChannel();
+            //         break;
+            // }
 
             $this->forward_origin->__FillPropsFromObject(
                 $init_data->forward_origin,
@@ -3527,26 +3528,27 @@ class ChatMemberUpdated extends CustomJsonSerialization
         }
 
         if (property_exists_and_is_object($init_data, 'old_chat_member')) {
-            switch ($init_data->old_chat_member->status) {
-                case 'creator':
-                    $this->old_chat_member = new ChatMemberOwner();
-                    break;
-                case 'administrator':
-                    $this->old_chat_member = new ChatMemberAdministrator();
-                    break;
-                case 'member':
-                    $this->old_chat_member = new ChatMemberMember();
-                    break;
-                case 'restricted':
-                    $this->old_chat_member = new ChatMemberRestricted();
-                    break;
-                case 'left':
-                    $this->old_chat_member = new ChatMemberLeft();
-                    break;
-                case 'kicked':
-                    $this->old_chat_member = new ChatMemberBanned();
-                    break;
-            }
+            // TODO: Consider if it's suitable
+            // switch ($init_data->old_chat_member->status) {
+            //     case 'creator':
+            //         $this->old_chat_member = new ChatMemberOwner();
+            //         break;
+            //     case 'administrator':
+            //         $this->old_chat_member = new ChatMemberAdministrator();
+            //         break;
+            //     case 'member':
+            //         $this->old_chat_member = new ChatMemberMember();
+            //         break;
+            //     case 'restricted':
+            //         $this->old_chat_member = new ChatMemberRestricted();
+            //         break;
+            //     case 'left':
+            //         $this->old_chat_member = new ChatMemberLeft();
+            //         break;
+            //     case 'kicked':
+            //         $this->old_chat_member = new ChatMemberBanned();
+            //         break;
+            // }
 
             $this->old_chat_member->__FillPropsFromObject(
                 $init_data->old_chat_member,
@@ -3554,26 +3556,27 @@ class ChatMemberUpdated extends CustomJsonSerialization
         }
 
         if (property_exists_and_is_object($init_data, 'new_chat_member')) {
-            switch ($init_data->new_chat_member->status) {
-                case 'creator':
-                    $this->new_chat_member = new ChatMemberOwner();
-                    break;
-                case 'administrator':
-                    $this->new_chat_member = new ChatMemberAdministrator();
-                    break;
-                case 'member':
-                    $this->new_chat_member = new ChatMemberMember();
-                    break;
-                case 'restricted':
-                    $this->new_chat_member = new ChatMemberRestricted();
-                    break;
-                case 'left':
-                    $this->new_chat_member = new ChatMemberLeft();
-                    break;
-                case 'kicked':
-                    $this->new_chat_member = new ChatMemberBanned();
-                    break;
-            }
+            // TODO: Consider if it's suitable
+            // switch ($init_data->new_chat_member->status) {
+            //     case 'creator':
+            //         $this->new_chat_member = new ChatMemberOwner();
+            //         break;
+            //     case 'administrator':
+            //         $this->new_chat_member = new ChatMemberAdministrator();
+            //         break;
+            //     case 'member':
+            //         $this->new_chat_member = new ChatMemberMember();
+            //         break;
+            //     case 'restricted':
+            //         $this->new_chat_member = new ChatMemberRestricted();
+            //         break;
+            //     case 'left':
+            //         $this->new_chat_member = new ChatMemberLeft();
+            //         break;
+            //     case 'kicked':
+            //         $this->new_chat_member = new ChatMemberBanned();
+            //         break;
+            // }
 
             $this->new_chat_member->__FillPropsFromObject(
                 $init_data->new_chat_member,
