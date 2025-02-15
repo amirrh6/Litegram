@@ -2313,8 +2313,15 @@ class PaidMediaInfo extends CustomJsonSerialization
  * Union type
  * This object describes paid media. Currently, it can be one of PaidMediaPreview | PaidMediaPhoto | PaidMediaVideo
  */
+interface PaidMedia
+{
+}
+
+/**
+ * TODO: Implement
+ */
 #[\AllowDynamicProperties]
-class PaidMedia extends CustomJsonSerialization
+class PaidMediaPreview extends CustomJsonSerialization implements PaidMedia
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -2326,7 +2333,7 @@ class PaidMedia extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class PaidMediaPreview extends PaidMedia
+class PaidMediaPhoto extends CustomJsonSerialization implements PaidMedia
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -2338,19 +2345,7 @@ class PaidMediaPreview extends PaidMedia
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class PaidMediaPhoto extends PaidMedia
-{
-    public function __FillPropsFromObject(object $init_data)
-    {
-        parent::__FillPropsFromObject($init_data);
-    }
-}
-
-/**
- * TODO: Implement
- */
-#[\AllowDynamicProperties]
-class PaidMediaVideo extends PaidMedia
+class PaidMediaVideo extends CustomJsonSerialization implements PaidMedia
 {
     public function __FillPropsFromObject(object $init_data)
     {
