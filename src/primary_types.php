@@ -4307,13 +4307,19 @@ class BotShortDescription extends CustomJsonSerialization
 }
 
 /**
- * TODO: Implement
  * Union type
  * This object describes the bot's menu button in a private chat. It should be one of MenuButtonCommands | MenuButtonWebApp | MenuButtonDefault
  * If a menu button other than MenuButtonDefault is set for a private chat, then it is applied in the chat. Otherwise the default menu button is applied. By default, the menu button opens the list of bot commands.
  */
+interface MenuButton
+{
+}
+
+/**
+ * TODO: Implement
+ */
 #[\AllowDynamicProperties]
-class MenuButton extends CustomJsonSerialization
+class MenuButtonCommands extends CustomJsonSerialization implements MenuButton
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -4325,7 +4331,7 @@ class MenuButton extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class MenuButtonCommands extends MenuButton
+class MenuButtonWebApp extends CustomJsonSerialization implements MenuButton
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -4337,19 +4343,7 @@ class MenuButtonCommands extends MenuButton
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class MenuButtonWebApp extends MenuButton
-{
-    public function __FillPropsFromObject(object $init_data)
-    {
-        parent::__FillPropsFromObject($init_data);
-    }
-}
-
-/**
- * TODO: Implement
- */
-#[\AllowDynamicProperties]
-class MenuButtonDefault extends MenuButton
+class MenuButtonDefault extends CustomJsonSerialization implements MenuButton
 {
     public function __FillPropsFromObject(object $init_data)
     {
