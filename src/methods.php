@@ -57,7 +57,16 @@ class TelegramMethods
         array $options,
         array $guzzle_options,
     ) {
-        $client = new Client(['base_uri' => '', ...$guzzle_options]);
+        if (count($guzzle_options) != 0) {
+            $client = new Client(['base_uri' => '', ...$guzzle_options]);
+        } elseif (isset($GLOBALS['global_guzzle_options'])) {
+            $client = new Client([
+                'base_uri' => '',
+                ...$GLOBALS['global_guzzle_options'],
+            ]);
+        } else {
+            $client = new Client(['base_uri' => '', ...$guzzle_options]);
+        }
 
         $response = $client->post(
             static::$telegramApiUrl . $token . "/$methodUrl",
@@ -398,7 +407,16 @@ class TelegramMethods
         array $array_of_params,
         $guzzle_options = [],
     ): PromiseInterface {
-        $client = new Client(['base_uri' => '', ...$guzzle_options]);
+        if (count($guzzle_options) != 0) {
+            $client = new Client(['base_uri' => '', ...$guzzle_options]);
+        } elseif (isset($GLOBALS['global_guzzle_options'])) {
+            $client = new Client([
+                'base_uri' => '',
+                ...$GLOBALS['global_guzzle_options'],
+            ]);
+        } else {
+            $client = new Client(['base_uri' => '', ...$guzzle_options]);
+        }
 
         $promises = [];
 

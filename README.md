@@ -34,8 +34,8 @@ $token = '0123456789:...';
 $some_chat_id = '-100...';
 
 // Options for Guzzle (https://docs.guzzlephp.org/en/stable/request-options.html)
-$guzzle_options = [
-    'timeout' => 5.0,
+$global_guzzle_options = [
+    'timeout' => 10,
     // 'proxy' => 'http://localhost:8118',
 ];
 
@@ -61,7 +61,12 @@ try {
                 [new InlineKeyboardButton('Close', callback_data: 'close')],
             ]),
         ),
-        guzzle_options: $guzzle_options,
+        // If you don't pass a guzzle_options array to each method or pass an empty one (default parameter), Litegram will check for existence of a global variable
+        // named 'global_guzzle_options' and use it instead, if it exists.
+        guzzle_options: [
+            'timeout' => 5,
+            // 'proxy' => 'http://localhost:8118',
+        ]
     );
     var_dump('Result:', $res);
 
