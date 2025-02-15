@@ -1803,14 +1803,243 @@ class TextQuote extends CustomJsonSerialization
 }
 
 /**
- * TODO: Implement
+ * This object contains information about a message that is being replied to, which may come from another chat or forum topic.
  */
-#[\AllowDynamicProperties]
 class ExternalReplyInfo extends CustomJsonSerialization
 {
+    /**
+     * Origin of the message replied to by the given message
+     */
+    public MessageOrigin $origin;
+
+    /**
+     * Optional. Chat the original message belongs to. Available only if the chat is a supergroup or a channel.
+     */
+    public ?Chat $chat;
+
+    /**
+     * Optional. Unique message identifier inside the original chat. Available only if the original chat is a supergroup or a channel.
+     */
+    public ?int $message_id;
+
+    /**
+     * Optional. Options used for link preview generation for the original message, if it is a text message
+     */
+    public ?LinkPreviewOptions $link_preview_options;
+
+    /**
+     * Optional. Message is an animation, information about the animation
+     */
+    public ?Animation $animation;
+
+    /**
+     * Optional. Message is an audio file, information about the file
+     */
+    public ?Audio $audio;
+
+    /**
+     * Optional. Message is a general file, information about the file
+     */
+    public ?Document $document;
+
+    /**
+     * Optional. Message contains paid media; information about the paid media
+     */
+    public ?PaidMediaInfo $paid_media;
+
+    /**
+     * Optional. Message is a photo, available sizes of the photo
+     * @var array<PhotoSize>
+     */
+    public ?array $photo;
+
+    /**
+     * Optional. Message is a sticker, information about the sticker
+     */
+    public ?Sticker $sticker;
+
+    /**
+     * Optional. Message is a forwarded story
+     */
+    public ?Story $story;
+
+    /**
+     * Optional. Message is a video, information about the video
+     */
+    public ?Video $video;
+
+    /**
+     * Optional. Message is a video note, information about the video message
+     */
+    public ?VideoNote $video_note;
+
+    /**
+     * Optional. Message is a voice message, information about the file
+     */
+    public ?Voice $voice;
+
+    /**
+     * Optional. True, if the message media is covered by a spoiler animation
+     */
+    public ?True $has_media_spoiler;
+
+    /**
+     * Optional. Message is a shared contact, information about the contact
+     */
+    public ?Contact $contact;
+
+    /**
+     * Optional. Message is a dice with random value
+     */
+    public ?Dice $dice;
+
+    /**
+     * Optional. Message is a game, information about the game. More about games »
+     */
+    public ?Game $game;
+
+    /**
+     * Optional. Message is a scheduled giveaway, information about the giveaway
+     */
+    public ?Giveaway $giveaway;
+
+    /**
+     * Optional. A giveaway with public winners was completed
+     */
+    public ?GiveawayWinners $giveaway_winners;
+
+    /**
+     * Optional. Message is an invoice for a payment, information about the invoice. More about payments »
+     */
+    public ?Invoice $invoice;
+
+    /**
+     * Optional. Message is a shared location, information about the location
+     */
+    public ?Location $location;
+
+    /**
+     * Optional. Message is a native poll, information about the poll
+     */
+    public ?Poll $poll;
+
+    /**
+     * Optional. Message is a venue, information about the venue
+     */
+    public ?Venue $venue;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);
+
+        if (property_exists_and_is_object($init_data, 'origin')) {
+            $this->origin = new MessageOrigin();
+            $this->origin->__FillPropsFromObject($init_data->origin);
+        }
+
+        if (property_exists_and_is_object($init_data, 'chat')) {
+            $this->chat = new Chat();
+            $this->chat->__FillPropsFromObject($init_data->chat);
+        }
+
+        if (property_exists_and_is_object($init_data, 'link_preview_options')) {
+            $this->link_preview_options = new LinkPreviewOptions();
+            $this->link_preview_options->__FillPropsFromObject(
+                $init_data->link_preview_options,
+            );
+        }
+
+        if (property_exists_and_is_object($init_data, 'animation')) {
+            $this->animation = new Animation();
+            $this->animation->__FillPropsFromObject($init_data->animation);
+        }
+
+        if (property_exists_and_is_object($init_data, 'audio')) {
+            $this->audio = new Audio();
+            $this->audio->__FillPropsFromObject($init_data->audio);
+        }
+
+        if (property_exists_and_is_object($init_data, 'document')) {
+            $this->document = new Document();
+            $this->document->__FillPropsFromObject($init_data->document);
+        }
+
+        if (property_exists_and_is_object($init_data, 'paid_media')) {
+            $this->paid_media = new PaidMediaInfo();
+            $this->paid_media->__FillPropsFromObject($init_data->paid_media);
+        }
+
+        if (property_exists_and_is_object($init_data, 'sticker')) {
+            $this->sticker = new Sticker();
+            $this->sticker->__FillPropsFromObject($init_data->sticker);
+        }
+
+        if (property_exists_and_is_object($init_data, 'story')) {
+            $this->story = new Story();
+            $this->story->__FillPropsFromObject($init_data->story);
+        }
+
+        if (property_exists_and_is_object($init_data, 'video')) {
+            $this->video = new Video();
+            $this->video->__FillPropsFromObject($init_data->video);
+        }
+
+        if (property_exists_and_is_object($init_data, 'video_note')) {
+            $this->video_note = new VideoNote();
+            $this->video_note->__FillPropsFromObject($init_data->video_note);
+        }
+
+        if (property_exists_and_is_object($init_data, 'voice')) {
+            $this->voice = new Voice();
+            $this->voice->__FillPropsFromObject($init_data->voice);
+        }
+
+        if (property_exists_and_is_object($init_data, 'contact')) {
+            $this->contact = new Contact();
+            $this->contact->__FillPropsFromObject($init_data->contact);
+        }
+
+        if (property_exists_and_is_object($init_data, 'dice')) {
+            $this->dice = new Dice();
+            $this->dice->__FillPropsFromObject($init_data->dice);
+        }
+
+        if (property_exists_and_is_object($init_data, 'game')) {
+            $this->game = new Game();
+            $this->game->__FillPropsFromObject($init_data->game);
+        }
+
+        if (property_exists_and_is_object($init_data, 'giveaway')) {
+            $this->giveaway = new Giveaway();
+            $this->giveaway->__FillPropsFromObject($init_data->giveaway);
+        }
+
+        if (property_exists_and_is_object($init_data, 'giveaway_winners')) {
+            $this->giveaway_winners = new GiveawayWinners();
+            $this->giveaway_winners->__FillPropsFromObject(
+                $init_data->giveaway_winners,
+            );
+        }
+
+        if (property_exists_and_is_object($init_data, 'invoice')) {
+            $this->invoice = new Invoice();
+            $this->invoice->__FillPropsFromObject($init_data->invoice);
+        }
+
+        if (property_exists_and_is_object($init_data, 'location')) {
+            $this->location = new Location();
+            $this->location->__FillPropsFromObject($init_data->location);
+        }
+
+        if (property_exists_and_is_object($init_data, 'poll')) {
+            $this->poll = new Poll();
+            $this->poll->__FillPropsFromObject($init_data->poll);
+        }
+
+        if (property_exists_and_is_object($init_data, 'venue')) {
+            $this->venue = new Venue();
+            $this->venue->__FillPropsFromObject($init_data->venue);
+        }
     }
 }
 

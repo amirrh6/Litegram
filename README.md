@@ -115,7 +115,7 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 - [ ] [MaybeInaccessibleMessage](https://core.telegram.org/bots/api#maybeinaccessiblemessage) : InaccessibleMessage | Message
 - [X] [MessageEntity](https://core.telegram.org/bots/api#messageentity)
 - [X] [TextQuote](https://core.telegram.org/bots/api#textquote)
-- [ ] [ExternalReplyInfo](https://core.telegram.org/bots/api#externalreplyinfo)
+- [X] [ExternalReplyInfo](https://core.telegram.org/bots/api#externalreplyinfo)
 - [X] [ReplyParameters](https://core.telegram.org/bots/api#replyparameters)
 - [ ] [MessageOrigin](https://core.telegram.org/bots/api##messageorigin)
 - - [ ] [MessageOriginUser](https://core.telegram.org/bots/api#messageoriginuser)
