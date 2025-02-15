@@ -21,7 +21,7 @@ Use Github Issues for comments, bug reports and questions.
 
 ## Installation / Updating
 
-`composer require amirrh6/litegram ^0.7`
+`composer require amirrh6/litegram dev-main`
 
 ## Usage and Examples
 
