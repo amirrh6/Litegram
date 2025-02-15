@@ -32,6 +32,28 @@ function choose_message_origin_subclass(object $init_data_origin)
     }
 }
 
+function choose_chat_member_subclass(object $init_data_chat_member)
+{
+    switch ($init_data_chat_member->status) {
+        case 'creator':
+            return new ChatMemberOwner();
+        case 'administrator':
+            return new ChatMemberAdministrator();
+        case 'member':
+            return new ChatMemberMember();
+        case 'restricted':
+            return new ChatMemberRestricted();
+        case 'left':
+            return new ChatMemberLeft();
+        case 'kicked':
+            return new ChatMemberBanned();
+        default:
+            throw new Exception(
+                'Unexpected status: ' . $init_data_chat_member->status,
+            );
+    }
+}
+
 /**
  * This class provided a custom JSON serialization which does not include fields that evaluate to null
  */
@@ -3727,12 +3749,12 @@ class ChatMemberUpdated extends CustomJsonSerialization
     /**
      * Previous information about the chat member
      */
-    public ChatMember $old_chat_member;
+    public ChatMemberOwner|ChatMemberAdministrator|ChatMemberMember|ChatMemberRestricted|ChatMemberLeft|ChatMemberBanned $old_chat_member;
 
     /**
      * New information about the chat member
      */
-    public ChatMember $new_chat_member;
+    public ChatMemberOwner|ChatMemberAdministrator|ChatMemberMember|ChatMemberRestricted|ChatMemberLeft|ChatMemberBanned $new_chat_member;
 
     /**
      * Optional. Chat invite link, which was used by the user to join the chat for joining by invite link events only.
@@ -3765,55 +3787,19 @@ class ChatMemberUpdated extends CustomJsonSerialization
 
         if (property_exists_and_is_object($init_data, 'old_chat_member')) {
             // TODO: Consider if it's suitable
-            // switch ($init_data->old_chat_member->status) {
-            //     case 'creator':
-            //         $this->old_chat_member = new ChatMemberOwner();
-            //         break;
-            //     case 'administrator':
-            //         $this->old_chat_member = new ChatMemberAdministrator();
-            //         break;
-            //     case 'member':
-            //         $this->old_chat_member = new ChatMemberMember();
-            //         break;
-            //     case 'restricted':
-            //         $this->old_chat_member = new ChatMemberRestricted();
-            //         break;
-            //     case 'left':
-            //         $this->old_chat_member = new ChatMemberLeft();
-            //         break;
-            //     case 'kicked':
-            //         $this->old_chat_member = new ChatMemberBanned();
-            //         break;
-            // }
 
+            $this->old_chat_member = choose_chat_member_subclass(
+                $init_data->old_chat_member,
+            );
             $this->old_chat_member->__FillPropsFromObject(
                 $init_data->old_chat_member,
             );
         }
 
         if (property_exists_and_is_object($init_data, 'new_chat_member')) {
-            // TODO: Consider if it's suitable
-            // switch ($init_data->new_chat_member->status) {
-            //     case 'creator':
-            //         $this->new_chat_member = new ChatMemberOwner();
-            //         break;
-            //     case 'administrator':
-            //         $this->new_chat_member = new ChatMemberAdministrator();
-            //         break;
-            //     case 'member':
-            //         $this->new_chat_member = new ChatMemberMember();
-            //         break;
-            //     case 'restricted':
-            //         $this->new_chat_member = new ChatMemberRestricted();
-            //         break;
-            //     case 'left':
-            //         $this->new_chat_member = new ChatMemberLeft();
-            //         break;
-            //     case 'kicked':
-            //         $this->new_chat_member = new ChatMemberBanned();
-            //         break;
-            // }
-
+            $this->new_chat_member = choose_chat_member_subclass(
+                $init_data->new_chat_member,
+            );
             $this->new_chat_member->__FillPropsFromObject(
                 $init_data->new_chat_member,
             );
@@ -3831,8 +3817,15 @@ class ChatMemberUpdated extends CustomJsonSerialization
  * Union type
  * This object contains information about one member of a chat. Currently, the following 6 types of chat members are supported: ChatMemberOwner | ChatMemberAdministrator | ChatMemberMember | ChatMemberRestricted | ChatMemberLeft | ChatMemberBanned
  */
+interface ChatMember
+{
+}
+
+/**
+ * TODO: Implement
+ */
 #[\AllowDynamicProperties]
-class ChatMember extends CustomJsonSerialization
+class ChatMemberOwner extends CustomJsonSerialization implements ChatMember
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -3844,7 +3837,8 @@ class ChatMember extends CustomJsonSerialization
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class ChatMemberOwner extends ChatMember
+class ChatMemberAdministrator extends CustomJsonSerialization implements
+    ChatMember
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -3856,7 +3850,7 @@ class ChatMemberOwner extends ChatMember
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class ChatMemberAdministrator extends ChatMember
+class ChatMemberMember extends CustomJsonSerialization implements ChatMember
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -3868,7 +3862,7 @@ class ChatMemberAdministrator extends ChatMember
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class ChatMemberMember extends ChatMember
+class ChatMemberRestricted extends CustomJsonSerialization implements ChatMember
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -3880,7 +3874,7 @@ class ChatMemberMember extends ChatMember
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class ChatMemberRestricted extends ChatMember
+class ChatMemberLeft extends CustomJsonSerialization implements ChatMember
 {
     public function __FillPropsFromObject(object $init_data)
     {
@@ -3892,19 +3886,7 @@ class ChatMemberRestricted extends ChatMember
  * TODO: Implement
  */
 #[\AllowDynamicProperties]
-class ChatMemberLeft extends ChatMember
-{
-    public function __FillPropsFromObject(object $init_data)
-    {
-        parent::__FillPropsFromObject($init_data);
-    }
-}
-
-/**
- * TODO: Implement
- */
-#[\AllowDynamicProperties]
-class ChatMemberBanned extends ChatMember
+class ChatMemberBanned extends CustomJsonSerialization implements ChatMember
 {
     public function __FillPropsFromObject(object $init_data)
     {
