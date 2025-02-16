@@ -1340,25 +1340,9 @@ class Message extends CustomJsonSerialization implements
         }
 
         if (property_exists_and_is_object($init_data, 'forward_origin')) {
-            // TODO: Consider if it's suitable
-            // switch ($this->forward_origin->type) {
-            //     case 'user':
-            //         $this->forward_origin = new MessageOriginUser();
-            //         break;
-
-            //     case 'hidden_user':
-            //         $this->forward_origin = new MessageOriginHiddenUser();
-            //         break;
-
-            //     case 'chat':
-            //         $this->forward_origin = new MessageOriginChat();
-            //         break;
-
-            //     case 'channel':
-            //         $this->forward_origin = new MessageOriginChannel();
-            //         break;
-            // }
-
+            $this->forward_origin = choose_message_origin_subclass(
+                $init_data->forward_origin,
+            );
             $this->forward_origin->__FillPropsFromObject(
                 $init_data->forward_origin,
             );
@@ -3783,8 +3767,6 @@ class ChatMemberUpdated extends CustomJsonSerialization
         }
 
         if (property_exists_and_is_object($init_data, 'old_chat_member')) {
-            // TODO: Consider if it's suitable
-
             $this->old_chat_member = choose_chat_member_subclass(
                 $init_data->old_chat_member,
             );
