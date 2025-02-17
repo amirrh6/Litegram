@@ -10,10 +10,6 @@ PHP version: 8.3 - Unknown compatibility with earlier (8+) or later versions.
 * Fully documented, Employs identical names for methods and classes as those found in the official API
 * Uses Guzzle as the HTTP client
 * Provides type hints for IDE autocompletion
-* TODO: Complete implementation of all methods and classes
-* TODO: Concurrent (bulk) requests: Has been experimentally implemented for some methods
-* TODO: Async requests
-* TODO: Provide helper utilities (e.g. For formatting messages using HTML or Markdown) and builtin checks (e.g. Making sure the message text's length does not exceed 4096 chars)
 
 Litegram is still in early development stages so expect bugs and non-backward compatible changes.
 
@@ -21,8 +17,11 @@ Use Github Issues for comments, bug reports and questions.
 
 # TODOs:
 
-- [ ] Full implementation of all types and methods
-- [ ] Design and implement validations and helper methods
+- [ ] Full implementation of all types (classes) and methods
+- [ ] Provide built-in validations
+- [ ] Concurrent (bulk) requests: Has been experimentally implemented for some methods
+- [ ] Provide helper utilities (e.g. For formatting messages using HTML or Markdown) and builtin checks (e.g. Making sure the message text's length does not exceed 4096 chars)
+- [ ] Async requests
 - [ ] Update to Bot API 8.0
 - [ ] Update to Bot API 8.1
 - [ ] Update to Bot API 8.2
