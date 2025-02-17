@@ -19,6 +19,15 @@ Litegram is still in early development stages so expect bugs and non-backward co
 
 Use Github Issues for comments, bug reports and questions.
 
+# TODOs:
+
+- [ ] Full implementation of all types and methods
+- [ ] Design and implement validations and helper methods
+- [ ] Update to Bot API 8.0
+- [ ] Update to Bot API 8.1
+- [ ] Update to Bot API 8.2
+- [ ] Update to Bot API 8.3
+
 ## Installation / Updating
 
 `composer require amirrh6/litegram dev-main`
