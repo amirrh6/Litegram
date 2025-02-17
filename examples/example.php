@@ -26,10 +26,18 @@ use Litegram\TelegramMethods;
 use Litegram\SendMessageParams;
 use Litegram\SendPhotoParams;
 
+if (php_sapi_name() == 'cli') {
+    define('NL', " \n");
+} else {
+    define('NL', " <br>\n");
+}
+
 try {
-    // TODO: Add example for receiving updates manually (via getUpdates method)
+    // runExampleForReceivingUpdatesViaGetUpdatesMethod();
 
     // runExampleForReceivingUpdatesFromWebhook();
+
+    runExampleForManualUpdateEntry();
 
     runExampleForGetMe();
 
@@ -40,6 +48,59 @@ try {
     runExampleFor_bulkCopyMessage($sentMessage1Id, $sentMessage2Id);
 } catch (\Throwable $th) {
     dump('Exception:', $th);
+}
+
+function runExampleForReceivingUpdatesViaGetUpdatesMethod()
+{
+    // TODO: Add example for receiving updates manually (via getUpdates method)
+}
+
+function runExampleForManualUpdateEntry()
+{
+    $example_incoming_update = <<<'EOD'
+    {
+        "update_id": 925980052,
+        "message": {
+            "message_id": 156,
+            "from": {
+                "id": 123456789,
+                "is_bot": false,
+                "first_name": "John",
+                "last_name": "Doe",
+                "username": "johndoe_6",
+                "language_code": "en"
+            },
+            "chat": {
+                "id": 123456789,
+                "first_name": "John",
+                "last_name": "Doe",
+                "username": "johndoe_6",
+                "type": "private"
+            },
+            "date": 1739792034,
+            "text": "\/start",
+            "entities": [
+                {
+                    "offset": 0,
+                    "length": 6,
+                    "type": "bot_command"
+                }
+            ]
+        }
+    }
+    EOD;
+
+    try {
+        $update = new Update(init_data: json_decode($example_incoming_update));
+
+        dump($update);
+
+        // Try these too:
+        echo $update->_jsonPrettyPrint() . NL;
+        dump($update->_returnMiniObject());
+    } catch (\Throwable $th) {
+        dump('Exception:', $th);
+    }
 }
 
 function runExampleForReceivingUpdatesFromWebhook()

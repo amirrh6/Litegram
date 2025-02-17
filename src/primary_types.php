@@ -93,6 +93,16 @@ class CustomJsonSerialization implements \JsonSerializable
             }
         }
     }
+
+    /**
+     * Removes any property with null value (including nested properties) and loses the original class type (All objects are instances of stdClass)
+     */
+    public function _returnMiniObject()
+    {
+        return json_decode(
+            json_encode($this, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+        );
+    }
 }
 
 // -------------------------------------------------------------------
