@@ -2407,11 +2407,30 @@ interface PaidMedia
 }
 
 /**
- * TODO: Implement
+ * The paid media isn't available before the payment.
  */
-#[\AllowDynamicProperties]
 class PaidMediaPreview extends CustomJsonSerialization implements PaidMedia
 {
+    /**
+     * Type of the paid media, always “preview”
+     */
+    public string $type;
+
+    /**
+     * Optional. Media width as defined by the sender
+     */
+    public ?int $width;
+
+    /**
+     * Optional. Media height as defined by the sender
+     */
+    public ?int $height;
+
+    /**
+     * Optional. Duration of the media in seconds as defined by the sender
+     */
+    public ?int $duration;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);
@@ -2419,11 +2438,21 @@ class PaidMediaPreview extends CustomJsonSerialization implements PaidMedia
 }
 
 /**
- * TODO: Implement
+ * The paid media is a photo.
  */
-#[\AllowDynamicProperties]
 class PaidMediaPhoto extends CustomJsonSerialization implements PaidMedia
 {
+    /**
+     * Type of the paid media, always “photo”
+     */
+    public string $type;
+
+    /**
+     * The photo
+     * @var array<PhotoSize>
+     */
+    public array $photo;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);
@@ -2431,14 +2460,28 @@ class PaidMediaPhoto extends CustomJsonSerialization implements PaidMedia
 }
 
 /**
- * TODO: Implement
+ * The paid media is a video.
  */
-#[\AllowDynamicProperties]
 class PaidMediaVideo extends CustomJsonSerialization implements PaidMedia
 {
+    /**
+     * Type of the paid media, always “video”
+     */
+    public string $type;
+
+    /**
+     * The video
+     */
+    public Video $video;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);
+
+        if (property_exists_and_is_object($init_data, 'video')) {
+            $this->video = new Video();
+            $this->video->__FillPropsFromObject($init_data->video);
+        }
     }
 }
 
@@ -4643,11 +4686,21 @@ class BusinessMessagesDeleted extends CustomJsonSerialization
 }
 
 /**
- * TODO: Implement
+ * Describes why a request was unsuccessful.
  */
 #[\AllowDynamicProperties]
 class ResponseParameters extends CustomJsonSerialization
 {
+    /**
+     * Optional. The group has been migrated to a supergroup with the specified identifier. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier.
+     */
+    public ?int $migrate_to_chat_id;
+
+    /**
+     * Optional. In case of exceeding flood control, the number of seconds left to wait before the request can be repeated
+     */
+    public ?int $retry_after;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);

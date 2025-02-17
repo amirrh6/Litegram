@@ -103,7 +103,7 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 
 ### Available types
 
-(57/150 classes implemented)
+(61/150 classes implemented)
 
 - [X] [User](https://core.telegram.org/bots/api#user)
 - - `_get_full_name()` helper method is provided by Litegram
@@ -132,9 +132,9 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 - [ ] [Voice](https://core.telegram.org/bots/api#voice)
 - [ ] [PaidMediaInfo](https://core.telegram.org/bots/api#paidmediainfo)
 - [X] [PaidMedia](https://core.telegram.org/bots/api#paidmedia)
-- - [ ] [PaidMediaPreview](https://core.telegram.org/bots/api#paidmediapreview)
-- - [ ] [PaidMediaPhoto](https://core.telegram.org/bots/api#paidmediaphoto)
-- - [ ] [PaidMediaVideo](https://core.telegram.org/bots/api#paidmediavideo)
+- - [X] [PaidMediaPreview](https://core.telegram.org/bots/api#paidmediapreview)
+- - [X] [PaidMediaPhoto](https://core.telegram.org/bots/api#paidmediaphoto)
+- - [X] [PaidMediaVideo](https://core.telegram.org/bots/api#paidmediavideo)
 - [ ] [Contact](https://core.telegram.org/bots/api#contact)
 - [ ] [Dice](https://core.telegram.org/bots/api#dice)
 - [ ] [PollOption](https://core.telegram.org/bots/api#polloption)
@@ -245,7 +245,7 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 - [ ] [UserChatBoosts](https://core.telegram.org/bots/api#userchatboosts)
 - [X] [BusinessConnection](https://core.telegram.org/bots/api#businessconnection)
 - [X] [BusinessMessagesDeleted](https://core.telegram.org/bots/api#businessmessagesdeleted)
-- [ ] [ResponseParameters](https://core.telegram.org/bots/api#responseparameters)
+- [X] [ResponseParameters](https://core.telegram.org/bots/api#responseparameters)
 - [X] [InputMedia](https://core.telegram.org/bots/api#inputmedia)
 - - [ ] [InputMediaPhoto](https://core.telegram.org/bots/api#inputmediaphoto)
 - - [ ] [InputMediaVideo](https://core.telegram.org/bots/api#inputmediavideo)
