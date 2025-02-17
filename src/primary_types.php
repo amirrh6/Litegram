@@ -2486,11 +2486,35 @@ class PaidMediaVideo extends CustomJsonSerialization implements PaidMedia
 }
 
 /**
- * TODO: Implement
+ * This object represents a phone contact.
  */
-#[\AllowDynamicProperties]
 class Contact extends CustomJsonSerialization
 {
+    /**
+     * Contact's phone number
+     */
+    public string $phone_number;
+
+    /**
+     * Contact's first name
+     */
+    public string $first_name;
+
+    /**
+     * Optional. Contact's last name
+     */
+    public ?string $last_name;
+
+    /**
+     * Optional. Contact's user identifier in Telegram. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier.
+     */
+    public ?int $user_id;
+
+    /**
+     * Optional. Additional data about the contact in the form of a vCard
+     */
+    public ?string $vcard;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);
@@ -2498,11 +2522,20 @@ class Contact extends CustomJsonSerialization
 }
 
 /**
- * TODO: Implement
+ * This object represents an animated emoji that displays a random value.
  */
-#[\AllowDynamicProperties]
 class Dice extends CustomJsonSerialization
 {
+    /**
+     * Emoji on which the dice throw animation is based
+     */
+    public string $emoji;
+
+    /**
+     * Integer	Value of the dice, 1-6 for “🎲”, “🎯” and “🎳” base emoji, 1-5 for “🏀” and “⚽” base emoji, 1-64 for “🎰” base emoji
+     */
+    public int $value;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);
@@ -2510,11 +2543,26 @@ class Dice extends CustomJsonSerialization
 }
 
 /**
- * TODO: Implement
+ * This object contains information about one answer option in a poll.
  */
-#[\AllowDynamicProperties]
 class PollOption extends CustomJsonSerialization
 {
+    /**
+     * Option text, 1-100 characters
+     */
+    public string $text;
+
+    /**
+     * Optional. Special entities that appear in the option text. Currently, only custom emoji entities are allowed in poll option texts
+     * @var array<MessageEntity>
+     */
+    public array $text_entities;
+
+    /**
+     * Number of users that voted for this option
+     */
+    public int $voter_count;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);
@@ -2522,11 +2570,26 @@ class PollOption extends CustomJsonSerialization
 }
 
 /**
- * TODO: Implement
+ * This object contains information about one answer option in a poll to be sent.
  */
-#[\AllowDynamicProperties]
 class InputPollOption extends CustomJsonSerialization
 {
+    /**
+     * Option text, 1-100 characters
+     */
+    public string $text;
+
+    /**
+     * Optional. Mode for parsing entities in the text. See formatting options for more details. Currently, only custom emoji entities are allowed
+     */
+    public ?string $text_parse_mode;
+
+    /**
+     * Optional. A JSON-serialized list of special entities that appear in the poll option text. It can be specified instead of text_parse_mode
+     * @var array<MessageEntity>
+     */
+    public array $text_entities;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);

@@ -20,7 +20,8 @@
         "unban",
         "unhide",
         "unpriviledged",
-        "unrestrict"
+        "unrestrict",
+        "vcard"
     ],
     "[php]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"

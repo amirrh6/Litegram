@@ -103,7 +103,7 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 
 ### Available types
 
-(64/150 classes implemented)
+(68/150 classes implemented)
 
 - [X] [User](https://core.telegram.org/bots/api#user)
 - - `_get_full_name()` helper method is provided by Litegram
@@ -135,10 +135,10 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 - - [X] [PaidMediaPreview](https://core.telegram.org/bots/api#paidmediapreview)
 - - [X] [PaidMediaPhoto](https://core.telegram.org/bots/api#paidmediaphoto)
 - - [X] [PaidMediaVideo](https://core.telegram.org/bots/api#paidmediavideo)
-- [ ] [Contact](https://core.telegram.org/bots/api#contact)
-- [ ] [Dice](https://core.telegram.org/bots/api#dice)
-- [ ] [PollOption](https://core.telegram.org/bots/api#polloption)
-- [ ] [InputPollOption](https://core.telegram.org/bots/api#inputpolloption)
+- [X] [Contact](https://core.telegram.org/bots/api#contact)
+- [X] [Dice](https://core.telegram.org/bots/api#dice)
+- [X] [PollOption](https://core.telegram.org/bots/api#polloption)
+- [X] [InputPollOption](https://core.telegram.org/bots/api#inputpolloption)
 - [X] [PollAnswer](https://core.telegram.org/bots/api#pollanswer)
 - [X] [Poll](https://core.telegram.org/bots/api#poll)
 - [ ] [Location](https://core.telegram.org/bots/api#location)
