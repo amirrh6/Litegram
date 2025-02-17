@@ -103,7 +103,7 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 
 ### Available types
 
-(61/150 classes implemented)
+(64/150 classes implemented)
 
 - [X] [User](https://core.telegram.org/bots/api#user)
 - - `_get_full_name()` helper method is provided by Litegram
@@ -212,9 +212,9 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 - [ ] [BusinessOpeningHours](https://core.telegram.org/bots/api#businessopeninghours)
 - [ ] [ChatLocation](https://core.telegram.org/bots/api#chatlocation)
 - [X] [ReactionType](https://core.telegram.org/bots/api#reactiontype)
-- - [ ] [ReactionTypeEmoji](https://core.telegram.org/bots/api#reactiontypeemoji)
-- - [ ] [ReactionTypeCustomEmoji](https://core.telegram.org/bots/api#reactiontypecustomemoji)
-- - [ ] [ReactionTypePaid](https://core.telegram.org/bots/api#reactiontypepaid)
+- - [X] [ReactionTypeEmoji](https://core.telegram.org/bots/api#reactiontypeemoji)
+- - [X] [ReactionTypeCustomEmoji](https://core.telegram.org/bots/api#reactiontypecustomemoji)
+- - [X] [ReactionTypePaid](https://core.telegram.org/bots/api#reactiontypepaid)
 - [ ] [ReactionCount](https://core.telegram.org/bots/api#reactioncount)
 - [ ] [MessageReactionUpdated](https://core.telegram.org/bots/api#messagereactionupdated)
 - [ ] [MessageReactionCountUpdated](https://core.telegram.org/bots/api#messagereactioncountupdated)

@@ -4200,11 +4200,20 @@ interface ReactionType
 }
 
 /**
- * TODO: Implement
+ * The reaction is based on an emoji.
  */
-#[\AllowDynamicProperties]
 class ReactionTypeEmoji extends CustomJsonSerialization implements ReactionType
 {
+    /**
+     * Type of the reaction, always “emoji”
+     */
+    public string $type;
+
+    /**
+     * 	Reaction emoji. Currently, it can be one of "👍", "👎", "❤", "🔥", "🥰", "👏", "😁", "🤔", "🤯", "😱", "🤬", "😢", "🎉", "🤩", "🤮", "💩", "🙏", "👌", "🕊", "🤡", "🥱", "🥴", "😍", "🐳", "❤‍🔥", "🌚", "🌭", "💯", "🤣", "⚡", "🍌", "🏆", "💔", "🤨", "😐", "🍓", "🍾", "💋", "🖕", "😈", "😴", "😭", "🤓", "👻", "👨‍💻", "👀", "🎃", "🙈", "😇", "😨", "🤝", "✍", "🤗", "🫡", "🎅", "🎄", "☃", "💅", "🤪", "🗿", "🆒", "💘", "🙉", "🦄", "😘", "💊", "🙊", "😎", "👾", "🤷‍♂", "🤷", "🤷‍♀", "😡"
+     */
+    public string $emoji;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);
@@ -4212,12 +4221,21 @@ class ReactionTypeEmoji extends CustomJsonSerialization implements ReactionType
 }
 
 /**
- * TODO: Implement
+ * The reaction is based on a custom emoji.
  */
-#[\AllowDynamicProperties]
 class ReactionTypeCustomEmoji extends CustomJsonSerialization implements
     ReactionType
 {
+    /**
+     * Type of the reaction, always “custom_emoji”
+     */
+    public string $type;
+
+    /**
+     * Custom emoji identifier
+     */
+    public string $custom_emoji_id;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);
@@ -4225,11 +4243,15 @@ class ReactionTypeCustomEmoji extends CustomJsonSerialization implements
 }
 
 /**
- * TODO: Implement
+ * The reaction is paid.
  */
-#[\AllowDynamicProperties]
 class ReactionTypePaid extends CustomJsonSerialization implements ReactionType
 {
+    /**
+     * Type of the reaction, always “paid”
+     */
+    public string $type;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);
@@ -4688,7 +4710,6 @@ class BusinessMessagesDeleted extends CustomJsonSerialization
 /**
  * Describes why a request was unsuccessful.
  */
-#[\AllowDynamicProperties]
 class ResponseParameters extends CustomJsonSerialization
 {
     /**
