@@ -103,7 +103,7 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 
 ### Available types
 
-(50/150 classes implemented)
+(57/150 classes implemented)
 
 - [X] [User](https://core.telegram.org/bots/api#user)
 - - `_get_full_name()` helper method is provided by Litegram
@@ -118,10 +118,10 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 - [X] [ExternalReplyInfo](https://core.telegram.org/bots/api#externalreplyinfo)
 - [X] [ReplyParameters](https://core.telegram.org/bots/api#replyparameters)
 - [X] [MessageOrigin](https://core.telegram.org/bots/api##messageorigin)
-- - [ ] [MessageOriginUser](https://core.telegram.org/bots/api#messageoriginuser)
-- - [ ] [MessageOriginHiddenUser](https://core.telegram.org/bots/api#messageoriginhiddenuser)
-- - [ ] [MessageOriginChat](https://core.telegram.org/bots/api#messageoriginchat)
-- - [ ] [MessageOriginChannel](https://core.telegram.org/bots/api#messageoriginchannel)
+- - [X] [MessageOriginUser](https://core.telegram.org/bots/api#messageoriginuser)
+- - [X] [MessageOriginHiddenUser](https://core.telegram.org/bots/api#messageoriginhiddenuser)
+- - [X] [MessageOriginChat](https://core.telegram.org/bots/api#messageoriginchat)
+- - [X] [MessageOriginChannel](https://core.telegram.org/bots/api#messageoriginchannel)
 - [ ] [PhotoSize](https://core.telegram.org/bots/api#photosize)
 - [ ] [Animation](https://core.telegram.org/bots/api#animation)
 - [ ] [Audio](https://core.telegram.org/bots/api#audio)
@@ -183,12 +183,12 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 - [X] [KeyboardButton](https://core.telegram.org/bots/api#keyboardbutton)
 - [X] [KeyboardButtonRequestUsers](https://core.telegram.org/bots/api#keyboardbuttonrequestusers)
 - [X] [KeyboardButtonRequestChat](https://core.telegram.org/bots/api#keyboardbuttonrequestchat)
-- [ ] [KeyboardButtonPollType](https://core.telegram.org/bots/api#keyboardbuttonpolltype)
+- [X] [KeyboardButtonPollType](https://core.telegram.org/bots/api#keyboardbuttonpolltype)
 - [X] [ReplyKeyboardRemove](https://core.telegram.org/bots/api#replykeyboardremove)
 - [X] [InlineKeyboardMarkup](https://core.telegram.org/bots/api#inlinekeyboardmarkup)
 - [X] [InlineKeyboardButton](https://core.telegram.org/bots/api#inlinekeyboardbutton)
-- [ ] [LoginUrl](https://core.telegram.org/bots/api#loginurl)
-- [ ] [SwitchInlineQueryChosenChat](https://core.telegram.org/bots/api#switchinlinequerychosenchat)
+- [X] [LoginUrl](https://core.telegram.org/bots/api#loginurl)
+- [X] [SwitchInlineQueryChosenChat](https://core.telegram.org/bots/api#switchinlinequerychosenchat)
 - [X] [CopyTextButton](https://core.telegram.org/bots/api#copytextbutton)
 - [X] [CallbackQuery](https://core.telegram.org/bots/api#callbackquery)
 - [X] [ForceReply](https://core.telegram.org/bots/api#forcereply)

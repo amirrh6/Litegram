@@ -2148,24 +2148,57 @@ interface MessageOrigin
 }
 
 /**
- * TODO: Implement
+ * The message was originally sent by a known user.
  */
-#[\AllowDynamicProperties]
 class MessageOriginUser extends CustomJsonSerialization implements MessageOrigin
 {
+    /**
+     * Type of the message origin, always “user”
+     */
+    public string $type;
+
+    /**
+     * Date the message was sent originally in Unix time
+     */
+    public int $date;
+
+    /**
+     * User that sent the message originally
+     */
+    public User $sender_user;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);
+
+        if (property_exists_and_is_object($init_data, 'sender_user')) {
+            $this->sender_user = new User();
+            $this->sender_user->__FillPropsFromObject($init_data->sender_user);
+        }
     }
 }
 
 /**
- * TODO: Implement
+ * The message was originally sent by an unknown user.
  */
-#[\AllowDynamicProperties]
 class MessageOriginHiddenUser extends CustomJsonSerialization implements
     MessageOrigin
 {
+    /**
+     * Type of the message origin, always “hidden_user”
+     */
+    public string $type;
+
+    /**
+     * Date the message was sent originally in Unix time
+     */
+    public int $date;
+
+    /**
+     * Name of the user that sent the message originally
+     */
+    public string $sender_user_name;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);
@@ -2173,27 +2206,80 @@ class MessageOriginHiddenUser extends CustomJsonSerialization implements
 }
 
 /**
- * TODO: Implement
+ * The message was originally sent on behalf of a chat to a group chat.
  */
-#[\AllowDynamicProperties]
 class MessageOriginChat extends CustomJsonSerialization implements MessageOrigin
 {
+    /**
+     * Type of the message origin, always “chat”
+     */
+    public string $type;
+
+    /**
+     * Date the message was sent originally in Unix time
+     */
+    public int $date;
+
+    /**
+     * Chat that sent the message originally
+     */
+    public Chat $sender_chat;
+
+    /**
+     * Optional. For messages originally sent by an anonymous chat administrator, original message author signature
+     */
+    public ?string $author_signature;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);
+
+        if (property_exists_and_is_object($init_data, 'sender_chat')) {
+            $this->sender_chat = new Chat();
+            $this->sender_chat->__FillPropsFromObject($init_data->sender_chat);
+        }
     }
 }
 
 /**
- * TODO: Implement
+ * The message was originally sent to a channel chat.
  */
-#[\AllowDynamicProperties]
 class MessageOriginChannel extends CustomJsonSerialization implements
     MessageOrigin
 {
+    /**
+     * Type of the message origin, always “chat”
+     */
+    public string $type;
+
+    /**
+     * Date the message was sent originally in Unix time
+     */
+    public int $date;
+
+    /**
+     * Channel chat to which the message was originally sent
+     */
+    public Chat $chat;
+
+    /**
+     * Unique message identifier inside the chat
+     */
+    public int $message_id;
+
+    /**
+     * Optional. Signature of the original post author
+     */
+    public ?string $author_signature;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);
+
+        if (property_exists_and_is_object($init_data, 'chat')) {
+            $this->chat = new Chat();
+            $this->chat->__FillPropsFromObject($init_data->chat);
+        }
     }
 }
 
@@ -3337,11 +3423,15 @@ class KeyboardButtonRequestChat extends CustomJsonSerialization
 }
 
 /**
- * TODO: Implement
+ * This object represents type of a poll, which is allowed to be created and sent when the corresponding button is pressed.
  */
-#[\AllowDynamicProperties]
 class KeyboardButtonPollType extends CustomJsonSerialization
 {
+    /**
+     * Optional. If quiz is passed, the user will be allowed to create only polls in the quiz mode. If regular is passed, only regular polls will be allowed. Otherwise, the user will be allowed to create a poll of any type.
+     */
+    public string $type;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);
@@ -3546,11 +3636,33 @@ class InlineKeyboardButton extends CustomJsonSerialization
 }
 
 /**
- * TODO: Implement
+ * This object represents a parameter of the inline keyboard button used to automatically authorize a user. Serves as a great replacement for the Telegram Login Widget when the user is coming from Telegram. All the user needs to do is tap/click a button and confirm that they want to log in:
+ * Telegram apps support these buttons as of version 5.7.
+ * Sample bot: @discussbot
  */
-#[\AllowDynamicProperties]
 class LoginUrl extends CustomJsonSerialization
 {
+    /**
+     * An HTTPS URL to be opened with user authorization data added to the query string when the button is pressed. If the user refuses to provide authorization data, the original URL without information about the user will be opened. The data added is the same as described in Receiving authorization data.
+     * NOTE: You must always check the hash of the received data to verify the authentication and the integrity of the data as described in Checking authorization.
+     */
+    public string $url;
+
+    /**
+     * Optional. New text of the button in forwarded messages.
+     */
+    public ?string $forward_text;
+
+    /**
+     * Optional. Username of a bot, which will be used for user authorization. See Setting up a bot for more details. If not specified, the current bot's username will be assumed. The url's domain must be the same as the domain linked with the bot. See Linking your domain to the bot for more details.
+     */
+    public ?string $bot_username;
+
+    /**
+     * Optional. Pass True to request the permission for your bot to send messages to the user.
+     */
+    public ?bool $request_write_access;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);
@@ -3558,11 +3670,35 @@ class LoginUrl extends CustomJsonSerialization
 }
 
 /**
- * TODO: Implement
+ * This object represents an inline button that switches the current user to inline mode in a chosen chat, with an optional default inline query.
  */
-#[\AllowDynamicProperties]
 class SwitchInlineQueryChosenChat extends CustomJsonSerialization
 {
+    /**
+     * Optional. The default inline query to be inserted in the input field. If left empty, only the bot's username will be inserted
+     */
+    public ?string $query;
+
+    /**
+     * Optional. True, if private chats with users can be chosen
+     */
+    public ?bool $allow_user_chats;
+
+    /**
+     * Optional. True, if private chats with bots can be chosen
+     */
+    public ?bool $allow_bot_chats;
+
+    /**
+     * Optional. True, if group and supergroup chats can be chosen
+     */
+    public ?bool $allow_group_chats;
+
+    /**
+     * Optional. True, if channel chats can be chosen
+     */
+    public ?bool $allow_channel_chats;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);
