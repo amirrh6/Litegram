@@ -75,8 +75,7 @@ class TelegramMethods
         }
 
         dump([
-            "Final guzzle options (source: $source) => ",
-            $final_guzzle_options,
+            "Final guzzle options (source: $source) => " => $final_guzzle_options,
         ]);
 
         $client = new Client(['base_uri' => '', ...$final_guzzle_options]);
@@ -438,8 +437,7 @@ class TelegramMethods
         }
 
         dump([
-            "Final guzzle options (source: $source) => ",
-            $final_guzzle_options,
+            "Final guzzle options (source: $source) => " => $final_guzzle_options,
         ]);
 
         $client = new Client(['base_uri' => '', ...$final_guzzle_options]);
