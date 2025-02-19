@@ -58,19 +58,26 @@ class TelegramMethods
         array $guzzle_options,
     ) {
         $final_guzzle_options = [];
+        $source = '';
 
         if (count($guzzle_options) != 0) {
             $final_guzzle_options = $guzzle_options;
+            $source = 'parameter';
         } elseif (
             isset($GLOBALS['global_guzzle_options']) &&
             is_array($GLOBALS['global_guzzle_options'])
         ) {
             $final_guzzle_options = $GLOBALS['global_guzzle_options'];
+            $source = 'global';
         } else {
             $final_guzzle_options = ['timeout' => 10];
+            $source = 'default';
         }
 
-        dump('$final_guzzle_options:', $final_guzzle_options);
+        dump([
+            "Final guzzle options (source: $source) => ",
+            $final_guzzle_options,
+        ]);
 
         $client = new Client(['base_uri' => '', ...$final_guzzle_options]);
 
@@ -414,19 +421,26 @@ class TelegramMethods
         $guzzle_options = [],
     ): PromiseInterface {
         $final_guzzle_options = [];
+        $source = '';
 
         if (count($guzzle_options) != 0) {
             $final_guzzle_options = $guzzle_options;
+            $source = 'parameter';
         } elseif (
             isset($GLOBALS['global_guzzle_options']) &&
             is_array($GLOBALS['global_guzzle_options'])
         ) {
             $final_guzzle_options = $GLOBALS['global_guzzle_options'];
+            $source = 'global';
         } else {
             $final_guzzle_options = ['timeout' => 10];
+            $source = 'default';
         }
 
-        dump('$final_guzzle_options:', $final_guzzle_options);
+        dump([
+            "Final guzzle options (source: $source) => ",
+            $final_guzzle_options,
+        ]);
 
         $client = new Client(['base_uri' => '', ...$final_guzzle_options]);
 
