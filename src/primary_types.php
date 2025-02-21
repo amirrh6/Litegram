@@ -8,6 +8,8 @@ use Exception;
 // TODO: Consider the need for manually filling array of with objects of the suitable class in __FillPropsFromObject()
 // TODO: Consider if classes of union types should be converted to an abstract class or perhaps an interface
 
+// TODO: Add constructor for types with following note: "Note: The use of this type could be confined to the types employed by the methods."
+
 function property_exists_and_is_object(
     object|string $object_or_class,
     string $property,
@@ -1751,6 +1753,7 @@ class InaccessibleMessage extends CustomJsonSerialization implements
 
 /**
  * This object represents one special entity in a text message. For example, hashtags, usernames, URLs, etc.
+ * Note: The use of this type could be confined to the types employed by the methods.
  */
 class MessageEntity extends CustomJsonSerialization
 {
@@ -2075,6 +2078,7 @@ class ExternalReplyInfo extends CustomJsonSerialization
 
 /**
  * Describes reply parameters for the message that is being sent.
+ * Note: The use of this type could be confined to the types employed by the methods.
  */
 class ReplyParameters extends CustomJsonSerialization
 {
@@ -3167,6 +3171,7 @@ class GiveawayCompleted extends CustomJsonSerialization
 
 /**
  * TODO: Implement
+ * Note: The use of this type could be confined to the types employed by the methods.
  */
 #[\AllowDynamicProperties]
 class LinkPreviewOptions extends CustomJsonSerialization
@@ -3219,6 +3224,7 @@ class WebAppInfo extends CustomJsonSerialization
 
 /**
  * This object represents a custom keyboard with reply options (see Introduction to bots for details and examples). Not supported in channels and for messages sent on behalf of a Telegram Business account.
+ * Note: The use of this type could be confined to the types employed by the methods.
  */
 class ReplyKeyboardMarkup extends CustomJsonSerialization
 {
@@ -3556,6 +3562,7 @@ class KeyboardButtonPollType extends CustomJsonSerialization
 
 /**
  * Upon receiving a message with this object, Telegram clients will remove the current custom keyboard and display the default letter-keyboard. By default, custom keyboards are displayed until a new keyboard is sent by a bot. An exception is made for one-time keyboards that are hidden immediately after the user presses a button (see ReplyKeyboardMarkup). Not supported in channels and for messages sent on behalf of a Telegram Business account.
+ * Note: The use of this type could be confined to the types employed by the methods.
  */
 class ReplyKeyboardRemove extends CustomJsonSerialization
 {
@@ -3588,6 +3595,7 @@ class ReplyKeyboardRemove extends CustomJsonSerialization
 
 /**
  * This object represents an inline keyboard that appears right next to the message it belongs to.
+ * Note: The use of this type could be confined to the types employed by the methods.
  */
 class InlineKeyboardMarkup extends CustomJsonSerialization
 {
@@ -3899,6 +3907,7 @@ class CallbackQuery extends CustomJsonSerialization
 
 /**
  * Upon receiving a message with this object, Telegram clients will display a reply interface to the user (act as if the user has selected the bot's message and tapped 'Reply'). This can be extremely useful if you want to create user-friendly step-by-step interfaces without having to sacrifice privacy mode. Not supported in channels and for messages sent on behalf of a Telegram Business account.
+ * Note: The use of this type could be confined to the types employed by the methods.
  */
 class ForceReply extends CustomJsonSerialization
 {
@@ -4871,6 +4880,7 @@ class InputMediaDocument extends CustomJsonSerialization implements InputMedia
 
 /**
  * This object represents the contents of a file to be uploaded. Must be posted using multipart/form-data in the usual way that files are uploaded via the browser.
+ * Note: The use of this type could be confined to the types employed by the methods.
  */
 class InputFile extends CustomJsonSerialization
 {
