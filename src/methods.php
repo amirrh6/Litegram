@@ -74,10 +74,6 @@ class TelegramMethods
             $source = 'default';
         }
 
-        dump([
-            "Final guzzle options (source: $source) => " => $final_guzzle_options,
-        ]);
-
         $client = new Client(['base_uri' => '', ...$final_guzzle_options]);
 
         $response = $client->post(
@@ -435,10 +431,6 @@ class TelegramMethods
             $final_guzzle_options = ['timeout' => 10];
             $source = 'default';
         }
-
-        dump([
-            "Final guzzle options (source: $source) => " => $final_guzzle_options,
-        ]);
 
         $client = new Client(['base_uri' => '', ...$final_guzzle_options]);
 

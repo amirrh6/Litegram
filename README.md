@@ -22,6 +22,7 @@ Use Github Issues for comments, bug reports and questions.
 - [ ] Concurrent (bulk) requests: Has been experimentally implemented for some methods
 - [ ] Provide helper utilities (e.g. For formatting messages using HTML or Markdown) and builtin checks (e.g. Making sure the message text's length does not exceed 4096 chars)
 - [ ] Async requests
+- [ ] Better error handling (retry requests which failed due to network error etc ...)
 - [ ] Update to Bot API 8.0
 - [ ] Update to Bot API 8.1
 - [ ] Update to Bot API 8.2
