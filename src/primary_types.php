@@ -3215,7 +3215,7 @@ class LinkPreviewOptions extends CustomJsonSerialization
         $obj = new static();
 
         $obj->is_disabled = $is_disabled;
-        $obj->$url = $url;
+        $obj->url = $url;
         $obj->prefer_small_media = $prefer_small_media;
         $obj->prefer_large_media = $prefer_large_media;
         $obj->show_above_text = $show_above_text;
