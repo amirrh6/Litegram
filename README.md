@@ -112,7 +112,7 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 
 ### Available types
 
-(70/150 classes implemented)
+(71/150 classes implemented)
 
 - [X] [User](https://core.telegram.org/bots/api#user)
 - - `_get_full_name()` helper method is provided by Litegram
@@ -184,7 +184,7 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 - [ ] [Giveaway](https://core.telegram.org/bots/api#giveaway)
 - [ ] [GiveawayWinners](https://core.telegram.org/bots/api#giveawaywinners)
 - [ ] [GiveawayCompleted](https://core.telegram.org/bots/api#giveawaycompleted)
-- [ ] [LinkPreviewOptions](https://core.telegram.org/bots/api#linkpreviewoptions)
+- [X] [LinkPreviewOptions](https://core.telegram.org/bots/api#linkpreviewoptions)
 - [ ] [UserProfilePhotos](https://core.telegram.org/bots/api#userprofilephotos)
 - [ ] [File](https://core.telegram.org/bots/api#file)
 - [X] [WebAppInfo](https://core.telegram.org/bots/api#webappinfo)

@@ -3170,12 +3170,36 @@ class GiveawayCompleted extends CustomJsonSerialization
 }
 
 /**
- * TODO: Implement
+ * Describes the options used for link preview generation.
  * Note: The use of this type could be confined to the types employed by the methods.
  */
-#[\AllowDynamicProperties]
 class LinkPreviewOptions extends CustomJsonSerialization
 {
+    /**
+     * Optional. True, if the link preview is disabled
+     */
+    public ?bool $is_disabled;
+
+    /**
+     * Optional. URL to use for the link preview. If empty, then the first URL found in the message text will be used
+     */
+    public ?string $url;
+
+    /**
+     * Optional. True, if the media in the link preview is supposed to be shrunk; ignored if the URL isn't explicitly specified or media size change isn't supported for the preview
+     */
+    public ?bool $prefer_small_media;
+
+    /**
+     * Optional. True, if the media in the link preview is supposed to be enlarged; ignored if the URL isn't explicitly specified or media size change isn't supported for the preview
+     */
+    public ?bool $prefer_large_media;
+
+    /**
+     * Optional. True, if the link preview must be shown above the message text; otherwise, the link preview will be shown below the message text
+     */
+    public ?bool $show_above_text;
+
     public function __FillPropsFromObject(object $init_data)
     {
         parent::__FillPropsFromObject($init_data);
