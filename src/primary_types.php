@@ -8,7 +8,7 @@ use Exception;
 // TODO: Consider the need for manually filling array of with objects of the suitable class in __FillPropsFromObject()
 // TODO: Consider if classes of union types should be converted to an abstract class or perhaps an interface
 
-// TODO: Add constructor for types with following note: "Note: The use of this type could be confined to the types employed by the methods."
+// TODO: Use 'static function build' everywhere for object creation via passing parameters
 
 function property_exists_and_is_object(
     object|string $object_or_class,
@@ -1753,7 +1753,6 @@ class InaccessibleMessage extends CustomJsonSerialization implements
 
 /**
  * This object represents one special entity in a text message. For example, hashtags, usernames, URLs, etc.
- * Note: The use of this type could be confined to the types employed by the methods.
  */
 class MessageEntity extends CustomJsonSerialization
 {
@@ -2078,7 +2077,6 @@ class ExternalReplyInfo extends CustomJsonSerialization
 
 /**
  * Describes reply parameters for the message that is being sent.
- * Note: The use of this type could be confined to the types employed by the methods.
  */
 class ReplyParameters extends CustomJsonSerialization
 {
@@ -3171,7 +3169,6 @@ class GiveawayCompleted extends CustomJsonSerialization
 
 /**
  * Describes the options used for link preview generation.
- * Note: The use of this type could be confined to the types employed by the methods.
  */
 class LinkPreviewOptions extends CustomJsonSerialization
 {
@@ -3199,6 +3196,32 @@ class LinkPreviewOptions extends CustomJsonSerialization
      * Optional. True, if the link preview must be shown above the message text; otherwise, the link preview will be shown below the message text
      */
     public ?bool $show_above_text;
+
+    /**
+     * @param ?bool $is_disabled Optional. True, if the link preview is disabled
+     * @param ?string $url Optional. URL to use for the link preview. If empty, then the first URL found in the message text will be used
+     * @param ?bool $prefer_small_media Optional. True, if the media in the link preview is supposed to be shrunk; ignored if the URL isn't explicitly specified or media size change isn't supported for the preview
+     * @param ?bool $prefer_large_media Optional. True, if the media in the link preview is supposed to be enlarged; ignored if the URL isn't explicitly specified or media size change isn't supported for the preview
+     * @param ?bool $show_above_text Optional. True, if the link preview must be shown above the message text; otherwise, the link preview will be shown below the message text
+     */
+    public static function build(
+        ?bool $is_disabled,
+        ?string $url,
+        ?bool $prefer_small_media,
+        ?bool $prefer_large_media,
+        ?bool $show_above_text,
+    ) {
+        // @phpstan-ignore new.static
+        $obj = new static();
+
+        $obj->is_disabled = $is_disabled;
+        $obj->$url = $url;
+        $obj->prefer_small_media = $prefer_small_media;
+        $obj->prefer_large_media = $prefer_large_media;
+        $obj->show_above_text = $show_above_text;
+
+        return $obj;
+    }
 
     public function __FillPropsFromObject(object $init_data)
     {
@@ -3248,7 +3271,6 @@ class WebAppInfo extends CustomJsonSerialization
 
 /**
  * This object represents a custom keyboard with reply options (see Introduction to bots for details and examples). Not supported in channels and for messages sent on behalf of a Telegram Business account.
- * Note: The use of this type could be confined to the types employed by the methods.
  */
 class ReplyKeyboardMarkup extends CustomJsonSerialization
 {
@@ -3586,7 +3608,6 @@ class KeyboardButtonPollType extends CustomJsonSerialization
 
 /**
  * Upon receiving a message with this object, Telegram clients will remove the current custom keyboard and display the default letter-keyboard. By default, custom keyboards are displayed until a new keyboard is sent by a bot. An exception is made for one-time keyboards that are hidden immediately after the user presses a button (see ReplyKeyboardMarkup). Not supported in channels and for messages sent on behalf of a Telegram Business account.
- * Note: The use of this type could be confined to the types employed by the methods.
  */
 class ReplyKeyboardRemove extends CustomJsonSerialization
 {
@@ -3619,7 +3640,6 @@ class ReplyKeyboardRemove extends CustomJsonSerialization
 
 /**
  * This object represents an inline keyboard that appears right next to the message it belongs to.
- * Note: The use of this type could be confined to the types employed by the methods.
  */
 class InlineKeyboardMarkup extends CustomJsonSerialization
 {
@@ -3931,7 +3951,6 @@ class CallbackQuery extends CustomJsonSerialization
 
 /**
  * Upon receiving a message with this object, Telegram clients will display a reply interface to the user (act as if the user has selected the bot's message and tapped 'Reply'). This can be extremely useful if you want to create user-friendly step-by-step interfaces without having to sacrifice privacy mode. Not supported in channels and for messages sent on behalf of a Telegram Business account.
- * Note: The use of this type could be confined to the types employed by the methods.
  */
 class ForceReply extends CustomJsonSerialization
 {
@@ -3949,6 +3968,26 @@ class ForceReply extends CustomJsonSerialization
      * Optional. Use this parameter if you want to force reply from specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has reply_to_message_id), sender of the original message.
      */
     public bool $selective;
+
+    /**
+     * @param true $force_reply Shows reply interface to the user, as if they manually selected the bot's message and tapped 'Reply'
+     * @param ?string $input_field_placeholder Optional. The placeholder to be shown in the input field when the reply is active; 1-64 characters
+     * @param ?bool $selective Optional. Use this parameter if you want to force reply from specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply (has reply_to_message_id), sender of the original message.
+     */
+    public static function build(
+        true $force_reply,
+        ?string $input_field_placeholder,
+        ?bool $selective,
+    ) {
+        // @phpstan-ignore new.static
+        $obj = new static();
+
+        $obj->force_reply = $force_reply;
+        $obj->input_field_placeholder = $input_field_placeholder;
+        $obj->selective = $selective;
+
+        return $obj;
+    }
 
     public function __FillPropsFromObject(object $init_data)
     {
@@ -4904,7 +4943,6 @@ class InputMediaDocument extends CustomJsonSerialization implements InputMedia
 
 /**
  * This object represents the contents of a file to be uploaded. Must be posted using multipart/form-data in the usual way that files are uploaded via the browser.
- * Note: The use of this type could be confined to the types employed by the methods.
  */
 class InputFile extends CustomJsonSerialization
 {
@@ -4936,7 +4974,6 @@ interface InputPaidMedia
 
 /**
  * The paid media to send is a photo.
- * Note: The use of this type could be confined to the types employed by the methods.
  */
 class InputPaidMediaPhoto extends CustomJsonSerialization implements
     InputPaidMedia
@@ -4959,7 +4996,6 @@ class InputPaidMediaPhoto extends CustomJsonSerialization implements
 
 /**
  * The paid media to send is a video.
- * Note: The use of this type could be confined to the types employed by the methods.
  */
 class InputPaidMediaVideo extends CustomJsonSerialization implements
     InputPaidMedia
