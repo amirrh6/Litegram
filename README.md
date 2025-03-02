@@ -112,7 +112,7 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 
 ### Available types
 
-(68/150 classes implemented)
+(70/150 classes implemented)
 
 - [X] [User](https://core.telegram.org/bots/api#user)
 - - `_get_full_name()` helper method is provided by Litegram
@@ -263,8 +263,8 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 - - [ ] [InputMediaDocument](https://core.telegram.org/bots/api#inputmediadocument)
 - [X] [InputFile](https://core.telegram.org/bots/api#inputfile)
 - [X] [InputPaidMedia](https://core.telegram.org/bots/api#inputpaidmedia)
-- - [ ] [InputPaidMediaPhoto](https://core.telegram.org/bots/api#inputpaidmediaphoto)
-- - [ ] [InputPaidMediaVideo](https://core.telegram.org/bots/api#inputpaidmediavideo)
+- - [X] [InputPaidMediaPhoto](https://core.telegram.org/bots/api#inputpaidmediaphoto)
+- - [X] [InputPaidMediaVideo](https://core.telegram.org/bots/api#inputpaidmediavideo)
 
 ### Available methods
 
