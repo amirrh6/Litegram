@@ -3205,11 +3205,11 @@ class LinkPreviewOptions extends CustomJsonSerialization
      * @param ?bool $show_above_text Optional. True, if the link preview must be shown above the message text; otherwise, the link preview will be shown below the message text
      */
     public static function build(
-        ?bool $is_disabled,
-        ?string $url,
-        ?bool $prefer_small_media,
-        ?bool $prefer_large_media,
-        ?bool $show_above_text,
+        ?bool $is_disabled = null,
+        ?string $url = null,
+        ?bool $prefer_small_media = null,
+        ?bool $prefer_large_media = null,
+        ?bool $show_above_text = null,
     ) {
         // @phpstan-ignore new.static
         $obj = new static();
@@ -3976,8 +3976,8 @@ class ForceReply extends CustomJsonSerialization
      */
     public static function build(
         true $force_reply,
-        ?string $input_field_placeholder,
-        ?bool $selective,
+        ?string $input_field_placeholder = null,
+        ?bool $selective = null,
     ) {
         // @phpstan-ignore new.static
         $obj = new static();
