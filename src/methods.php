@@ -118,7 +118,7 @@ class TelegramMethods
 
         $updates = [];
         foreach ($body_decoded->result as $update) {
-            $updates[] = new Update($update);
+            $updates[] = Update::build($update);
         }
         return $updates;
     }

@@ -4,10 +4,8 @@ namespace Litegram;
 
 use Exception;
 
-// TODO: Use constructor property promotion (https://www.php.net/manual/en/language.oop5.decon.php#language.oop5.decon.constructor.promotion)
 // TODO: Consider the need for manually filling array of with objects of the suitable class in __FillPropsFromObject()
 // TODO: Consider if classes of union types should be converted to an abstract class or perhaps an interface
-
 // TODO: Use 'static function build' everywhere for object creation via passing parameters
 
 function property_exists_and_is_object(
@@ -86,8 +84,22 @@ class CustomJsonSerialization implements \JsonSerializable
         );
     }
 
+    public static function ___FillPropsFromObject(
+        object $_this,
+        object $init_data,
+    ) {
+        $arr = get_object_vars($init_data);
+        foreach ($arr as $key => $value) {
+            if (!($value instanceof \stdClass)) {
+                $_this->$key = $init_data->$key;
+            }
+        }
+    }
+
     public function __FillPropsFromObject(object $init_data)
     {
+        // Or pass do this static::___FillPropsFromObject($this, $init_data);
+
         $arr = get_object_vars($init_data);
         foreach ($arr as $key => $value) {
             if (!($value instanceof \stdClass)) {
@@ -237,48 +249,49 @@ class Update extends CustomJsonSerialization
      */
     public ?ChatBoostRemoved $removed_chat_boost = null;
 
-    public function __construct(object $init_data)
+    public static function build(object $init_data)
     {
-        parent::__FillPropsFromObject($init_data);
+        // @phpstan-ignore new.static
+        $obj = new static();
+
+        static::___FillPropsFromObject($obj, $init_data);
 
         // TODO: Think of a better way to automatically initialize these properties
 
         if (property_exists_and_is_object($init_data, 'message')) {
-            $this->message = new Message();
-            $this->message->__FillPropsFromObject($init_data->message);
+            $obj->message = new Message();
+            $obj->message->__FillPropsFromObject($init_data->message);
         }
 
         if (property_exists_and_is_object($init_data, 'edited_message')) {
-            $this->edited_message = new Message();
-            $this->edited_message->__FillPropsFromObject(
+            $obj->edited_message = new Message();
+            $obj->edited_message->__FillPropsFromObject(
                 $init_data->edited_message,
             );
         }
 
         if (property_exists_and_is_object($init_data, 'channel_post')) {
-            $this->channel_post = new Message();
-            $this->channel_post->__FillPropsFromObject(
-                $init_data->channel_post,
-            );
+            $obj->channel_post = new Message();
+            $obj->channel_post->__FillPropsFromObject($init_data->channel_post);
         }
 
         if (property_exists_and_is_object($init_data, 'edited_channel_post')) {
-            $this->edited_channel_post = new Message();
-            $this->edited_channel_post->__FillPropsFromObject(
+            $obj->edited_channel_post = new Message();
+            $obj->edited_channel_post->__FillPropsFromObject(
                 $init_data->edited_channel_post,
             );
         }
 
         if (property_exists_and_is_object($init_data, 'business_connection')) {
-            $this->business_connection = new BusinessConnection();
-            $this->business_connection->__FillPropsFromObject(
+            $obj->business_connection = new BusinessConnection();
+            $obj->business_connection->__FillPropsFromObject(
                 $init_data->business_connection,
             );
         }
 
         if (property_exists_and_is_object($init_data, 'business_message')) {
-            $this->business_message = new Message();
-            $this->business_message->__FillPropsFromObject(
+            $obj->business_message = new Message();
+            $obj->business_message->__FillPropsFromObject(
                 $init_data->business_message,
             );
         }
@@ -286,8 +299,8 @@ class Update extends CustomJsonSerialization
         if (
             property_exists_and_is_object($init_data, 'edited_business_message')
         ) {
-            $this->edited_business_message = new Message();
-            $this->edited_business_message->__FillPropsFromObject(
+            $obj->edited_business_message = new Message();
+            $obj->edited_business_message->__FillPropsFromObject(
                 $init_data->edited_business_message,
             );
         }
@@ -298,15 +311,15 @@ class Update extends CustomJsonSerialization
                 'deleted_business_message',
             )
         ) {
-            $this->deleted_business_message = new BusinessMessagesDeleted();
-            $this->deleted_business_message->__FillPropsFromObject(
+            $obj->deleted_business_message = new BusinessMessagesDeleted();
+            $obj->deleted_business_message->__FillPropsFromObject(
                 $init_data->deleted_business_message,
             );
         }
 
         if (property_exists_and_is_object($init_data, 'message_reaction')) {
-            $this->message_reaction = new MessageReactionUpdated();
-            $this->message_reaction->__FillPropsFromObject(
+            $obj->message_reaction = new MessageReactionUpdated();
+            $obj->message_reaction->__FillPropsFromObject(
                 $init_data->message_reaction,
             );
         }
@@ -314,94 +327,94 @@ class Update extends CustomJsonSerialization
         if (
             property_exists_and_is_object($init_data, 'message_reaction_count')
         ) {
-            $this->message_reaction_count = new MessageReactionCountUpdated();
-            $this->message_reaction_count->__FillPropsFromObject(
+            $obj->message_reaction_count = new MessageReactionCountUpdated();
+            $obj->message_reaction_count->__FillPropsFromObject(
                 $init_data->message_reaction_count,
             );
         }
 
         if (property_exists_and_is_object($init_data, 'inline_query')) {
-            $this->inline_query = new InlineQuery();
-            $this->inline_query->__FillPropsFromObject(
-                $init_data->inline_query,
-            );
+            $obj->inline_query = new InlineQuery();
+            $obj->inline_query->__FillPropsFromObject($init_data->inline_query);
         }
 
         if (property_exists_and_is_object($init_data, 'chosen_inline_result')) {
-            $this->chosen_inline_result = new ChosenInlineResult();
-            $this->inline_query->__FillPropsFromObject(
+            $obj->chosen_inline_result = new ChosenInlineResult();
+            $obj->inline_query->__FillPropsFromObject(
                 $init_data->chosen_inline_result,
             );
         }
 
         if (property_exists_and_is_object($init_data, 'callback_query')) {
-            $this->callback_query = new CallbackQuery();
-            $this->callback_query->__FillPropsFromObject(
+            $obj->callback_query = new CallbackQuery();
+            $obj->callback_query->__FillPropsFromObject(
                 $init_data->callback_query,
             );
         }
 
         if (property_exists_and_is_object($init_data, 'shipping_query')) {
-            $this->shipping_query = new ShippingQuery();
-            $this->shipping_query->__FillPropsFromObject(
+            $obj->shipping_query = new ShippingQuery();
+            $obj->shipping_query->__FillPropsFromObject(
                 $init_data->shipping_query,
             );
         }
 
         if (property_exists_and_is_object($init_data, 'pre_checkout_query')) {
-            $this->pre_checkout_query = new PreCheckoutQuery();
-            $this->pre_checkout_query->__FillPropsFromObject(
+            $obj->pre_checkout_query = new PreCheckoutQuery();
+            $obj->pre_checkout_query->__FillPropsFromObject(
                 $init_data->pre_checkout_query,
             );
         }
 
         if (property_exists_and_is_object($init_data, 'purchased_paid_media')) {
-            $this->purchased_paid_media = new PaidMediaPurchased();
-            $this->purchased_paid_media->__FillPropsFromObject(
+            $obj->purchased_paid_media = new PaidMediaPurchased();
+            $obj->purchased_paid_media->__FillPropsFromObject(
                 $init_data->purchased_paid_media,
             );
         }
 
         if (property_exists_and_is_object($init_data, 'poll')) {
-            $this->poll = new Poll();
-            $this->poll->__FillPropsFromObject($init_data->poll);
+            $obj->poll = new Poll();
+            $obj->poll->__FillPropsFromObject($init_data->poll);
         }
 
         if (property_exists_and_is_object($init_data, 'poll_answer')) {
-            $this->poll_answer = new PollAnswer();
-            $this->poll_answer->__FillPropsFromObject($init_data->poll_answer);
+            $obj->poll_answer = new PollAnswer();
+            $obj->poll_answer->__FillPropsFromObject($init_data->poll_answer);
         }
 
         if (property_exists_and_is_object($init_data, 'my_chat_member')) {
-            $this->my_chat_member = new ChatMemberUpdated();
-            $this->my_chat_member->__FillPropsFromObject(
+            $obj->my_chat_member = new ChatMemberUpdated();
+            $obj->my_chat_member->__FillPropsFromObject(
                 $init_data->my_chat_member,
             );
         }
 
         if (property_exists_and_is_object($init_data, 'chat_member')) {
-            $this->chat_member = new ChatMemberUpdated();
-            $this->chat_member->__FillPropsFromObject($init_data->chat_member);
+            $obj->chat_member = new ChatMemberUpdated();
+            $obj->chat_member->__FillPropsFromObject($init_data->chat_member);
         }
 
         if (property_exists_and_is_object($init_data, 'chat_join_request')) {
-            $this->chat_join_request = new ChatJoinRequest();
-            $this->chat_join_request->__FillPropsFromObject(
+            $obj->chat_join_request = new ChatJoinRequest();
+            $obj->chat_join_request->__FillPropsFromObject(
                 $init_data->chat_join_request,
             );
         }
 
         if (property_exists_and_is_object($init_data, 'chat_boost')) {
-            $this->chat_boost = new ChatBoostUpdated();
-            $this->chat_boost->__FillPropsFromObject($init_data->chat_boost);
+            $obj->chat_boost = new ChatBoostUpdated();
+            $obj->chat_boost->__FillPropsFromObject($init_data->chat_boost);
         }
 
         if (property_exists_and_is_object($init_data, 'removed_chat_boost')) {
-            $this->removed_chat_boost = new ChatBoostRemoved();
-            $this->removed_chat_boost->__FillPropsFromObject(
+            $obj->removed_chat_boost = new ChatBoostRemoved();
+            $obj->removed_chat_boost->__FillPropsFromObject(
                 $init_data->removed_chat_boost,
             );
         }
+
+        return $obj;
     }
 }
 
@@ -1687,7 +1700,7 @@ class Message extends CustomJsonSerialization implements
         }
 
         if (property_exists_and_is_object($init_data, 'reply_markup')) {
-            $this->reply_markup = new InlineKeyboardMarkup([]);
+            $this->reply_markup = new InlineKeyboardMarkup();
             $this->reply_markup->__FillPropsFromObject(
                 $init_data->reply_markup,
             );
@@ -2132,7 +2145,7 @@ class ReplyParameters extends CustomJsonSerialization
      * @param ?array<MessageEntity> $quote_entities Optional. A JSON-serialized list of special entities that appear in the quote. It can be specified instead of quote_parse_mode.
      * @param ?int $quote_position Optional. Position of the quote in the original message in UTF-16 code units
      */
-    public function __construct(
+    public static function build(
         int $message_id,
         string|int $chat_id = null,
         bool $allow_sending_without_reply = null,
@@ -2141,13 +2154,18 @@ class ReplyParameters extends CustomJsonSerialization
         array $quote_entities = null,
         int $quote_position = null,
     ) {
-        $this->message_id = $message_id;
-        $this->chat_id = $chat_id;
-        $this->allow_sending_without_reply = $allow_sending_without_reply;
-        $this->quote = $quote;
-        $this->quote_parse_mode = $quote_parse_mode;
-        $this->quote_entities = $quote_entities;
-        $this->quote_position = $quote_position;
+        // @phpstan-ignore new.static
+        $obj = new static();
+
+        $obj->message_id = $message_id;
+        $obj->chat_id = $chat_id;
+        $obj->allow_sending_without_reply = $allow_sending_without_reply;
+        $obj->quote = $quote;
+        $obj->quote_parse_mode = $quote_parse_mode;
+        $obj->quote_entities = $quote_entities;
+        $obj->quote_position = $quote_position;
+
+        return $obj;
     }
 }
 
@@ -3320,7 +3338,7 @@ class ReplyKeyboardMarkup extends CustomJsonSerialization
      * @param ?string $input_field_placeholder Optional. The placeholder to be shown in the input field when the keyboard is active; 1-64 characters
      * @param ?bool $selective Optional. Use this parameter if you want to show the keyboard to specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply to a message in the same chat and forum topic, sender of the original message. Example: A user requests to change the bot's language, bot replies to the request with a keyboard to select the new language. Other users in the group don't see the keyboard.
      */
-    public function __construct(
+    public static function build(
         array $keyboard,
         bool $is_persistent = null,
         bool $resize_keyboard = null,
@@ -3328,14 +3346,17 @@ class ReplyKeyboardMarkup extends CustomJsonSerialization
         string $input_field_placeholder = null,
         bool $selective = null,
     ) {
-        parent::__construct();
+        // @phpstan-ignore new.static
+        $obj = new static();
 
-        $this->keyboard = $keyboard;
-        $this->is_persistent = $is_persistent;
-        $this->resize_keyboard = $resize_keyboard;
-        $this->one_time_keyboard = $one_time_keyboard;
-        $this->input_field_placeholder = $input_field_placeholder;
-        $this->selective = $selective;
+        $obj->keyboard = $keyboard;
+        $obj->is_persistent = $is_persistent;
+        $obj->resize_keyboard = $resize_keyboard;
+        $obj->one_time_keyboard = $one_time_keyboard;
+        $obj->input_field_placeholder = $input_field_placeholder;
+        $obj->selective = $selective;
+
+        return $obj;
     }
 }
 
@@ -3393,7 +3414,7 @@ class KeyboardButton extends CustomJsonSerialization
      * @param ?KeyboardButtonPollType $request_poll Optional. If specified, the user will be asked to create a poll and send it to the bot when the button is pressed. Available in private chats only.
      * @param ?WebAppInfo $web_app Optional. If specified, the described Web App will be launched when the button is pressed. The Web App will be able to send a “web_app_data” service message. Available in private chats only.
      */
-    public function __construct(
+    public static function build(
         string $text,
         KeyboardButtonRequestUsers $request_users = null,
         KeyboardButtonRequestChat $request_chat = null,
@@ -3402,15 +3423,18 @@ class KeyboardButton extends CustomJsonSerialization
         KeyboardButtonPollType $request_poll = null,
         WebAppInfo $web_app = null,
     ) {
-        parent::__construct();
+        // @phpstan-ignore new.static
+        $obj = new static();
 
-        $this->text = $text;
-        $this->request_users = $request_users;
-        $this->request_chat = $request_chat;
-        $this->request_contact = $request_contact;
-        $this->request_location = $request_location;
-        $this->request_poll = $request_poll;
-        $this->web_app = $web_app;
+        $obj->text = $text;
+        $obj->request_users = $request_users;
+        $obj->request_chat = $request_chat;
+        $obj->request_contact = $request_contact;
+        $obj->request_location = $request_location;
+        $obj->request_poll = $request_poll;
+        $obj->web_app = $web_app;
+
+        return $obj;
     }
 }
 
@@ -3563,7 +3587,7 @@ class KeyboardButtonRequestChat extends CustomJsonSerialization
      * @param ?bool $request_username
      * @param ?bool $request_photo
      */
-    public function __construct(
+    public static function build(
         int $request_id,
         bool $chat_is_channel = null,
         bool $chat_is_forum = null,
@@ -3576,17 +3600,22 @@ class KeyboardButtonRequestChat extends CustomJsonSerialization
         bool $request_username = null,
         bool $request_photo = null,
     ) {
-        $this->request_id = $request_id;
-        $this->chat_is_channel = $chat_is_channel;
-        $this->chat_is_forum = $chat_is_forum;
-        $this->chat_has_username = $chat_has_username;
-        $this->chat_is_created = $chat_is_created;
-        $this->user_administrator_rights = $user_administrator_rights;
-        $this->bot_administrator_rights = $bot_administrator_rights;
-        $this->bot_is_member = $bot_is_member;
-        $this->request_title = $request_title;
-        $this->request_username = $request_username;
-        $this->request_photo = $request_photo;
+        // @phpstan-ignore new.static
+        $obj = new static();
+
+        $obj->request_id = $request_id;
+        $obj->chat_is_channel = $chat_is_channel;
+        $obj->chat_is_forum = $chat_is_forum;
+        $obj->chat_has_username = $chat_has_username;
+        $obj->chat_is_created = $chat_is_created;
+        $obj->user_administrator_rights = $user_administrator_rights;
+        $obj->bot_administrator_rights = $bot_administrator_rights;
+        $obj->bot_is_member = $bot_is_member;
+        $obj->request_title = $request_title;
+        $obj->request_username = $request_username;
+        $obj->request_photo = $request_photo;
+
+        return $obj;
     }
 }
 
@@ -3631,10 +3660,15 @@ class ReplyKeyboardRemove extends CustomJsonSerialization
      * @param true $remove_keyboard Requests clients to remove the custom keyboard (user will not be able to summon this keyboard; if you want to hide the keyboard from sight but keep it accessible, use one_time_keyboard in ReplyKeyboardMarkup)
      * @param ?bool $selective Optional. Use this parameter if you want to remove the keyboard for specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply to a message in the same chat and forum topic, sender of the original message. Example: A user votes in a poll, bot returns confirmation message in reply to the vote and removes the keyboard for that user, while still showing the keyboard with poll options to users who haven't voted yet.
      */
-    public function __construct(true $remove_keyboard, bool $selective = null)
+    public static function build(true $remove_keyboard, bool $selective = null)
     {
-        $this->remove_keyboard = $remove_keyboard;
-        $this->selective = $selective;
+        // @phpstan-ignore new.static
+        $obj = new static();
+
+        $obj->remove_keyboard = $remove_keyboard;
+        $obj->selective = $selective;
+
+        return $obj;
     }
 }
 
@@ -3657,9 +3691,14 @@ class InlineKeyboardMarkup extends CustomJsonSerialization
     /**
      * @param array<array<InlineKeyboardButton>> $inline_keyboard Array of button rows, each represented by an Array of InlineKeyboardButton objects
      */
-    public function __construct(array $inline_keyboard)
+    public static function build(array $inline_keyboard)
     {
-        $this->inline_keyboard = $inline_keyboard;
+        // @phpstan-ignore new.static
+        $obj = new static();
+
+        $obj->inline_keyboard = $inline_keyboard;
+
+        return $obj;
     }
 }
 
@@ -3778,7 +3817,7 @@ class InlineKeyboardButton extends CustomJsonSerialization
      * @param CopyTextButton $copy_text
      * @param CallbackGame $callback_game
      */
-    public function __construct(
+    public static function build(
         string $text,
         string $url = null,
         string $callback_data = null,
@@ -3790,16 +3829,21 @@ class InlineKeyboardButton extends CustomJsonSerialization
         CopyTextButton $copy_text = null,
         CallbackGame $callback_game = null,
     ) {
-        $this->text = $text;
-        $this->url = $url;
-        $this->callback_data = $callback_data;
-        $this->web_app = $web_app;
-        $this->login_url = $login_url;
-        $this->switch_inline_query = $switch_inline_query;
-        $this->switch_inline_query_current_chat = $switch_inline_query_current_chat;
-        $this->switch_inline_query_chosen_chat = $switch_inline_query_chosen_chat;
-        $this->copy_text = $copy_text;
-        $this->callback_game = $callback_game;
+        // @phpstan-ignore new.static
+        $obj = new static();
+
+        $obj->text = $text;
+        $obj->url = $url;
+        $obj->callback_data = $callback_data;
+        $obj->web_app = $web_app;
+        $obj->login_url = $login_url;
+        $obj->switch_inline_query = $switch_inline_query;
+        $obj->switch_inline_query_current_chat = $switch_inline_query_current_chat;
+        $obj->switch_inline_query_chosen_chat = $switch_inline_query_chosen_chat;
+        $obj->copy_text = $copy_text;
+        $obj->callback_game = $callback_game;
+
+        return $obj;
     }
 }
 
@@ -4958,9 +5002,14 @@ class InputFile extends CustomJsonSerialization
     /**
      * @param string $_path Path to the file
      */
-    public function __construct(string $_path)
+    public static function build(string $_path)
     {
-        $this->_path = $_path;
+        // @phpstan-ignore new.static
+        $obj = new static();
+
+        $obj->_path = $_path;
+
+        return $obj;
     }
 }
 

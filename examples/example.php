@@ -91,7 +91,9 @@ function runExampleForManualUpdateEntry()
     EOD;
 
     try {
-        $update = new Update(init_data: json_decode($example_incoming_update));
+        $update = Update::build(
+            init_data: json_decode($example_incoming_update),
+        );
 
         dump($update);
 
@@ -114,7 +116,7 @@ function runExampleForReceivingUpdatesFromWebhook()
     }
 
     try {
-        $update = new Update(init_data: json_decode($update_str));
+        $update = Update::build(init_data: json_decode($update_str));
         dump($update);
     } catch (\Throwable $th) {
         dump('Exception:', $th);
@@ -140,15 +142,18 @@ function runExampleForSendMessage()
     // If the request doesn't fail, an object of type Litegram\Message will be returned
     $res = TelegramMethods::sendMessage(
         token: $token,
-        params: new SendMessageParams(
+        params: SendMessageParams::build(
             chat_id: $some_chat_id,
             text: 'Test',
-            reply_markup: new InlineKeyboardMarkup([
+            reply_markup: InlineKeyboardMarkup::build([
                 [
-                    new InlineKeyboardButton('Hi', callback_data: 'say_hi'),
-                    new InlineKeyboardButton('Bye', callback_data: 'say_bye'),
+                    InlineKeyboardButton::build('Hi', callback_data: 'say_hi'),
+                    InlineKeyboardButton::build(
+                        'Bye',
+                        callback_data: 'say_bye',
+                    ),
                 ],
-                [new InlineKeyboardButton('Close', callback_data: 'close')],
+                [InlineKeyboardButton::build('Close', callback_data: 'close')],
             ]),
         ),
         guzzle_options: $guzzle_options,
@@ -165,9 +170,9 @@ function runExampleForSendPhoto()
     // If the request doesn't fail, an object of type Litegram\Message will be returned
     $res = TelegramMethods::sendPhoto(
         token: $token,
-        params: new SendPhotoParams(
+        params: SendPhotoParams::build(
             chat_id: $some_chat_id,
-            photo: new InputFile('/home/amir/test.jpg'),
+            photo: InputFile::build('/home/amir/test.jpg'),
             caption: 'Look at this beautiful landscape!',
             show_caption_above_media: true,
         ),
@@ -187,23 +192,23 @@ function runExampleFor_bulkCopyMessage(int $message1Id, int $message2Id)
     $promise = TelegramMethods::_bulkCopyMessage(
         token: $token,
         array_of_params: [
-            new CopyMessageParams(
+            CopyMessageParams::build(
                 chat_id: $some_chat_id,
                 from_chat_id: $some_chat_id,
                 message_id: $message1Id,
                 caption: 'Copied the message and changed the caption!',
-                reply_parameters: new ReplyParameters(
+                reply_parameters: ReplyParameters::build(
                     message_id: $message1Id,
                     chat_id: $some_chat_id,
                     allow_sending_without_reply: true,
                 ),
             ),
-            new CopyMessageParams(
+            CopyMessageParams::build(
                 chat_id: $some_chat_id,
                 from_chat_id: $some_chat_id,
                 message_id: $message2Id,
                 caption: 'Copied the message and changed the caption!',
-                reply_parameters: new ReplyParameters(
+                reply_parameters: ReplyParameters::build(
                     message_id: $message2Id,
                     chat_id: $some_chat_id,
                     allow_sending_without_reply: true,

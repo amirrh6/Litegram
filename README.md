@@ -59,15 +59,15 @@ try {
     // If the request doesn't fail, an object of type Litegram\Message will be returned
     $res = TelegramMethods::sendMessage(
         token: $token,
-        params: new SendMessageParams(
+        params: SendMessageParams::build(
             chat_id: $some_chat_id,
             text: 'Test',
-            reply_markup: new InlineKeyboardMarkup([
+            reply_markup: InlineKeyboardMarkup::build([
                 [
-                    new InlineKeyboardButton('Hi', callback_data: 'say_hi'),
-                    new InlineKeyboardButton('Bye', callback_data: 'say_bye'),
+                    InlineKeyboardButton::build('Hi', callback_data: 'say_hi'),
+                    InlineKeyboardButton::build('Bye', callback_data: 'say_bye'),
                 ],
-                [new InlineKeyboardButton('Close', callback_data: 'close')],
+                [InlineKeyboardButton::build('Close', callback_data: 'close')],
             ]),
         ),
         // If you don't pass a guzzle_options array to each method or pass an empty one (default parameter), Litegram will check for existence of a global variable
