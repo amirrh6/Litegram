@@ -2147,12 +2147,12 @@ class ReplyParameters extends CustomJsonSerialization
      */
     public static function build(
         int $message_id,
-        string|int $chat_id = null,
-        bool $allow_sending_without_reply = null,
-        string $quote = null,
-        string $quote_parse_mode = null,
-        array $quote_entities = null,
-        int $quote_position = null,
+        string|int|null $chat_id = null,
+        ?bool $allow_sending_without_reply = null,
+        ?string $quote = null,
+        ?string $quote_parse_mode = null,
+        ?array $quote_entities = null,
+        ?int $quote_position = null,
     ) {
         // @phpstan-ignore new.static
         $obj = new static();
@@ -3340,11 +3340,11 @@ class ReplyKeyboardMarkup extends CustomJsonSerialization
      */
     public static function build(
         array $keyboard,
-        bool $is_persistent = null,
-        bool $resize_keyboard = null,
-        bool $one_time_keyboard = null,
-        string $input_field_placeholder = null,
-        bool $selective = null,
+        ?bool $is_persistent = null,
+        ?bool $resize_keyboard = null,
+        ?bool $one_time_keyboard = null,
+        ?string $input_field_placeholder = null,
+        ?bool $selective = null,
     ) {
         // @phpstan-ignore new.static
         $obj = new static();
@@ -3416,12 +3416,12 @@ class KeyboardButton extends CustomJsonSerialization
      */
     public static function build(
         string $text,
-        KeyboardButtonRequestUsers $request_users = null,
-        KeyboardButtonRequestChat $request_chat = null,
-        bool $request_contact = null,
-        bool $request_location = null,
-        KeyboardButtonPollType $request_poll = null,
-        WebAppInfo $web_app = null,
+        ?KeyboardButtonRequestUsers $request_users = null,
+        ?KeyboardButtonRequestChat $request_chat = null,
+        ?bool $request_contact = null,
+        ?bool $request_location = null,
+        ?KeyboardButtonPollType $request_poll = null,
+        ?WebAppInfo $web_app = null,
     ) {
         // @phpstan-ignore new.static
         $obj = new static();
@@ -3589,16 +3589,16 @@ class KeyboardButtonRequestChat extends CustomJsonSerialization
      */
     public static function build(
         int $request_id,
-        bool $chat_is_channel = null,
-        bool $chat_is_forum = null,
-        bool $chat_has_username = null,
-        bool $chat_is_created = null,
-        ChatAdministratorRights $user_administrator_rights = null,
-        ChatAdministratorRights $bot_administrator_rights = null,
-        bool $bot_is_member = null,
-        bool $request_title = null,
-        bool $request_username = null,
-        bool $request_photo = null,
+        ?bool $chat_is_channel = null,
+        ?bool $chat_is_forum = null,
+        ?bool $chat_has_username = null,
+        ?bool $chat_is_created = null,
+        ?ChatAdministratorRights $user_administrator_rights = null,
+        ?ChatAdministratorRights $bot_administrator_rights = null,
+        ?bool $bot_is_member = null,
+        ?bool $request_title = null,
+        ?bool $request_username = null,
+        ?bool $request_photo = null,
     ) {
         // @phpstan-ignore new.static
         $obj = new static();
@@ -3660,7 +3660,7 @@ class ReplyKeyboardRemove extends CustomJsonSerialization
      * @param true $remove_keyboard Requests clients to remove the custom keyboard (user will not be able to summon this keyboard; if you want to hide the keyboard from sight but keep it accessible, use one_time_keyboard in ReplyKeyboardMarkup)
      * @param ?bool $selective Optional. Use this parameter if you want to remove the keyboard for specific users only. Targets: 1) users that are @mentioned in the text of the Message object; 2) if the bot's message is a reply to a message in the same chat and forum topic, sender of the original message. Example: A user votes in a poll, bot returns confirmation message in reply to the vote and removes the keyboard for that user, while still showing the keyboard with poll options to users who haven't voted yet.
      */
-    public static function build(true $remove_keyboard, bool $selective = null)
+    public static function build(true $remove_keyboard, ?bool $selective = null)
     {
         // @phpstan-ignore new.static
         $obj = new static();
@@ -3819,15 +3819,15 @@ class InlineKeyboardButton extends CustomJsonSerialization
      */
     public static function build(
         string $text,
-        string $url = null,
-        string $callback_data = null,
-        WebAppInfo $web_app = null,
-        LoginUrl $login_url = null,
-        string $switch_inline_query = null,
-        string $switch_inline_query_current_chat = null,
-        SwitchInlineQueryChosenChat $switch_inline_query_chosen_chat = null,
-        CopyTextButton $copy_text = null,
-        CallbackGame $callback_game = null,
+        ?string $url = null,
+        ?string $callback_data = null,
+        ?WebAppInfo $web_app = null,
+        ?LoginUrl $login_url = null,
+        ?string $switch_inline_query = null,
+        ?string $switch_inline_query_current_chat = null,
+        ?SwitchInlineQueryChosenChat $switch_inline_query_chosen_chat = null,
+        ?CopyTextButton $copy_text = null,
+        ?CallbackGame $callback_game = null,
     ) {
         // @phpstan-ignore new.static
         $obj = new static();
