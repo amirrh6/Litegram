@@ -309,6 +309,49 @@ class CopyMessageParams extends CustomJsonSerialization
     }
 }
 
+class CopyMessagesParams extends CustomJsonSerialization
+{
+    public $chat_id;
+    public $from_chat_id;
+    public $message_ids;
+    public $message_thread_id;
+    public $disable_notifications;
+    public $protect_content;
+    public $remove_caption;
+
+    /**
+     * @param string|int $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param string|int $from_chat_id Unique identifier for the chat where the original messages were sent (or channel username in the format @channelusername)
+     * @param array<int> $message_ids A JSON-serialized list of 1-100 identifiers of messages in the chat from_chat_id to copy. The identifiers must be specified in a strictly increasing order.
+     * @param ?int $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param ?bool $disable_notifications Sends the messages silently. Users will receive a notification with no sound.
+     * @param ?bool $protect_content Protects the contents of the sent messages from forwarding and saving
+     * @param ?bool $remove_caption Pass True to copy the messages without their captions
+     */
+    public static function build(
+        string|int $chat_id,
+        string|int $from_chat_id,
+        array $message_ids,
+        ?int $message_thread_id = null,
+        ?bool $disable_notifications = null,
+        ?bool $protect_content = null,
+        ?bool $remove_caption = null,
+    ) {
+        // @phpstan-ignore new.static
+        $obj = new static();
+
+        $obj->chat_id = $chat_id;
+        $obj->from_chat_id = $from_chat_id;
+        $obj->message_ids = $message_ids;
+        $obj->message_thread_id = $message_thread_id;
+        $obj->disable_notifications = $disable_notifications;
+        $obj->protect_content = $protect_content;
+        $obj->remove_caption = $remove_caption;
+
+        return $obj;
+    }
+}
+
 class SendPhotoParams extends CustomJsonSerialization
 {
     public $chat_id;

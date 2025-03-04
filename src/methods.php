@@ -392,6 +392,40 @@ class TelegramMethods
     }
 
     /**
+     * Use this method to copy messages of any kind. If some of the specified messages can't be found or copied, they are skipped. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessages, but the copied messages don't have a link to the original message. Album grouping is kept for copied messages. On success, an array of MessageId of the sent messages is returned.
+     * @return array<MessageId>
+     * @throws Exception
+     */
+    static function copyMessages(
+        string $token,
+        CopyMessagesParams $params,
+        $guzzle_options = [],
+    ): array {
+        $body_decoded = TelegramMethods::_sendRequest(
+            $token,
+            TelegramMethods::_getMethodName(__METHOD__),
+            [
+                'json' => $params,
+            ],
+            $guzzle_options,
+        );
+
+        if (!is_object($body_decoded)) {
+            throw new Exception('Could not decode the response!');
+        }
+
+        $array = [];
+
+        foreach ($body_decoded->result as $result) {
+            $obj = new MessageId();
+            $obj->__FillPropsFromObject($result);
+            $array[] = $obj;
+        }
+
+        return $array;
+    }
+
+    /**
      * Use this method to send photos. On success, the sent Message is returned.
      * @return Message
      * @throws Exception
