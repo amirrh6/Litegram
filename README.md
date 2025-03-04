@@ -268,7 +268,7 @@ I wanted to challenge myself by creating my own wrapper library for it. Although
 
 ### Available methods
 
-(9/85 methods implemented)
+(10/85 methods implemented)
 
 \* Every method here has a signature **similar** to:
 ```php
@@ -285,7 +285,7 @@ See [here](#usage-and-examples) for usage and examples.
 - [X] [close](https://core.telegram.org/bots/api#close)
 - [X] [sendMessage](https://core.telegram.org/bots/api#sendmessage)
 - [X] [forwardMessage](https://core.telegram.org/bots/api#forwardmessage)
-- [ ] [forwardMessages](https://core.telegram.org/bots/api#forwardmessages)
+- [X] [forwardMessages](https://core.telegram.org/bots/api#forwardmessages)
 - [X] [copyMessage](https://core.telegram.org/bots/api#copymessage) *
 - [ ] [copyMessages](https://core.telegram.org/bots/api#copymessages)
 - [X] [sendPhoto](https://core.telegram.org/bots/api#sendphoto)

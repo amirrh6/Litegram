@@ -179,7 +179,7 @@ class ForwardMessageParams extends CustomJsonSerialization
      * @param int $message_id Message identifier in the chat specified in from_chat_id
      * @param ?int $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
      * @param ?bool $disable_notifications Sends the message silently. Users will receive a notification with no sound.
-     * @param ?bool $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param ?bool $protect_content Protects the contents of the forwarded message from forwarding and saving
      */
     public static function build(
         string|int $chat_id,
@@ -195,6 +195,45 @@ class ForwardMessageParams extends CustomJsonSerialization
         $obj->chat_id = $chat_id;
         $obj->from_chat_id = $from_chat_id;
         $obj->message_id = $message_id;
+        $obj->message_thread_id = $message_thread_id;
+        $obj->disable_notifications = $disable_notifications;
+        $obj->protect_content = $protect_content;
+
+        return $obj;
+    }
+}
+
+class ForwardMessagesParams extends CustomJsonSerialization
+{
+    public $chat_id;
+    public $from_chat_id;
+    public $message_ids;
+    public $message_thread_id;
+    public $disable_notifications;
+    public $protect_content;
+
+    /**
+     * @param string|int $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param string|int $from_chat_id Unique identifier for the chat where the original messages were sent (or channel username in the format @channelusername)
+     * @param array<int> $message_ids A JSON-serialized list of 1-100 identifiers of messages in the chat from_chat_id to forward. The identifiers must be specified in a strictly increasing order.
+     * @param ?int $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param ?bool $disable_notifications Sends the messages silently. Users will receive a notification with no sound.
+     * @param ?bool $protect_content Protects the contents of the forwarded messages from forwarding and saving
+     */
+    public static function build(
+        string|int $chat_id,
+        string|int $from_chat_id,
+        array $message_ids,
+        ?int $message_thread_id = null,
+        ?bool $disable_notifications = null,
+        ?bool $protect_content = null,
+    ) {
+        // @phpstan-ignore new.static
+        $obj = new static();
+
+        $obj->chat_id = $chat_id;
+        $obj->from_chat_id = $from_chat_id;
+        $obj->message_ids = $message_ids;
         $obj->message_thread_id = $message_thread_id;
         $obj->disable_notifications = $disable_notifications;
         $obj->protect_content = $protect_content;
