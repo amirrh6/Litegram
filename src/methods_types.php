@@ -4,13 +4,6 @@ namespace Litegram;
 
 class GetUpdatesParams extends CustomJsonSerialization
 {
-    // Identifier of the first update to be returned. Must be greater by one than the highest among the identifiers of previously received updates. By default, updates starting with the earliest unconfirmed update are returned. An update is considered confirmed as soon as getUpdates is called with an offset higher than its update_id. The negative offset can be specified to retrieve updates starting from -offset update from the end of the updates queue. All previous updates will be forgotten.
-    // Limits the number of updates to be retrieved. Values between 1-100 are accepted. Defaults to 100.
-    // Timeout in seconds for long polling. Defaults to 0, i.e. usual short polling. Should be positive, short polling should be used for testing purposes only.
-    // A JSON-serialized list of the update types you want your bot to receive. For example, specify ["message", "edited_channel_post", "callback_query"] to only receive updates of these types. See Update for a complete list of available update types. Specify an empty list to receive all update types except chat_member, message_reaction, and message_reaction_count (default). If not specified, the previous setting will be used. Please note that this parameter doesn't affect updates created before the call to the getUpdates, so unwanted updates may be received for a short period of time.
-
-    // TODO: Define type and add description for following properties:
-
     public $limit;
     public $offset;
     public $timeout;
@@ -42,16 +35,6 @@ class GetUpdatesParams extends CustomJsonSerialization
 
 class SetWebhookParams extends CustomJsonSerialization
 {
-    // HTTPS URL to send updates to. Use an empty string to remove webhook integration
-    // Upload your public key certificate so that the root certificate in use can be checked. See our self-signed guide for details.
-    // The fixed IP address which will be used to send webhook requests instead of the IP address resolved through DNS
-    // The maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100. Defaults to 40. Use lower values to limit the load on your bot's server, and higher values to increase your bot's throughput.
-    // A JSON-serialized list of the update types you want your bot to receive. For example, specify ["message", "edited_channel_post", "callback_query"] to only receive updates of these types. See Update for a complete list of available update types. Specify an empty list to receive all update types except chat_member, message_reaction, and message_reaction_count (default). If not specified, the previous setting will be used. Please note that this parameter doesn't affect updates created before the call to the setWebhook, so unwanted updates may be received for a short period of time.
-    // Pass True to drop all pending updates
-    // A secret token to be sent in a header “X-Telegram-Bot-Api-Secret-Token” in every webhook request, 1-256 characters. Only characters A-Z, a-z, 0-9, _ and - are allowed. The header is useful to ensure that the request comes from a webhook set by you.
-
-    // TODO: Define type and add description for following properties:
-
     public $url;
     public $certificate;
     public $ip_address;
@@ -116,22 +99,6 @@ class DeleteWebhookParams extends CustomJsonSerialization
 
 class SendMessageParams extends CustomJsonSerialization
 {
-    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-    // Text of the message to be sent, 1-4096 characters after entities parsing
-    // Unique identifier of the business connection on behalf of which the message will be sent
-    // Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-    // Mode for parsing entities in the message text. See formatting options for more details.
-    // A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
-    // Link preview generation options for the message
-    // Sends the message silently. Users will receive a notification with no sound.
-    // Protects the contents of the sent message from forwarding and saving
-    // Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
-    // Unique identifier of the message effect to be added to the message; for private chats only
-    // Description of the message to reply to
-    // Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
-
-    // TODO: Define type and add description for following properties:
-
     public $chat_id;
     public $text;
     public $business_connection_id;
@@ -199,15 +166,6 @@ class SendMessageParams extends CustomJsonSerialization
 
 class ForwardMessageParams extends CustomJsonSerialization
 {
-    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-    // Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
-    // Message identifier in the chat specified in from_chat_id
-    // Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-    // Sends the message silently. Users will receive a notification with no sound.
-    // Protects the contents of the sent message from forwarding and saving
-
-    // TODO: Define type and add description for following properties:
-
     public $chat_id;
     public $from_chat_id;
     public $message_id;
@@ -247,22 +205,6 @@ class ForwardMessageParams extends CustomJsonSerialization
 
 class CopyMessageParams extends CustomJsonSerialization
 {
-    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-    // Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
-    // Message identifier in the chat specified in from_chat_id
-    // Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-    // New caption for media, 0-1024 characters after entities parsing. If not specified, the original caption is kept
-    // Mode for parsing entities in the new caption. See formatting options for more detail
-    // A JSON-serialized list of special entities that appear in the new caption, which can be specified instead of parse_mode
-    // Pass True, if the caption must be shown above the message media. Ignored if a new caption isn't specified.
-    // Sends the message silently. Users will receive a notification with no sound.
-    // Protects the contents of the sent message from forwarding and saving
-    // Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
-    // Description of the message to reply to
-    // Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
-
-    // TODO: Define type and add description for following properties:
-
     public $chat_id;
     public $from_chat_id;
     public $message_id;
@@ -330,24 +272,6 @@ class CopyMessageParams extends CustomJsonSerialization
 
 class SendPhotoParams extends CustomJsonSerialization
 {
-    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-    // Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a photo from the Internet, or upload a new photo using multipart/form-data. The photo must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total. Width and height ratio must be at most 20. More information on Sending Files »
-    // Unique identifier of the business connection on behalf of which the message will be sent
-    // Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-    // Photo caption (may also be used when resending photos by file_id), 0-1024 characters after entities parsing
-    // Mode for parsing entities in the photo caption. See formatting options for more details.
-    // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
-    // Pass True, if the caption must be shown above the message media
-    // Pass True if the photo needs to be covered with a spoiler animation
-    // Sends the message silently. Users will receive a notification with no sound.
-    // Protects the contents of the sent message from forwarding and saving
-    // Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
-    // Unique identifier of the message effect to be added to the message; for private chats only
-    // Description of the message to reply to
-    // Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
-
-    // TODO: Define type and add description for following properties:
-
     public $chat_id;
     public $photo;
     public $business_connection_id;
@@ -421,20 +345,83 @@ class SendPhotoParams extends CustomJsonSerialization
     }
 }
 
+class SendDocumentParams extends CustomJsonSerialization
+{
+    public $chat_id;
+    public $document;
+    public $business_connection_id;
+    public $message_thread_id;
+    public $thumbnail;
+    public $caption;
+    public $parse_mode;
+    public $caption_entities;
+    public $disable_content_type_detection;
+    public $disable_notifications;
+    public $protect_content;
+    public $allow_paid_broadcast;
+    public $message_effect_id;
+    public $reply_parameters;
+    public $reply_markup;
+
+    /**
+     * @param string|int $chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+     * @param string|InputFile $document File to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files »
+     * @param ?string $business_connection_id Unique identifier of the business connection on behalf of which the message will be sent
+     * @param ?int $message_thread_id Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+     * @param string|InputFile|null $thumbnail Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
+     * @param ?string $caption Document caption (may also be used when resending documents by file_id), 0-1024 characters after entities parsing
+     * @param ?string $parse_mode Mode for parsing entities in the document caption. See formatting options for more details.
+     * @param ?array<MessageEntity> $caption_entities A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
+     * @param ?bool $disable_content_type_detection Disables automatic server-side content type detection for files uploaded using multipart/form-data
+     * @param ?bool $disable_notifications Sends the message silently. Users will receive a notification with no sound.
+     * @param ?bool $protect_content Protects the contents of the sent message from forwarding and saving
+     * @param ?bool $allow_paid_broadcast Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+     * @param ?string $message_effect_id Unique identifier of the message effect to be added to the message; for private chats only
+     * @param ?ReplyParameters $reply_parameters Description of the message to reply to
+     * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
+     */
+    public static function build(
+        string|int $chat_id,
+        string|InputFile $document,
+        ?string $business_connection_id = null,
+        ?int $message_thread_id = null,
+        string|InputFile|null $thumbnail = null,
+        ?string $caption = null,
+        ?string $parse_mode = null,
+        ?array $caption_entities = null,
+        ?bool $disable_content_type_detection = null,
+        ?bool $disable_notifications = null,
+        ?bool $protect_content = null,
+        ?bool $allow_paid_broadcast = null,
+        ?string $message_effect_id = null,
+        ?ReplyParameters $reply_parameters = null,
+        InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply|null $reply_markup = null,
+    ) {
+        // @phpstan-ignore new.static
+        $obj = new static();
+
+        $obj->chat_id = $chat_id;
+        $obj->document = $document;
+        $obj->business_connection_id = $business_connection_id;
+        $obj->message_thread_id = $message_thread_id;
+        $obj->thumbnail = $thumbnail;
+        $obj->caption = $caption;
+        $obj->parse_mode = $parse_mode;
+        $obj->caption_entities = $caption_entities;
+        $obj->disable_content_type_detection = $disable_content_type_detection;
+        $obj->disable_notifications = $disable_notifications;
+        $obj->protect_content = $protect_content;
+        $obj->allow_paid_broadcast = $allow_paid_broadcast;
+        $obj->message_effect_id = $message_effect_id;
+        $obj->reply_parameters = $reply_parameters;
+        $obj->reply_markup = $reply_markup;
+
+        return $obj;
+    }
+}
+
 class EditMessageTextParams extends CustomJsonSerialization
 {
-    // New text of the message, 1-4096 characters after entities parsing
-    // Unique identifier of the business connection on behalf of which the message will be sent
-    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-    // Required if inline_message_id is not specified. Identifier of the message to edit
-    // Required if chat_id and message_id are not specified. Identifier of the inline message
-    // Mode for parsing entities in the photo caption. See formatting options for more details.
-    // A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
-    // Link preview generation options for the message
-    // A JSON-serialized object for an inline keyboard.
-
-    // TODO: Define type and add description for following properties:
-
     public $text;
     public $business_connection_id;
     public $chat_id;
@@ -486,14 +473,6 @@ class EditMessageTextParams extends CustomJsonSerialization
 
 class AnswerCallbackQueryParams extends CustomJsonSerialization
 {
-    // Unique identifier for the query to be answered
-    // Text of the notification. If not specified, nothing will be shown to the user, 0-200 characters
-    // If True, an alert will be shown by the client instead of a notification at the top of the chat screen. Defaults to false.
-    // URL that will be opened by the user's client. If you have created a Game and accepted the conditions via @BotFather, specify the URL that opens your game - note that this will only work if the query comes from a callback_game button. Otherwise, you may use links like t.me/your_bot?start=XXXX that open your bot with a parameter.
-    // The maximum amount of time in seconds that the result of the callback query may be cached client-side. Telegram apps will support caching starting in version 3.14. Defaults to 0.
-
-    // TODO: Define type and add description for following properties:
-
     public $callback_query_id;
     public $text;
     public $show_alert;

@@ -379,6 +379,47 @@ class TelegramMethods
     }
 
     /**
+     * Use this method to send general files. On success, the sent Message is returned. Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.
+     * @throws ClientException
+     */
+    static function sendDocument(
+        string $token,
+        SendDocumentParams $params,
+        $guzzle_options = [],
+    ): Message {
+        if (
+            $params->document instanceof InputFile ||
+            $params->thumbnail instanceof InputFile
+        ) {
+            $options = [
+                'multipart' => [
+                    ...TelegramMethods::_jsonEncodeNonPrimaryFields($params),
+                ],
+            ];
+        } else {
+            $options = [
+                'json' => $params,
+            ];
+        }
+
+        $body_decoded = TelegramMethods::_sendRequest(
+            $token,
+            TelegramMethods::_getMethodName(__METHOD__),
+            $options,
+            $guzzle_options,
+        );
+
+        if (!is_object($body_decoded)) {
+            throw new Exception('Could not decode the response!');
+        }
+
+        $obj = new Message();
+        $obj->__FillPropsFromObject($body_decoded->result);
+
+        return $obj;
+    }
+
+    /**
      * Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. On success, True is returned.
      * Alternatively, the user can be redirected to the specified Game URL. For this option to work, you must first create a game for your bot via @BotFather and accept the terms. Otherwise, you may use links like t.me/your_bot?start=XXXX that open your bot with a parameter.
      * @throws ClientException
